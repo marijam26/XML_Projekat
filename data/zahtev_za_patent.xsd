@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://ftn.uns.ac.rs/p" xmlns:p="http://ftn.uns.ac.rs/p"
+    xmlns:sema="http://ftn.uns.ac.rs/sema">
+    <xs:import namespace="http://ftn.uns.ac.rs/sema" schemaLocation="osnovna_sema.xsd"/>
+    <xs:element name="Zahtev_za_patent">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" ref="p:Osnovna_prijava"/>
+                <xs:element ref="sema:Podnosilac_prijave"/>
+                <xs:element name="Pronalazak">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Srpski_naziv">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="1"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="Engleski_naziv">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="1"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element ref="sema:Punomocnik"/>
+                <xs:element name="Podaci_o_dostavljanju">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="sema:Adresa"/>
+                            <xs:element name="Nacin_dostavljanja" type="p:TNacin_dostavljanja"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="Ranija_prijava">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Broj" type="xs:positiveInteger"/>
+                            <xs:element name="Datum" type="xs:date"/>
+                            <xs:element name="Oznaka_drzave" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Pronalazac" type="sema:TFizicko_lice" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="Broj_prijave" type="xs:positiveInteger"/>
+            <xs:attribute name="Datum_prijema" type="xs:date"/>
+            <xs:attribute name="Datum_podnosenja" type="xs:date"/>
+            <xs:attribute name="Vrsta_punomocnika" type="p:TVrsta_punomocnika"/>
+            <xs:attribute name="Zajednicki_predstavnik" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Osnovna_prijava">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Datum" type="xs:date"/>
+                <xs:element name="Broj" type="xs:positiveInteger"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TNacin_dostavljanja">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="papirna_forma"/>
+            <xs:enumeration value="elektronska_forma"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TVrsta_punomocnika">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="za_zastupanje"/>
+            <xs:enumeration value="za_prijem_pismena"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
