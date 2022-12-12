@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-    targetNamespace="http://ftn.uns.ac.rs/autorska_dela"
-    xmlns:a="http://ftn.uns.ac.rs/autorska_dela" xmlns:sema="http://ftn.uns.ac.rs/sema">
+           targetNamespace="http://ftn.uns.ac.rs/autorska_dela"
+           xmlns:a="http://ftn.uns.ac.rs/autorska_dela" xmlns:sema="http://ftn.uns.ac.rs/sema">
 
     <xs:import namespace="http://ftn.uns.ac.rs/sema" schemaLocation="osnovna_sema.xsd"/>
     <xs:element name="Zahtev_za_autorska_dela">
@@ -54,8 +54,24 @@
             <xs:sequence>
                 <xs:element name="Naslov" type="xs:string"/>
                 <xs:element name="Nacin_koriscenja" type="xs:string"/>
-                <xs:element name="Vrsta" type="a:TVrsta"/>
-                <xs:element name="Format_zapisa" type="a:TFormat_zapisa"/>
+                <xs:element name="Vrsta">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="a:TVrsta">
+                                <xs:attribute name="Ostala_vrsta_dela" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Format_zapisa">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="a:TFormat_zapisa">
+                                <xs:attribute name="Ostali_format" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element minOccurs="0" ref="a:Izvorno_delo"/>
             </xs:sequence>
             <xs:attribute name="Stvoreno_u_radnom_odnosu" type="xs:boolean"/>
@@ -75,8 +91,8 @@
     <xs:element name="Prilozi">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="Opis_dela" type="xs:string"/>
-                <xs:element name="Primer_dela" type="xs:string"/>
+                <xs:element name="Opis_dela" type="sema:TPrilog"/>
+                <xs:element name="Primer_dela" type="sema:TPrilog"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

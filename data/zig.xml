@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Zahtev_za_zig xmlns="http://ftn.uns.ac.rs/z"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://ftn.uns.ac.rs/z file:/C:/Users/Ivana/Desktop/XML/projekat/zahtev_za_zig.xsd">
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ftn.uns.ac.rs/z file:/C:/Users/Ivana/Desktop/XML/projekat/zahtev_za_zig.xsd">
     <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Strazilovska</Ulica>
@@ -43,25 +43,20 @@
     </Zig>
     <Takse>
         <Osnovna_taksa>100</Osnovna_taksa>
-        <Klasa>
-            <Broj>1</Broj>
-            <Iznos>200</Iznos>
-        </Klasa>
-        <Klasa>
-            <Broj>7</Broj>
-            <Iznos>300</Iznos>
-        </Klasa>
         <Graficko_resenje>200</Graficko_resenje>
         <Ukupno>800</Ukupno>
+        <Klase Broj_klasa="2">
+            400
+        </Klase>
     </Takse>
     <Prilozi>
-        <Primerak_znaka></Primerak_znaka>
-        <Spisak_robe></Spisak_robe>
-        <Punomoc></Punomoc>
-        <Ranija_punomoc></Ranija_punomoc>
-        <Naknadna_punomoc></Naknadna_punomoc>
-        <Opsti_akt></Opsti_akt>
-        <Dokaz_o_pravu_prvenstva></Dokaz_o_pravu_prvenstva>
-        <Dokaz_o_uplati></Dokaz_o_uplati>
+        <Primerak_znaka>false</Primerak_znaka>
+        <Spisak_robe>false</Spisak_robe>
+        <Punomoc>false</Punomoc>
+        <Ranija_punomoc>false</Ranija_punomoc>
+        <Naknadna_punomoc>false</Naknadna_punomoc>
+        <Opsti_akt>false</Opsti_akt>
+        <Dokaz_o_pravu_prvenstva>false</Dokaz_o_pravu_prvenstva>
+        <Dokaz_o_uplati>false</Dokaz_o_uplati>
     </Prilozi>
 </Zahtev_za_zig>
