@@ -14,6 +14,6 @@ public class AutorskoDeloRepository {
     }
 
     public void save(OutputStream os) throws XMLDBException {
-        DatabaseUtilities.storeResource("db/autorskaDela", "1", os);
+        DatabaseUtilities.storeResource("db/autorskaDela", "2", os);
     }
 }

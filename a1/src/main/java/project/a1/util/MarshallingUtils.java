@@ -1,6 +1,5 @@
 package project.a1.util;
 
-import project.a1.model.a1.AutorskoDelo;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
 
 import javax.xml.bind.JAXBContext;
