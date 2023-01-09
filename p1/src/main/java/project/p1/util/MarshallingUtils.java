@@ -27,6 +27,7 @@ public class MarshallingUtils {
 
     public ZahtevZaPatent unmarshall(String filepath) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        return (ZahtevZaPatent) unmarshaller.unmarshal(new File(filepath));
+        File file = new File(filepath);
+        return (ZahtevZaPatent) unmarshaller.unmarshal(file);
     }
 }
