@@ -13,9 +13,13 @@ import java.io.OutputStream;
 
 public class MarshallingUtils {
 
+    private JAXBContext context;
+
+    public MarshallingUtils() throws JAXBException {
+        this.context = JAXBContext.newInstance("project.a1.model.a1");
+    }
 
     public OutputStream marshall(ZahtevZaAutorskaDela autorskoDelo) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance("project.a1.model.a1");
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         OutputStream os = new ByteArrayOutputStream();
@@ -23,9 +27,11 @@ public class MarshallingUtils {
         return os;
     }
 
-    public AutorskoDelo unmarshall(String filepath) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance("project.a1.model.a1");
+    public ZahtevZaAutorskaDela unmarshall(String filepath) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        return (AutorskoDelo) unmarshaller.unmarshal(new File(filepath));
+        System.out.print(unmarshaller);
+        File file = new File(filepath);
+        System.out.print(unmarshaller.unmarshal(file));
+        return (ZahtevZaAutorskaDela) unmarshaller.unmarshal(new File(filepath));
     }
 }

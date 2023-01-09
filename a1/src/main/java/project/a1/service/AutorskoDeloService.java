@@ -14,14 +14,10 @@ public class AutorskoDeloService {
 
     @Autowired
     private AutorskoDeloRepository autorskoDeloRepository;
-    private final MarshallingUtils marshallingUtils;
-
-    public AutorskoDeloService() throws JAXBException {
-        this.marshallingUtils = new MarshallingUtils();
-    }
 
     public void save(ZahtevZaAutorskaDela zahtevZaAutorskaDela) throws XMLDBException, JAXBException {
-        OutputStream os = this.marshallingUtils.marshall(zahtevZaAutorskaDela);
+        MarshallingUtils marshallingUtils = new MarshallingUtils();
+        OutputStream os = marshallingUtils.marshall(zahtevZaAutorskaDela);
         autorskoDeloRepository.save(os);
     }
 
