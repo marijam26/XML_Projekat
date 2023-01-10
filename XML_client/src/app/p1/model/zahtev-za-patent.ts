@@ -6,17 +6,17 @@ import {PodaciODostavljanju} from "./podaci-o-dostavljanju";
 
 export class ZahtevZaPatent{
   constructor(
-    private osnovnaPrijava:OsnovnaPrijava,
-    private podnosilacPrijave:TLice,
-    private punomocnik:TLice,
-    private pronalazak:Pronalazak,
-    private ranijaPrijava:RanijaPrijava[],
-    private pronalazac:TLice,
-    private podaciODostavljanju:PodaciODostavljanju,
-    private brojPrijave:number,
-    private datumPrijema:string,
-    private datumPodnosenja:string,
-    private vrstaPunomocnika:string,
-    private zajednickiPredstavnik:boolean
+    public osnovnaPrijava: OsnovnaPrijava = new OsnovnaPrijava(),
+    public podnosilacPrijave: TLice = new TLice(),
+    public punomocnik: TLice = new TLice(),
+    public pronalazak: Pronalazak = new Pronalazak(),
+    public ranijaPrijava: RanijaPrijava[] = new Array<RanijaPrijava>(),
+    public pronalazac: TLice = new TLice(),
+    public podaciODostavljanju: PodaciODostavljanju = new PodaciODostavljanju(),
+    public brojPrijave: number = 1,
+    public datumPrijema: string = '',
+    public datumPodnosenja: string = '',
+    public vrstaPunomocnika: string = '',
+    public zajednickiPredstavnik: boolean = false
   ) {}
 }

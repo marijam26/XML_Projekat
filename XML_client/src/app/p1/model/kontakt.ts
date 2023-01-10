@@ -1,8 +1,8 @@
 export class Kontakt{
   constructor(
-    private telefon:string,
-    private e_posta:string,
-    private faks:string
+    public telefon:string = '',
+    public e_posta:string = '',
+    public faks:string = ''
   ) {
   }
 }

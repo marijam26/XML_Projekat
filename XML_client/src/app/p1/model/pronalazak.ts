@@ -1,6 +1,6 @@
 export class Pronalazak{
   constructor(
-    private srpskiNaziv:string,
-    private engeskiNaziv:string
+    public srpskiNaziv:string = '',
+    public engeskiNaziv:string = ''
   ) {}
 }

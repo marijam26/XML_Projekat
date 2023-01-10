@@ -1,9 +1,9 @@
 export class Adresa{
   constructor(
-    private ulica:string,
-    private broj:number,
-    private drzava:string,
-    private postanskiBroj:number,
-    private grad:string
+    public ulica:string = '',
+    public broj:number = 1,
+    public drzava:string = '',
+    public postanskiBroj:number = 1,
+    public grad:string = ''
   ) {}
 }

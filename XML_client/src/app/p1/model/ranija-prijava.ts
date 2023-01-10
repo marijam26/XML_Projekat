@@ -1,7 +1,7 @@
 export class RanijaPrijava{
   constructor(
-    private broj:number,
-    private datum:string,
-    private oznakaDrzave:string
+    public broj:number = 1,
+    public datum:string = '',
+    public oznakaDrzave:string = ''
   ) {}
 }
