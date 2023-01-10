@@ -1,0 +1,423 @@
+<div class="row">
+  <div class="col-1 h-auto min-vh-100" style="background: darkslategrey;"></div>
+  <div class="container px-4 pt-3 col-10">
+    <h2 class="pb-3">Zahtev za autorsko pravo</h2>
+
+      <div class="row pt-3">
+        <h4>Podnosilac prijave</h4>
+      </div>
+
+    <div class="row">
+    <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+        <input class="form-check-input" type="checkbox" value="" id="podnosilac_je_autor" [checked]="podnosilacJeAutor" (change)="changePodnosilacJeAutor()">
+        <label class="form-check-label" for="podnosilac_je_autor">
+          Podnosilac prijave je i autor dela
+        </label>
+      </div>
+    <div class="form-check form-group my-2 col-6">
+        <input class="form-check-input" type="checkbox" value="" id="prijavu_podnosi_punomocnik" [checked]="podnosiPunomocnik" (change)="changePodnosiPunomocnik()">
+        <label class="form-check-label" for="prijavu_podnosi_punomocnik">
+          Zahtev za podnosioca predaje punomocnik
+        </label>
+      </div>
+      </div>
+    <h5 class="my-3">Info</h5>
+
+      <select class="form-select my-3 " style="width: 15%" aria-label="Vrsta podnosioca" #lice (change)="changePodnosilacLice($event,lice.value)">
+        <option value="Fizicko lice" selected>Fizicko lice</option>
+        <option value="Pravno lice">Pravno lice</option>
+      </select>
+
+      <div class="row pb-2" *ngIf="podnosilacLice === 'Fizicko lice'">
+        <div class="form-group col-3">
+          <label for="ime_podnosioca">Ime:</label>
+          <input type="text" class="form-control" id="ime_podnosioca">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_podnosioca">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_podnosioca">
+        </div>
+        <div class="form-group col-3">
+          <label for="drzavljanstvo_podnosioca">Drzavljanstvo:</label>
+          <input type="text" class="form-control" id="drzavljanstvo_podnosioca">
+        </div>
+      </div>
+
+      <div class="row pb-2" *ngIf="podnosilacLice === 'Pravno lice'">
+        <div class="form-group col-4">
+          <label for="poslovno_ime_podnosioca">Poslovno ime:</label>
+          <input type="text" class="form-control" id="poslovno_ime_podnosioca">
+        </div>
+      </div>
+
+      <h5 class="my-3">Adresa</h5>
+      <div class="row">
+        <div class="form-group col-3">
+          <label for="ulica_podnosioca">Ulica:</label>
+          <input type="text" class="form-control" id="ulica_podnosioca">
+        </div>
+        <div class="form-group col-1">
+          <label for="broj_podnosioca">Broj:</label>
+          <input type="number" class="form-control" id="broj_podnosioca">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="form-group col-2">
+          <label for="grad_podnosioca">Grad:</label>
+          <input type="text" class="form-control" id="grad_podnosioca">
+        </div>
+        <div class="form-group col-2">
+          <label for="pos_br_podnosioca">Postanski broj:</label>
+          <input type="number" class="form-control" id="pos_br_podnosioca">
+        </div>
+        <div class="form-group col-2">
+          <label for="drzava_podnosioca">Drzava:</label>
+          <input type="text" class="form-control" id="drzava_podnosioca">
+        </div>
+      </div>
+      <h5 class="my-3">Kontakt</h5>
+      <div class="row pb-3">
+        <div class="form-group col-2">
+          <label for="telefon_podnosioca">Telefon:</label>
+          <input type="text" class="form-control" id="telefon_podnosioca">
+        </div>
+        <div class="form-group col-3">
+          <label for="eposta_podnosioca">E-posta:</label>
+          <input type="email" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com">
+        </div>
+      </div>
+
+      <span *ngIf="podnosiPunomocnik">
+        <hr>
+      <div class="row pt-4">
+        <h4>Punomocnik</h4>
+      </div>
+
+        <div class="row pb-2">
+           <div class="form-group col-3">
+          <label for="ime_punomocnika">Ime:</label>
+          <input type="text" class="form-control" id="ime_punomocnika">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_punomocnika">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_punomocnika">
+        </div>
+
+        <h5 class="my-3">Adresa</h5>
+        <div class="row">
+          <div class="form-group col-3">
+            <label for="ulica_punomocnika">Ulica:</label>
+            <input type="text" class="form-control" id="ulica_punomocnika">
+          </div>
+          <div class="form-group col-1">
+            <label for="broj_punomocnika">Broj:</label>
+            <input type="number" class="form-control" id="broj_punomocnika">
+          </div>
+        </div>
+        <div class="row py-3">
+          <div class="form-group col-2">
+            <label for="grad_punomocnika">Grad:</label>
+            <input type="text" class="form-control" id="grad_punomocnika">
+          </div>
+          <div class="form-group col-2">
+            <label for="pos_br_punomocnika">Postanski broj:</label>
+            <input type="number" class="form-control" id="pos_br_punomocnika">
+          </div>
+          <div class="form-group col-2">
+            <label for="drzava_punomocnika">Drzava:</label>
+            <input type="text" class="form-control" id="drzava_punomocnika">
+          </div>
+      </div>
+      </div>
+      </span>
+
+      <hr>
+
+    <div class="row pt-4">
+      <h4>Podaci o autorskom delu</h4>
+    </div>
+
+    <div class="row">
+      <div class="form-check form-group my-2 col-4" style="margin-left: 20px">
+        <input class="form-check-input" type="checkbox" value="" id="prerada" [checked]="prerada" (change)="changePrerada()">
+        <label class="form-check-label" for="prerada">
+          Delo je prerada nekog drugog dela
+        </label>
+      </div>
+      <div class="form-check form-group my-2 col-5">
+        <input class="form-check-input" type="checkbox" value="" id="stvorenuURadnomOdnosu" [checked]="stvorenouRadnomOdnosu" (change)="changeStvorenouRadnomOdnosu()">
+        <label class="form-check-label" for="stvorenuURadnomOdnosu">
+          Stvoreno u radnom odnosu
+        </label>
+      </div>
+    </div>
+
+    <div class="row pt-4">
+      <h5>Info:</h5>
+    </div>
+
+    <div class="row m-1">
+    <div class="form-group col-3">
+      <label for="naslov_dela">Naslov:</label>
+      <input type="text" class="form-control" id="naslov_dela">
+    </div>
+
+    <div class="form-group col-5">
+      <label for="nacin_koristenja">Nacin koristenja autorskog dela:</label>
+      <input type="text" class="form-control" id="nacin_koristenja">
+    </div>
+    </div>
+
+
+    <div class="row pt-4">
+      <h5>Vrsta dela:</h5>
+    </div>
+    <div class="row m-1">
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="vrsta" id="knjizevno" (change)="changeDrugaVrstaNonVisible()">
+        <label class="form-check-label" for="knjizevno">
+          Knjizevno delo
+        </label>
+      </div>
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="vrsta" id="muzicko"  (change)="changeDrugaVrstaNonVisible()">
+        <label class="form-check-label" for="muzicko">
+          Muzicko delo
+        </label>
+      </div>
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="vrsta" id="likovno" (change)="changeDrugaVrstaNonVisible()">
+        <label class="form-check-label" for="likovno">
+          Likovno delo
+        </label>
+      </div>
+    </div>
+    <div class="row m-1">
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="vrsta" id="racunarski" (change)="changeDrugaVrstaNonVisible()">
+        <label class="form-check-label" for="racunarski">
+          Racunarski program
+        </label>
+      </div>
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="vrsta" id="drugo" checked (change)="changeDrugaVrstaVisible()">
+        <label class="form-check-label" for="drugo">
+          Drugo
+        </label>
+      </div>
+      </div>
+      <div class="form-group col-3 pt-2" *ngIf="drugaVrsta" style="margin-left:10px">
+        <label for="vrsta_dela">Unesite drugu vrstu dela:</label>
+        <input type="text" class="form-control" id="vrsta_dela">
+      </div>
+
+    <div class="row pt-4">
+      <h5>Forma zapisa:</h5>
+    </div>
+    <div class="row m-1">
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="forma" id="stampani" (change)="changeDrugaFormaNonVisible()">
+        <label class="form-check-label" for="stampani">
+          Stampani tekst
+        </label>
+      </div>
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="forma" id="opticki"  (change)="changeDrugaFormaNonVisible()">
+        <label class="form-check-label" for="opticki">
+          Opticki disk
+        </label>
+      </div>
+      <div class="form-check col-3">
+        <input class="form-check-input" type="radio" name="forma" id="drugaForma" checked (change)="changeDrugaFormaVisible()">
+        <label class="form-check-label" for="drugaForma">
+          Drugo
+        </label>
+      </div>
+    </div>
+    <div class="form-group col-3 pt-2" *ngIf="drugaForma" style="margin-left:10px">
+      <label for="forma_dela">Unesite drugu formu dela:</label>
+      <input type="text" class="form-control" id="forma_dela">
+    </div>
+
+    <span *ngIf="!podnosilacJeAutor">
+    <div class="row pt-4">
+      <h4>Podaci o autoru dela</h4>
+    </div>
+
+    <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+      <input class="form-check-input" type="checkbox" value="" id="anonimanAutor" [checked]="anonimanAutor" (change)="changeAnoniman()">
+      <label class="form-check-label" for="anonimanAutor">
+        Autor je anoniman
+      </label>
+    </div>
+    <span *ngIf="!anonimanAutor">
+      <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+      <input class="form-check-input" type="checkbox" value="" id="zivAutor" [checked]="zivAutor" (change)="changeZiv()">
+      <label class="form-check-label" for="zivAutor">
+        Autor je ziv
+      </label>
+      </div>
+      <div class="row pt-4">
+      <h5>Podaci o autoru dela</h5>
+    </div>
+      <span *ngIf="zivAutor">
+        <div class="row">
+      <div class="form-group col-3">
+          <label for="ime_autora">Ime:</label>
+          <input type="text" class="form-control" id="ime_autora">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_autora">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_autora">
+        </div>
+        <div class="form-group col-3">
+          <label for="drzavljanstvo_autora">Drzavljanstvo:</label>
+          <input type="text" class="form-control" id="drzavljanstvo_autora">
+        </div></div>
+        <h5 class="my-3">Adresa</h5>
+      <div class="row">
+        <div class="form-group col-3">
+          <label for="ulica_autora">Ulica:</label>
+          <input type="text" class="form-control" id="ulica_autora">
+        </div>
+        <div class="form-group col-1">
+          <label for="broj_autora">Broj:</label>
+          <input type="number" class="form-control" id="broj_autora">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="form-group col-2">
+          <label for="grad_autora">Grad:</label>
+          <input type="text" class="form-control" id="grad_autora">
+        </div>
+        <div class="form-group col-2">
+          <label for="pos_br_autora">Postanski broj:</label>
+          <input type="number" class="form-control" id="pos_br_autora">
+        </div>
+        <div class="form-group col-2">
+          <label for="drzava_autora">Drzava:</label>
+          <input type="text" class="form-control" id="drzava_autora">
+        </div>
+      </div>
+      </span>
+
+      <div class="row" *ngIf="!zivAutor">
+        <div class="form-group col-3">
+          <label for="ime_autora_rip">Ime:</label>
+          <input type="text" class="form-control" id="ime_autora_rip">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_autora_rip">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_autora_rip">
+        </div>
+        <div class="form-group col-3">
+          <label for="godina_smrti">Godina smrti:</label>
+          <input type="number" class="form-control" id="godina_smrti">
+        </div>
+      </div>
+      </span>
+    </span>
+
+    <span *ngIf="prerada">
+      <div class="row pt-4">
+        <h4>Podaci o izvornom delu</h4>
+      </div>
+
+      <div class="form-group col-3">
+        <label for="naslov_prerade">Naslov:</label>
+        <input type="text" class="form-control" id="naslov_prerade">
+      </div>
+
+      <div class="row pt-4">
+      <h5>Podaci o autoru izvornog dela</h5>
+    </div>
+      <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+      <input class="form-check-input" type="checkbox" value="" id="anonimanAutorIzvorno" [checked]="anonimanAutorIzvorno" (change)="changeAnonimanIzvornogDela()">
+      <label class="form-check-label" for="anonimanAutorIzvorno">
+        Autor je anoniman
+      </label>
+    </div>
+    <span *ngIf="!anonimanAutorIzvorno">
+      <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+      <input class="form-check-input" type="checkbox" value="" id="zivAutorIzvorno" [checked]="zivAutorIzvorno" (change)="changeZivIzvornogDela()">
+      <label class="form-check-label" for="zivAutorIzvorno">
+        Autor je ziv
+      </label>
+      </div>
+      <span *ngIf="zivAutorIzvorno">
+        <div class="row">
+      <div class="form-group col-3">
+          <label for="ime_autora_izvorno">Ime:</label>
+          <input type="text" class="form-control" id="ime_autora_izvorno">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_autora_izvorno">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_autora_izvorno">
+        </div>
+        <div class="form-group col-3">
+          <label for="drzavljanstvo_autora_izvorno">Drzavljanstvo:</label>
+          <input type="text" class="form-control" id="drzavljanstvo_autora_izvorno">
+        </div></div>
+        <h5 class="my-3">Adresa</h5>
+      <div class="row">
+        <div class="form-group col-3">
+          <label for="ulica_autora_izvorno">Ulica:</label>
+          <input type="text" class="form-control" id="ulica_autora_izvorno">
+        </div>
+        <div class="form-group col-1">
+          <label for="broj_autora_izvorno">Broj:</label>
+          <input type="number" class="form-control" id="broj_autora_izvorno">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="form-group col-2">
+          <label for="grad_autora_izvorno">Grad:</label>
+          <input type="text" class="form-control" id="grad_autora_izvorno">
+        </div>
+        <div class="form-group col-2">
+          <label for="pos_br_autora_izvorno">Postanski broj:</label>
+          <input type="number" class="form-control" id="pos_br_autora_izvorno">
+        </div>
+        <div class="form-group col-2">
+          <label for="drzava_autora_izvorno">Drzava:</label>
+          <input type="text" class="form-control" id="drzava_autora_izvorno">
+        </div>
+      </div>
+      </span>
+
+      <div class="row" *ngIf="!zivAutor">
+        <div class="form-group col-3">
+          <label for="ime_autora_rip_izvorno">Ime:</label>
+          <input type="text" class="form-control" id="ime_autora_rip_izvorno">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_autora_rip_izvorno">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_autora_rip_izvorno">
+        </div>
+        <div class="form-group col-3">
+          <label for="godina_smrti_izvorno">Godina smrti:</label>
+          <input type="number" class="form-control" id="godina_smrti_izvorno">
+        </div>
+      </div>
+    </span>
+    </span>
+
+    <div class="row pt-3">
+      <h4>Prilozi</h4>
+    </div>
+
+    <div class="form-group col-5">
+      <label for="opis">Opis autorskog dela (ako je podneto na disku)</label>
+      <input type="file" id="opis" (change)="onFileSelected()" class="form-control mt-2" accept="application/pdf" multiple />
+    </div>
+
+    <div class="form-group col-5">
+      <label for="primer">Primer autorskog dela (slika, video zapis, audio zapis) </label>
+      <input type="file" id="primer" (change)="onFileSelected()" class="form-control mt-2" accept="application/mp4,image/png, image/gif, image/jpeg" multiple />
+    </div>
+
+
+    <button class="btn my-5 mx-3" style="background: darkslategrey;color: white">Posalji zahtev</button>
+  </div>
+  <div class="col-1 h-auto min-vh-100" style="background: darkslategrey"></div>
+</div>
