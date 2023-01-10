@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zahtev_za_autorska_dela xmlns="http://ftn.uns.ac.rs/a"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:schemaLocation="http://ftn.uns.ac.rs/a file:/C:/Users/Ivana/Desktop/xml_projekat/XML_Projekat/data/zahtev_za_autorska_dela.xsd"
+                         Datum_podnosenja="2022-12-06" Broj="1">
+    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Puskinova</Ulica>
+            <Broj>16</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Kontakt>
+            <Telefon>0643837105</Telefon>
+            <Faks>123</Faks>
+            <E_posta>ikasikovic@yahoo.com</E_posta>
+        </Kontakt>
+        <Ime>Ivana</Ime>
+        <Prezime>Kasikovic</Prezime>
+        <Drzavljanstvo>RS i BiH</Drzavljanstvo>
+    </Podnosilac_prijave>
+    <Punomocnik xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Puskinova</Ulica>
+            <Broj>16</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Kontakt>
+            <Telefon>012345678</Telefon>
+            <Faks>faks</Faks>
+            <E_posta>natka@yahoo.com</E_posta>
+        </Kontakt>
+        <Ime>Natasa</Ime>
+        <Prezime>Kasikovic</Prezime>
+        <Drzavljanstvo>RS i BiH</Drzavljanstvo>
+    </Punomocnik>
+    <Autorsko_delo Stvoreno_u_radnom_odnosu="false">
+        <Naslov>Povratak snovima</Naslov>
+        <Nacin_koriscenja>Citanje</Nacin_koriscenja>
+        <Vrsta>knjizevno_delo</Vrsta>
+        <Format_zapisa>stampani_tekst</Format_zapisa>
+    </Autorsko_delo>
+    <Prilozi>
+        <Opis_dela>false</Opis_dela>
+        <Primer_dela>false</Primer_dela>
+    </Prilozi>
+    <Autor xsi:type="TZiv_autor">
+        <Ime>Ivana</Ime>
+        <Prezime>Kasikovic</Prezime>
+        <Adresa xmlns="http://ftn.uns.ac.rs/sema">
+            <Ulica>Puskinova</Ulica>
+            <Broj>16</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Drzavljanstvo>RS</Drzavljanstvo>
+        <Pseudonim>kasimir</Pseudonim>
+    </Autor>
+</Zahtev_za_autorska_dela>
