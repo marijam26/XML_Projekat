@@ -1,8 +1,8 @@
-import {Adresa} from "./adresa";
+import {AdresaDTO} from "../../shared-models/adresaDTO";
 
 export class PodaciODostavljanju {
   constructor(
-    public adresa:Adresa = new Adresa(),
+    public adresa:AdresaDTO = new AdresaDTO(),
     public nacinDostavljanja:string = ''
   ) {}
 }

@@ -7,12 +7,16 @@ import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import project.a1.model.a1.ZahtevZaAutorskaDela;
 
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.OutputKeys;
 import java.io.IOException;
 import java.io.OutputStream;
 
 public class DatabaseUtilities {
 
+    public static final String COLLECTION_ID = "db/autorskaDela";
     private static AuthenticationUtilities.ConnectionProperties conn;
 
 
@@ -24,14 +28,14 @@ public class DatabaseUtilities {
         DatabaseManager.registerDatabase(database);
     }
 
-    public static void storeResource(String collectionId, String documentId, OutputStream outputStream) throws XMLDBException {
+    public static void storeResource( String documentId, OutputStream outputStream) throws XMLDBException {
         Collection col = null;
         XMLResource res = null;
 
         try {
 
-            System.out.println("[INFO] Retrieving the collection: " + collectionId);
-            col = getOrCreateCollection(collectionId);
+            System.out.println("[INFO] Retrieving the collection: " + COLLECTION_ID);
+            col = getOrCreateCollection(COLLECTION_ID);
 
             System.out.println("[INFO] Inserting the document: " + documentId);
             res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
@@ -108,6 +112,43 @@ public class DatabaseUtilities {
         } else {
             return col;
         }
+    }
+
+    public static ZahtevZaAutorskaDela getZahtevById(String documentId) throws XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, JAXBException {
+
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + COLLECTION_ID);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            res = (XMLResource)col.getResource(documentId);
+
+            if(res == null) {
+                System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
+            } else {
+
+                System.out.println("[INFO] Showing the document as XML resource: ");
+                System.out.println(res.getContent());
+                return MarshallingUtils.unmarshallFromDOM(res.getContentAsDOM());
+            }
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }

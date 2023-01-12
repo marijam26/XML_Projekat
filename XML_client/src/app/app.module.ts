@@ -6,17 +6,23 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PatentFormComponent } from './p1/patent-form/patent-form.component';
 import {FormsModule} from "@angular/forms";
-import { AutorskoPravoFormComponent } from './a1/autorsko-pravo-form/autorsko-pravo-form.component';
+import { AutorskoPravoFormComponent } from './a1/components/autorsko-pravo-form/autorsko-pravo-form.component';
+import {HttpClientModule} from "@angular/common/http";
+import { ViewA1Component } from './a1/components/view-a1/view-a1.component';
+import { CreateA1Component } from './a1/components/create-a1/create-a1.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PatentFormComponent,
-    AutorskoPravoFormComponent
+    AutorskoPravoFormComponent,
+    ViewA1Component,
+    CreateA1Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     FormsModule
   ],

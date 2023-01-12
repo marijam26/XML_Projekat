@@ -1,5 +1,6 @@
 package project.a1.util;
 
+import org.w3c.dom.Node;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
 
 import javax.xml.bind.JAXBContext;
@@ -12,11 +13,17 @@ import java.io.OutputStream;
 
 public class MarshallingUtils {
 
-    private JAXBContext context;
+    private static JAXBContext context;
 
-    public MarshallingUtils() throws JAXBException {
-        this.context = JAXBContext.newInstance("project.a1.model.a1");
+    static {
+        try {
+            context = JAXBContext.newInstance("project.a1.model.a1");
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     public OutputStream marshall(ZahtevZaAutorskaDela autorskoDelo) throws JAXBException {
         Marshaller marshaller = context.createMarshaller();
@@ -28,9 +35,10 @@ public class MarshallingUtils {
 
     public ZahtevZaAutorskaDela unmarshall(String filepath) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        System.out.print(unmarshaller);
-        File file = new File(filepath);
-        System.out.print(unmarshaller.unmarshal(file));
         return (ZahtevZaAutorskaDela) unmarshaller.unmarshal(new File(filepath));
+    }
+    public static ZahtevZaAutorskaDela unmarshallFromDOM(Node data) throws JAXBException {
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        return (ZahtevZaAutorskaDela) unmarshaller.unmarshal(data);
     }
 }

@@ -1,10 +1,16 @@
 package project.a1.controller;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.a1.dto.a1.ZahtevZaAutorskaDelaDTO;
+import project.a1.dto.main_schema.TPrilogDTO;
+import project.a1.model.a1.Prilozi;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
+import project.a1.model.main_schema.TPrilog;
 import project.a1.service.AutorskoDeloService;
 import project.a1.util.MarshallingUtils;
 
@@ -24,9 +30,15 @@ public class AutorskoDeloController {
         return null;
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaAutorskaDela>> getOne(@PathVariable String id){
-
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ZahtevZaAutorskaDela> getOne(@PathVariable String id){
+        try {
+            ZahtevZaAutorskaDela z = autorskoDeloService.getOne(id);
+            return new ResponseEntity<>(z, HttpStatus.OK);
+        } catch (Exception e) {
+        // vrati bad request
+        System.out.print(e.getMessage());
+    }
         return null;
     }
 
@@ -35,6 +47,12 @@ public class AutorskoDeloController {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         try {
             ZahtevZaAutorskaDela z = marshallingUtils.unmarshall("data/autorsko_delo.xml");
+            Prilozi p = new Prilozi();
+            TPrilog opis = new TPrilog();
+            opis.setPutanja("data/nekaputanja");
+            opis.setValue(true);
+            p.setOpisDela(opis);
+            z.setPrilozi(p);
             autorskoDeloService.save(z);
         } catch (Exception e) {
         // vrati bad request
@@ -44,12 +62,15 @@ public class AutorskoDeloController {
     }
 
 
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_XML_VALUE)
-    public void add(@RequestBody ZahtevZaAutorskaDela zahtevZaAutorskaDela){
+    @PostMapping(value = "/", consumes = "application/xml")
+    public void add(@RequestBody ZahtevZaAutorskaDelaDTO dto){
+        //System.out.print(dto);
         try {
+            ZahtevZaAutorskaDela zahtevZaAutorskaDela = autorskoDeloService.map(dto);
             autorskoDeloService.save(zahtevZaAutorskaDela);
         } catch (Exception e) {
             // vrati bad request
+            System.out.print(e.getMessage());
         }
     }
 

@@ -35,7 +35,7 @@
         <Prezime>Kasikovic</Prezime>
         <Drzavljanstvo>RS i BiH</Drzavljanstvo>
     </Punomocnik>
-    <Autorsko_delo Stvoreno_u_radnom_odnosu="false">
+    <Autorsko_delo Stvoreno_u_radnom_odnosu="false" Prerada="false">
         <Naslov>Povratak snovima</Naslov>
         <Nacin_koriscenja>Citanje</Nacin_koriscenja>
         <Vrsta>knjizevno_delo</Vrsta>

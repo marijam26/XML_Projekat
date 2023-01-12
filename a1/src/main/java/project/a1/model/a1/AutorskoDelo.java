@@ -8,6 +8,8 @@
 
 package project.a1.model.a1;
 
+import project.a1.dto.a1.FormatDTO;
+
 import javax.xml.bind.annotation.*;
 
 
@@ -74,6 +76,8 @@ public class AutorskoDelo {
     protected IzvornoDelo izvornoDelo;
     @XmlAttribute(name = "Stvoreno_u_radnom_odnosu")
     protected Boolean stvorenoURadnomOdnosu;
+    @XmlAttribute(name = "Prerada")
+    protected Boolean prerada = false;
 
     /**
      * Gets the value of the naslov property.
@@ -161,7 +165,7 @@ public class AutorskoDelo {
 
     /**
      * Sets the value of the formatZapisa property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link FormatZapisa }
@@ -219,6 +223,13 @@ public class AutorskoDelo {
         this.stvorenoURadnomOdnosu = value;
     }
 
+    public Boolean getPrerada() {
+        return prerada;
+    }
+
+    public void setPrerada(Boolean value) {
+        this.prerada = value;
+    }
 
     /**
      * <p>Java class for anonymous complex type.
@@ -351,6 +362,7 @@ public class AutorskoDelo {
             this.value = value;
         }
 
+
         /**
          * Gets the value of the ostalaVrstaDela property.
          * 
@@ -374,6 +386,18 @@ public class AutorskoDelo {
         public void setOstalaVrstaDela(String value) {
             this.ostalaVrstaDela = value;
         }
+
+
+
+        /**
+         * Sets the value of the ostalaVrstaDela property.
+         *
+         * @param value
+         *     allowed object is
+         *     {@link String }
+         *
+         */
+
 
     }
 

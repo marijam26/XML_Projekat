@@ -1,4 +1,4 @@
-export class Adresa{
+export class AdresaDTO {
   constructor(
     public ulica:string = '',
     public broj:number = 1,

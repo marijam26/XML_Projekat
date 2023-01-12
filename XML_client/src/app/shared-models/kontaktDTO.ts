@@ -1,4 +1,4 @@
-export class Kontakt{
+export class KontaktDTO {
   constructor(
     public telefon:string = '',
     public e_posta:string = '',
