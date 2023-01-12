@@ -1,6 +1,8 @@
 package project.p1.controller;
 
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import project.p1.service.PatentService;
 import project.p1.util.MarshallingUtils;
 
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,9 +29,9 @@ public class PatentController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaPatent>> getOne(@PathVariable String id){
-
-        return null;
+    public ResponseEntity<ZahtevZaPatent> getOne(@PathVariable String id){
+        ZahtevZaPatent zahtevZaPatent = patentService.getPatent(id);
+        return new ResponseEntity<>(zahtevZaPatent, HttpStatus.OK);
     }
 
     @GetMapping(value = "/save1")
@@ -54,6 +57,12 @@ public class PatentController {
             // vrati bad request
             System.out.println(e.getMessage());
         }
+    }
+
+    @GetMapping("/getPdf/{id}")
+    public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
+        patentService.getDocumentPdf(id);
+        return new ResponseEntity<>("Uspesno", HttpStatus.OK);
     }
 
 }

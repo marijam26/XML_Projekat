@@ -1,5 +1,6 @@
 package project.p1.util;
 
+import org.w3c.dom.Node;
 import project.p1.model.p1.ZahtevZaPatent;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -29,5 +30,10 @@ public class MarshallingUtils {
         Unmarshaller unmarshaller = context.createUnmarshaller();
         File file = new File(filepath);
         return (ZahtevZaPatent) unmarshaller.unmarshal(file);
+    }
+
+    public ZahtevZaPatent unmarshallFromNode(Node patenetNode) throws JAXBException {
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        return (ZahtevZaPatent) unmarshaller.unmarshal(patenetNode);
     }
 }
