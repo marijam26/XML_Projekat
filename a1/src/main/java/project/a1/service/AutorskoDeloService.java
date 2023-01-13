@@ -1,8 +1,10 @@
 package project.a1.service;
 
+import com.itextpdf.text.DocumentException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
 import project.a1.dto.a1.AutorskoDeloDTO;
 import project.a1.dto.a1.PriloziDTO;
@@ -16,6 +18,8 @@ import project.a1.model.a1.*;
 import project.a1.model.main_schema.*;
 import project.a1.repository.AutorskoDeloRepository;
 import project.a1.util.MarshallingUtils;
+import project.a1.util.PDFTransformer;
+
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -160,5 +164,17 @@ public class AutorskoDeloService {
             e.printStackTrace();
         }
         return xmlDate;
+    }
+
+    public void getDocumentPdf(String id) throws DocumentException, IOException {
+        PDFTransformer pdfTransformer = new PDFTransformer();
+        String fileNamePDF = "p" + id + ".pdf";
+        String fileNameHTML = "p" + id + ".html";
+
+        Node patentNode = autorskoDeloRepository.getAutorskoPravoNode(id);
+
+        pdfTransformer.generateHTML(fileNameHTML,patentNode);
+        pdfTransformer.generatePDF(fileNamePDF,fileNameHTML);
+
     }
 }

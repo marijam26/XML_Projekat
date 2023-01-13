@@ -1,6 +1,7 @@
 package project.a1.repository;
 
 import org.springframework.stereotype.Repository;
+import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
 import project.a1.util.DatabaseUtilities;
@@ -23,4 +24,9 @@ public class AutorskoDeloRepository {
     public ZahtevZaAutorskaDela getOne(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         return DatabaseUtilities.getZahtevById(id);
     }
+
+    public Node getAutorskoPravoNode(String id) {
+        return DatabaseUtilities.getPravoResource(id);
+    }
+
 }
