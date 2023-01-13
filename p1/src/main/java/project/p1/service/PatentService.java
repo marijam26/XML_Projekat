@@ -34,8 +34,8 @@ public class PatentService {
 
     public void getDocumentPdf(String id) throws DocumentException, IOException {
         PDFTransformer pdfTransformer = new PDFTransformer();
-        String fileNamePDF = "p" + id + ".pdf";
-        String fileNameHTML = "p" + id + ".html";
+        String fileNamePDF = id + ".pdf";
+        String fileNameHTML = id + ".html";
 
         Node patentNode = patentRepository.getPatentNode(id);
 

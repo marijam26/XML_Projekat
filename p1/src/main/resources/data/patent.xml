@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://ftn.uns.ac.rs/p file:/C:/Users/Ivana/Desktop/XML/projekat/zahtev_za_patent.xsd"
+    xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
     Broj_prijave="1" Datum_podnosenja="2022-12-06" Datum_prijema="2022-12-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
     <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
@@ -9,11 +9,12 @@
             <Broj>57</Broj>
             <Grad>Novi Sad</Grad>
             <Postanski_broj>21000</Postanski_broj>
+            <Drzava>Srbija</Drzava>
         </Adresa>
         <Kontakt>
             <Telefon>062711005</Telefon>
-            <Faks></Faks>
-            <E_posta></E_posta>
+            <Faks>faksic</Faks>
+            <E_posta>maki@gmail.com</E_posta>
         </Kontakt>
         <Ime>Marija</Ime>
         <Prezime>Milosevic</Prezime>

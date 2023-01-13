@@ -35,9 +35,9 @@ public class PatentController {
     }
 
     @GetMapping(value = "/save1")
-    public ResponseEntity<List<ZahtevZaPatent>> getOne() throws JAXBException, XMLDBException {
+    public ResponseEntity<List<ZahtevZaPatent>> save() throws JAXBException, XMLDBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
-        ZahtevZaPatent z = marshallingUtils.unmarshall("data/patent.xml");
+        ZahtevZaPatent z = marshallingUtils.unmarshall("src/main/resources/data/patent1.xml");
         System.out.println(z);
         patentService.save(z);
         return null;

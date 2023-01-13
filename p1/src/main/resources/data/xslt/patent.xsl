@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:b="http://www.ftn.uns.ac.rs/xpath/examples" version="2.0">
+                xmlns:p="http://ftn.uns.ac.rs/p" xmlns:sema="http://ftn.uns.ac.rs/sema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                version="2.0">
 
     <xsl:template match="/">
         <html>
@@ -83,6 +84,11 @@
                     border-top-width: 1pt;
                     }
 
+                    .bottom_border{
+                    border-bottom-style: solid;
+                    border-bottom-width: 1pt;
+                    }
+
                     table,
                     tbody {
                     vertical-align: top;
@@ -110,14 +116,14 @@
                         </td>
                         <td style="width: 81pt;">
                             <p style="font-size: 16pt;padding-top: 10pt;padding-left: 8pt;text-align: left; ">
-                                П
+                                П<span> <xsl:value-of select="p:Zahtev_za_patent/@Broj_prijave"/> </span>
                             </p>
                         </td>
                         <td style="width: 134pt;">
                             <p style="text-indent: 0pt; text-align: left"><br /></p>
                         </td>
                         <td style="width: 41pt;border-right-style: solid;border-right-width: 1pt;">
-                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 9pt;text-align: left;">
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-right: 9pt;text-align: right;">
                                 (21)
                             </p>
                         </td>
@@ -127,14 +133,20 @@
                             <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 7pt;text-align: left;">
                                 Датум пријема
                             </p>
+                            <p style="font-size: 8.5pt;padding-top: 2pt;padding-left: 7pt">
+                                <xsl:value-of select="p:Zahtev_za_patent/@Datum_prijema"/>
+                            </p>
                         </td>
-                        <td class="top_border" style="width: 134pt;">
+                        <td class="top_border" style="width: 164pt;">
                             <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 7pt;text-align: left;">
                                 Признати датум подношења
                             </p>
+                            <p style="font-size: 8.5pt;padding-left: 7pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/@Datum_podnosenja"/>
+                            </p>
                         </td>
-                        <td class="top_border" style="width: 41pt;border-right-style: solid;border-right-width: 1pt;">
-                            <p style="padding-top: 5pt;padding-left: 9pt;font-size: 8.5pt;text-align: left;">
+                        <td class="top_border" style="width: 11pt;border-right-style: solid;border-right-width: 1pt;">
+                            <p style="padding-top: 5pt;padding-right: 9pt;font-size: 8.5pt;text-align: right;">
                                 (22)
                             </p>
                         </td>
@@ -171,7 +183,7 @@
                     (попунити писаћом машином или рачунаром)
                 </p>
                 <table style="border-collapse: collapse; margin-left: 15.15pt;width: 100%;margin-bottom:160px"
-                        cellspacing="0">
+                       cellspacing="0">
                     <tr style="height: 56pt">
                         <td class="all_borders" style="width: 100%;" colspan="3">
                             <p class="s5" style="padding-top: 7pt;padding-left: 5pt;text-align: left;" >
@@ -188,17 +200,27 @@
                     <tr style="height: 37pt">
                         <td class="left_right" style="width: 100%;" colspan="3">
                             <p style="padding-top: 6pt;padding-left: 5pt;line-height: 139%;text-align: left;font-size: 8.5pt;">
-                                На српском језику:
+                                На српском језику: <span> <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazak/p:Srpski_naziv"/> </span>
                             </p>
                             <p style="padding-top: 6pt;padding-left: 5pt;line-height: 139%;text-align: left;font-size: 8.5pt;">
-                                На српском језику:
+                                На српском језику: <span> <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazak/p:Engleski_naziv"/> </span>
                             </p>
                         </td>
                     </tr>
+                    <xsl:variable name="podnosilac_email" select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Kontakt/sema:E_posta"/>
+                    <xsl:variable name="pronalazac_email" select="p:Zahtev_za_patent/p:Pronalazac/sema:Kontakt/sema:E_posta"/>
+
                     <tr style="height: 27pt">
                         <td class="top_bottom" style="border-left-style: solid;border-left-width: 1pt;" colspan="3">
                             <p class="s5" style=" padding-top: 6pt;text-align: left;">
-                                Поље број II ПОДНОСИЛАЦ ПРИЈАВЕ <span class="s7">☐ </span><span style="font-size: 8.5pt;">Подносилац пријаве је и проналазач</span>
+                                <xsl:choose>
+                                    <xsl:when test="$podnosilac_email=$pronalazac_email">
+                                        Поље број II ПОДНОСИЛАЦ ПРИЈАВЕ <span class="s7">■ </span><span style="font-size: 8.5pt;">Подносилац пријаве је и проналазач</span>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        Поље број II ПОДНОСИЛАЦ ПРИЈАВЕ <span class="s7">☐ </span><span style="font-size: 8.5pt;">Подносилац пријаве је и проналазач</span>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </p>
                         </td>
                         <td class="top_bottom" style="border-right-style: solid; border-right-width: 1pt;padding-left:-100px">
@@ -208,43 +230,74 @@
                         </td>
                     </tr>
                     <tr style="height: 53pt">
-                        <td class="left_right" style="width: 186pt;padding-bottom:100px" rowspan="3">
+                        <td class="left_right" style="width: 186pt;padding-bottom:75px" rowspan="3">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;text-align: left;">
                                 Име и презиме / Пословно име: <span class="s8" style="font-size: 8pt;">(презиме</span>
                             </p>
                             <p style="font-size: 8pt;padding-left: 7pt;line-height: 9pt;text-align: left;">
                                 / пословно име уписати великим словима)
                             </p>
+                            <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
+                                <xsl:variable name="tlice" select="p:Zahtev_za_patent/sema:Podnosilac_prijave/@xsi:type"/>
+                                <xsl:choose>
+                                    <xsl:when test="substring($tlice,5)='TFizicko_lice'">
+                                        <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
+                                            <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Ime"/>&#160;
+                                            <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Prezime"/></p>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Poslovno_ime"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </p>
                         </td>
-                        <td style="width: 185pt;padding-bottom:100px; " rowspan="3">
+                        <td style="width: 185pt;padding-bottom:53px; " rowspan="3">
                             <p style="font-size: 8.5pt; padding-top: 6pt;padding-left: 5pt;text-align: left;" >
                                 Улица и број, поштански број, место и држава:
                             </p>
+                            <p style="font-size: 8.5pt; padding-top: 6pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Adresa/sema:Ulica"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Adresa/sema:Broj"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Adresa/sema:Postanski_broj"/>
+                            </p>
+                            <p style="font-size: 8.5pt; padding-top: 3pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Adresa/sema:Grad"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Adresa/sema:Drzava"/>
+                            </p>
                         </td>
-                        <td class="left_right" style="width: 160pt;padding-bottom:50px">
+                        <td class="left_right" style="width: 160pt;padding-bottom:30px">
                             <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;text-align: left;">
                                 Број телефона:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Kontakt/sema:Telefon"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 45pt">
-                        <td class="left_right top_border" style="width: 160pt;padding-bottom:40px">
+                        <td class="left_right top_border" style="width: 160pt;padding-bottom:20px">
                             <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;text-align: left; ">
                                 Број факса:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Kontakt/sema:Faks"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 40pt">
-                        <td class="left_right top_border" style="width: 160pt;padding-bottom:20px" rowspan="2">
+                        <td class="left_right top_border" style="width: 160pt;padding-bottom:5px" rowspan="2">
                             <p style="font-size: 8.5pt;padding-top: 5pt; padding-left: 5pt;text-align: left;">
                                 Е-пошта:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Kontakt/sema:E_posta"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 32pt">
                         <td class="top_border" style="width: 186pt;border-left-style: solid;border-left-width: 1pt;">
-                            <p style="font-size: 8.5pt;padding-top: 6pt; padding-left: 5pt;text-align: left;">
-                                Држављанство:
+                            <p style="font-size: 8.5pt;padding-top: 6pt; padding-left: 5pt;">
+                                Држављанство:&#160;<span><xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Drzavljanstvo"/></span>
                             </p>
                         </td>
                         <td class="top_border" style=" width: 185pt;">
@@ -289,7 +342,14 @@
                                 проналазачим
                             </p>
                             <p style="font-size: 8.5pt;padding-right: 20pt;text-indent: -17pt;line-height: 13pt;text-align: right;">
-                                <span class="s7">☐ </span>Проналазач не жели да буде наведен у пријави
+                                <xsl:choose>
+                                    <xsl:when test="p:Zahtev_za_patent/p:Pronalazac">
+                                        <span class="s7">☐ </span>Проналазач не жели да буде наведен у пријавиr
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="s7">■ </span>Проналазач не жели да буде наведен у пријавиt
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </p>
 
                             <p style="font-size: 8pt;padding-left: 5pt;line-height: 9pt;text-align: left; ">
@@ -305,34 +365,64 @@
                         </td>
                     </tr>
                     <tr style="height: 35pt">
-                        <td class="left_right" style="width: 186pt;padding-bottom:100px" rowspan="3">
+                        <td class="left_right" style="width: 186pt;padding-bottom:80px" rowspan="3">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;text-align: left;">
                                 Име и презиме:
                                 <span class="s8" style="font-size: 8pt;">(презиме уписати великим словима)</span>
                             </p>
+                            <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Ime"/>&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Prezime"/>
+                            </p>
                         </td>
-                        <td  style="width: 185pt;padding-bottom:100px" rowspan="3">
+                        <td  style="width: 185pt;padding-bottom:60px" rowspan="3">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;text-align: left;">
                                 Улица и број, поштански број, место и држава:
                             </p>
+                            <xsl:choose>
+                                <xsl:when test="p:Zahtev_za_patent/p:Pronalazac">
+                                    <p style="font-size: 8.5pt; padding-top: 6pt;padding-left: 7pt;">
+                                        <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Adresa/sema:Ulica"/>,&#160;
+                                        <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Adresa/sema:Broj"/>,&#160;
+                                        <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Adresa/sema:Postanski_broj"/>
+                                    </p>
+                                    <p style="font-size: 8.5pt; padding-top: 3pt;padding-left: 7pt;">
+                                        <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Adresa/sema:Grad"/>,&#160;
+                                        <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Adresa/sema:Drzava"/>
+                                    </p>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <p style="padding-bottom:20px"> &#160;</p>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
                         </td>
-                        <td class="left_right" style="width: 160pt;padding-bottom:30px">
-                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;text-align: left;">
+                        <td class="left_right" style="width: 160pt;padding-bottom:10px">
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
                                 Број телефона:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Kontakt/sema:Telefon"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 35pt">
-                        <td class="all_borders" style="width: 160pt;padding-bottom:30px">
+                        <td class="all_borders" style="width: 160pt;padding-bottom:10px">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 5pt;text-align: left;">
                                 Број факса:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Kontakt/sema:Faks"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 37pt">
-                        <td class="left_right" style=" width: 160pt;padding-bottom:30px">
+                        <td class="left_right" style=" width: 160pt;padding-bottom:10px">
                             <p style="font-size: 8.5pt; padding-top: 5pt;padding-left: 5pt;text-align: left;">
                                 Е-пошта:
+                            </p>
+                            <p style="font-size: 8.5pt;padding-top: 5pt;padding-left: 5pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Pronalazac/sema:Kontakt/sema:E_posta"/>
                             </p>
                         </td>
                     </tr>
@@ -348,17 +438,35 @@
                 <p style="text-indent: 0pt; text-align: left"><br /></p>
                 <p style="text-indent: 0pt; text-align: left"><br /></p>
 
+                <xsl:variable name="vrsta_punomocnika" select="p:Zahtev_za_patent/@Vrsta_punomocnika"/>
                 <table style="border-collapse: collapse; margin-left: 15.15pt;width: 100%;" cellspacing="0">
                     <tr style="height: 104pt">
                         <td class="all_borders" style="width: 531pt;" colspan="3">
                             <p class="s5" style="padding:6pt 0pt 0pt 5pt;text-indent: 0pt;text-align: left;">
-                                Поље број IV <span class="s7">☐ </span>ПУНОМОЋНИК ЗА ЗАСТУПАЊЕ
-                                <span class="s7">☐ </span>ПУНОМОЋНИК ЗА ПРИЈЕМ ПИСМЕНА
-                                <span style="font-size: 8.5pt;">(74)</span>
+                                <xsl:choose>
+                                    <xsl:when test="$vrsta_punomocnika='za_prijem_pismena'">
+                                        Поље број IV <span class="s7">☐ </span>ПУНОМОЋНИК ЗА ЗАСТУПАЊЕ
+                                        <span class="s7">■ </span>ПУНОМОЋНИК ЗА ПРИЈЕМ ПИСМЕНА
+                                        <span style="font-size: 8.5pt;">(74)</span>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        Поље број IV <span class="s7">■ </span>ПУНОМОЋНИК ЗА ЗАСТУПАЊЕ
+                                        <span class="s7">☐ </span>ПУНОМОЋНИК ЗА ПРИЈЕМ ПИСМЕНА
+                                        <span style="font-size: 8.5pt;">(74)</span>
+                                    </xsl:otherwise>
+                                </xsl:choose>
                             </p>
 
                             <p class="s5" style="padding-top: 2pt;padding-left: 103pt;text-indent: -15pt;text-align: left;">
-                                <span class="s7">☐ </span>ЗАЈЕДНИЧКИ ПРЕДСТАВНИК
+                                <xsl:choose>
+                                    <xsl:when test="p:Zahtev_za_patent/@Zajednicki_predstavnik='true'">
+                                        <span class="s7">■ </span>ЗАЈЕДНИЧКИ ПРЕДСТАВНИК
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <span class="s7">☐ </span>ЗАЈЕДНИЧКИ ПРЕДСТАВНИК
+                                    </xsl:otherwise>
+                                </xsl:choose>
+
                             </p>
 
                             <p style=" font-size: 8pt;padding-left: 11pt;text-indent: -5pt;text-align: left;">
@@ -380,27 +488,52 @@
                         </td>
                     </tr>
                     <tr style="height: 43pt">
-                        <td class="left_right" style="width: 264pt;" rowspan="2">
-                            <p style="font-size: 8.5pt; padding:6pt 7pt 50px 7pt;text-align: left;">
+                        <td class="left_right" style="width: 264pt;padding-bottom:25px" rowspan="2">
+                            <p style="font-size: 8.5pt; padding:6pt 7pt 0px 7pt;text-align: left;">
                                 Име и презиме / Пословно име<span class="s8" style="font-size: 8pt;"
                             >: (презиме / пословно име уписати великим словима)</span>
                             </p>
+                            <xsl:variable name="p_tlice" select="p:Zahtev_za_patent/sema:Punomocnik/@xsi:type"/>
+                            <p style="font-size: 8.5pt; padding:6pt 7pt 0 7pt;">
+                                <xsl:choose>
+                                    <xsl:when test="substring($p_tlice,5)='TFizicko_lice'">
+                                        <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Ime"/>&#160;
+                                        <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Prezime"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Poslovno_ime"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </p>
+
                         </td>
-                        <td style="width: 140pt;" rowspan="2">
-                            <p style="font-size: 8.5pt;padding:6pt 7pt 80px 7pt;">
+                        <td style="width: 140pt;padding-bottom:50px" rowspan="2">
+                            <p style="font-size: 8.5pt;padding:5pt 7pt 0px 7pt;">
                                 Улица и број, поштански број и место:
                             </p>
+                            <p style="font-size: 8.5pt; padding-top: 6pt;padding-left: 7pt;">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Adresa/sema:Ulica"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Adresa/sema:Broj"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Adresa/sema:Postanski_broj"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Adresa/sema:Grad"/>
+                            </p>
                         </td>
-                        <td class="left_right" style="width: 127pt;">
-                            <p style="font-size: 8.5pt;padding:5pt 0pt 20px 5pt">
+                        <td class="left_right" style="width: 127pt;padding-bottom:15px">
+                            <p style="font-size: 8.5pt;padding:5pt 0pt 0pt 5pt">
                                 Број телефона:
+                            </p>
+                            <p style="font-size: 8.5pt;padding:5pt 0pt 0pt 5pt">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Kontakt/sema:Telefon"/>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 32pt">
                         <td class="left_right top_border" style=" width: 127pt;">
-                            <p style="font-size: 8.5pt;padding:6pt 0pt 20px 5pt">
+                            <p style="font-size: 8.5pt;padding:6pt 0pt 0pt 5pt">
                                 Е-пошта:
+                            </p>
+                            <p style="font-size: 8.5pt;padding:6pt 0pt 0pt 5pt">
+                                <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Kontakt/sema:E_posta"/>
                             </p>
                         </td>
                     </tr>
@@ -419,7 +552,12 @@
                     <tr style="height: 28pt">
                         <td class="left_right" style="width: 531pt;" colspan="3">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 5pt;">
-                                Улица и број, поштански број и место:
+                                Улица и број, поштански број и место: <span>
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Podaci_o_dostavljanju/sema:Adresa/sema:Ulica"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Podaci_o_dostavljanju/sema:Adresa/sema:Broj"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Podaci_o_dostavljanju/sema:Adresa/sema:Postanski_broj"/>,&#160;
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Podaci_o_dostavljanju/sema:Adresa/sema:Grad"/>
+                            </span>
                             </p>
                         </td>
                     </tr>
@@ -430,27 +568,62 @@
                             </p>
                         </td>
                     </tr>
+                    <xsl:variable name="nacin_dostave" select="p:Zahtev_za_patent/p:Podaci_o_dostavljanju/p:Nacin_dostavljanja"/>
                     <tr style="height: 57pt">
                         <td class="left_right" style="width: 531pt;" colspan="3">
-                            <p style="font-size: 8.5pt;padding-top: 5pt; padding-left: 6pt;padding-right: 39pt;">
-                                <span class="s7">☐ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
-                                искључиво електронским путем у форми електронског документа
-                                <span class="s8" style="font-size: 8pt;"
-                                >(у овом случају неопходна је регистрација на порталу
-                                    „еУправе”)</span>
-                            </p>
-                            <p style="font-size: 8.5pt; padding-top: 2pt;padding-left: 22pt;text-indent: -16pt;">
-                                <span class="s7">☐ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
-                                у папирној форми
-                            </p>
+                            <xsl:choose>
+                                <xsl:when test="$nacin_dostave='elektronska_forma'">
+                                    <p style="font-size: 8.5pt;padding-top: 5pt; padding-left: 6pt;padding-right: 39pt;">
+                                        <span class="s7">■ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
+                                        искључиво електронским путем у форми електронског документа
+                                        <span class="s8" style="font-size: 8pt;"
+                                        >(у овом случају неопходна је регистрација на порталу
+                                            „еУправе”)</span>
+                                    </p>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <p style="font-size: 8.5pt;padding-top: 5pt; padding-left: 6pt;padding-right: 39pt;">
+                                        <span class="s7">☐ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
+                                        искључиво електронским путем у форми електронског документа
+                                        <span class="s8" style="font-size: 8pt;"
+                                        >(у овом случају неопходна је регистрација на порталу
+                                            „еУправе”)</span>
+                                    </p>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
+                            <xsl:choose>
+                                <xsl:when test="$nacin_dostave='papirna_forma'">
+                                    <p style="font-size: 8.5pt; padding-top: 2pt;padding-left: 22pt;text-indent: -16pt;">
+                                        <span class="s7">■ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
+                                        у папирној форми
+                                    </p>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <p style="font-size: 8.5pt; padding-top: 2pt;padding-left: 22pt;text-indent: -16pt;">
+                                        <span class="s7">☐ </span>Подносилац пријаве је сагласан да Завод врши достављање писмена
+                                        у папирној форми
+                                    </p>
+                                </xsl:otherwise>
+                            </xsl:choose>
+
 
                         </td>
                     </tr>
                     <tr style="height: 33pt">
                         <td class="top_bottom" style="width: 404pt;border-left-style: solid;border-left-width: 1pt;" colspan="2">
                             <p class="s5" style="padding-top: 6pt;padding-left: 5pt;">
-                                Поље број VII <span class="s7" style="padding-right:20pt">☐ </span>ДОПУНСКА ПРИЈАВА
-                                <span class="s7">☐ </span>ИЗДВОЈЕНА ПРИЈАВА
+                                <xsl:choose>
+                                    <xsl:when test="p:Zahtev_za_patent/p:Osnovna_prijava">
+                                        Поље број VII <span class="s7" style="padding-right:20pt">■ </span>ДОПУНСКА ПРИЈАВА
+                                        <span class="s7">☐ </span>ИЗДВОЈЕНА ПРИЈАВА
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        Поље број VII <span class="s7" style="padding-right:20pt">☐ </span>ДОПУНСКА ПРИЈАВА
+                                        <span class="s7">■ </span>ИЗДВОЈЕНА ПРИЈАВА
+                                    </xsl:otherwise>
+                                </xsl:choose>
+
                             </p>
                         </td>
                         <td class="top_bottom" style="width: 127pt;border-right-style: solid;border-right-width: 1pt;">
@@ -462,14 +635,18 @@
                     <tr style="height: 23pt">
                         <td class="left_right" colspan="3">
                             <p style="font-size: 8.5pt;padding-top: 7pt;padding-left: 5pt;">
-                                Број првобитне пријаве / основне пријаве, односно основног патента:
+                                Број првобитне пријаве / основне пријаве, односно основног патента: &#160;<span>
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Osnovna_prijava/p:Broj"/>
+                            </span>
                             </p>
                         </td>
                     </tr>
                     <tr style="height: 23pt">
                         <td class="all_borders" colspan="3">
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 5pt;">
-                                Датум подношења првобитнe пријаве / основне пријаве:
+                                Датум подношења првобитнe пријаве / основне пријаве: &#160;<span>
+                                <xsl:value-of select="p:Zahtev_za_patent/p:Osnovna_prijava/p:Datum"/>
+                            </span>
                             </p>
                         </td>
                     </tr>
@@ -509,40 +686,29 @@
                             </p>
                         </td>
                     </tr>
-                    <tr style="height: 28pt">
-                        <td class="left_right" style="width: 8pt;">
-                            <p class="s5" style="padding-top: 6pt;text-align: center;">
-                                1.
-                            </p>
-                        </td>
-                        <td style="width: 170pt;">
-                            <p><br /></p>
-                        </td>
-                        <td class="left_right" style=" width: 177pt;">
-                            <p><br /></p>
-                        </td>
-                        <td style="width: 170pt;border-right-style: solid;border-right-width: 1pt;">
-                            <p><br /></p>
-                        </td>
-                    </tr>
-                    <tr style="height: 29pt">
-                        <td class="left_right top_border" style="width: 8pt;">
-                            <p class="s5" style="padding-top: 6pt;text-align: center;">
-                                2.
-                            </p>
-                        </td>
-                        <td class="top_border" style="width: 170pt;">
-                            <p><br /></p>
-                        </td>
-                        <td class="left_right top_border" style="width: 177pt;">
-                            <p><br /></p>
-                        </td>
-                        <td class="top_border" style="width: 170pt;border-right-style: solid;border-right-width: 1pt;">
-                            <p><br /></p>
-                        </td>
-                    </tr>
+
+                    <xsl:for-each select="p:Zahtev_za_patent/p:Ranija_prijava">
+
+                        <tr style="height: 28pt">
+                            <td class="left_right bottom_border" style="width: 8pt;">
+                                <p class="s5" style="padding-top: 6pt;text-align: center;">
+                                    <xsl:value-of select="position()"/>.
+                                </p>
+                            </td>
+                            <td class="bottom_border" style="width: 170pt;">
+                                <p style="font-size: 8.5pt;text-align: center;"><xsl:value-of select="p:Datum"/></p>
+                            </td>
+                            <td class="left_right bottom_border" style=" width: 177pt;">
+                                <p style="font-size: 8.5pt;text-align: center;"><xsl:value-of select="p:Broj"/></p>
+                            </td>
+                            <td class="bottom_border" style="width: 170pt;border-right-style: solid;border-right-width: 1pt;">
+                                <p style="font-size: 8.5pt;text-align: center;"><xsl:value-of select="p:Oznaka_drzave"/></p>
+                            </td>
+                        </tr>
+                    </xsl:for-each>
+
                     <tr style="height: 33pt">
-                        <td class="all_borders" colspan="4">
+                        <td class="left_right bottom_border" colspan="4">
                             <p class="s5" style="padding-top: 5pt;padding-left: 21pt;text-indent: -15pt;">
                                 <span class="s7">☐ </span>Подаци о осталим правима првенства су наведени у додатном листу
                                 2 у наставку овог захтева

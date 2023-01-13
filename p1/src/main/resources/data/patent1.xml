@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
+    Broj_prijave="1" Datum_podnosenja="2022-12-06" Datum_prijema="2022-12-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
+    <Osnovna_prijava>
+        <Datum>2022-05-02</Datum>
+        <Broj>5</Broj>
+    </Osnovna_prijava>
+    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Doza Djerdja</Ulica>
+            <Broj>57</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+            <Drzava>Srbija</Drzava>
+        </Adresa>
+        <Kontakt>
+            <Telefon>062711005</Telefon>
+            <Faks>faksic</Faks>
+            <E_posta>maki@gmail.com</E_posta>
+        </Kontakt>
+        <Ime>Marija</Ime>
+        <Prezime>Milosevic</Prezime>
+        <Drzavljanstvo>RS</Drzavljanstvo>
+    </Podnosilac_prijave>
+    <Pronalazak>
+        <Srpski_naziv>Fontana za macke</Srpski_naziv>
+        <Engleski_naziv>Cat fountain</Engleski_naziv>
+    </Pronalazak>
+    <Punomocnik xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Kneza Milosa</Ulica>
+            <Broj>18</Broj>
+            <Grad>Cuprija</Grad>
+            <Postanski_broj>35230</Postanski_broj>
+        </Adresa>
+        <Kontakt>
+            <Telefon>062355822</Telefon>
+            <Faks></Faks>
+            <E_posta>coka@meow.cat</E_posta>
+        </Kontakt>
+        <Ime>Coka</Ime>
+        <Prezime>Milosevic</Prezime>
+        <Drzavljanstvo>RS</Drzavljanstvo>
+    </Punomocnik>
+    <Podaci_o_dostavljanju>
+        <Adresa xmlns="http://ftn.uns.ac.rs/sema">
+            <Ulica>Doza Djerdja</Ulica>
+            <Broj>57</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Nacin_dostavljanja>papirna_forma</Nacin_dostavljanja>
+    </Podaci_o_dostavljanju>
+    <Ranija_prijava>
+        <Broj>5</Broj>
+        <Datum>2022-06-06</Datum>
+        <Oznaka_drzave>GM</Oznaka_drzave>
+    </Ranija_prijava>
+    <Ranija_prijava>
+        <Broj>3</Broj>
+        <Datum>2022-06-06</Datum>
+        <Oznaka_drzave>RS</Oznaka_drzave>
+    </Ranija_prijava>
+    <Pronalazac>
+        <Adresa xmlns="http://ftn.uns.ac.rs/sema">
+            <Ulica>Puskinova</Ulica>
+            <Broj>5</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+            <Drzava>Srbija</Drzava>
+        </Adresa>
+        <Kontakt xmlns="http://ftn.uns.ac.rs/sema">
+            <Telefon>343434</Telefon>
+            <Faks>faks</Faks>
+            <E_posta>coki</E_posta>
+        </Kontakt>
+        <Ime xmlns="http://ftn.uns.ac.rs/sema">Coka</Ime>
+        <Prezime xmlns="http://ftn.uns.ac.rs/sema">Milosevic</Prezime>
+        <Drzavljanstvo xmlns="http://ftn.uns.ac.rs/sema">RS</Drzavljanstvo>
+    </Pronalazac>
+</Zahtev_za_patent>
