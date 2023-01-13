@@ -12,6 +12,7 @@ import project.p1.service.PatentService;
 import project.p1.util.MarshallingUtils;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,7 +25,6 @@ public class PatentController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<List<ZahtevZaPatent>> getAll(){
-
         return null;
     }
 
@@ -42,7 +42,6 @@ public class PatentController {
         patentService.save(z);
         return null;
     }
-
 
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_XML_VALUE)
@@ -63,6 +62,12 @@ public class PatentController {
     public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
         patentService.getDocumentPdf(id);
         return new ResponseEntity<>("Uspesno", HttpStatus.OK);
+    }
+
+    @GetMapping("/metadata/{id}")
+    public ResponseEntity<String> saveMetadata(@PathVariable String id) throws JAXBException, IOException, TransformerException {
+        patentService.saveMetadataForZahetv(id);
+        return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
 }

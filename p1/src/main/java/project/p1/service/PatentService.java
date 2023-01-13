@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
 import project.p1.model.p1.ZahtevZaPatent;
+import project.p1.repository.MetadataRepository;
 import project.p1.repository.PatentRepository;
 import project.p1.util.MarshallingUtils;
 import project.p1.util.PDFTransformer;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,6 +32,12 @@ public class PatentService {
 
     public ZahtevZaPatent getPatent(String id){
         return patentRepository.getPatentById(id);
+    }
+
+    public void saveMetadataForZahetv(String id) throws JAXBException, IOException, TransformerException {
+        ZahtevZaPatent zahtevZaPatent = getPatent(id);
+        MetadataRepository repo = new MetadataRepository();
+        repo.extractMetadata(zahtevZaPatent);
     }
 
     public void getDocumentPdf(String id) throws DocumentException, IOException {
