@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://ftn.uns.ac.rs/z" xmlns:sema="http://ftn.uns.ac.rs/sema"
+           xmlns:z="http://ftn.uns.ac.rs/z">
+
+    <xs:import id="sema" namespace="http://ftn.uns.ac.rs/sema" schemaLocation="osnovna_sema.xsd"/>
+    <xs:element name="Zahtev_za_zig">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sema:Podnosilac_prijave"/>
+                <xs:element ref="sema:Punomocnik"/>
+                <xs:element ref="z:Zig"/>
+                <xs:element ref="z:Takse"/>
+                <xs:element ref="z:Prilozi"/>
+            </xs:sequence>
+            <xs:attribute name="Broj_prijave" type="xs:positiveInteger"/>
+            <xs:attribute name="Datum_podnosenja" type="xs:date"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Zig">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Izgled_znaka"/>
+                <xs:element maxOccurs="unbounded" name="Boja" type="xs:string"/>
+                <xs:element name="Transliteracija" type="xs:string"/>
+                <xs:element name="Prevod" type="xs:string"/>
+                <xs:element name="Opis" type="xs:string"/>
+                <xs:element maxOccurs="unbounded" name="Klasa_robe">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:int">
+                            <xs:minInclusive value="1"/>
+                            <xs:maxInclusive value="45"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Tip_ziga" type="z:TTip_ziga"/>
+            <xs:attribute name="Vrsta_znaka" type="z:TVrsta_znaka"/>
+            <xs:attribute name="Ostalo" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TTip_ziga">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="individualni"/>
+            <xs:enumeration value="kolektivni"/>
+            <xs:enumeration value="zig_garancije"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TVrsta_znaka">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="verbalni"/>
+            <xs:enumeration value="graficki"/>
+            <xs:enumeration value="kombinovani"/>
+            <xs:enumeration value="trodimenzionalni"/>
+            <xs:enumeration value="ostalo"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="Takse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Osnovna_taksa" type="xs:positiveInteger"/>
+                <xs:element name="Graficko_resenje" type="xs:positiveInteger"/>
+                <xs:element name="Ukupno" type="xs:positiveInteger"/>
+                <xs:element name="Klase">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="xs:positiveInteger">
+                                <xs:attribute name="Broj_klasa">
+                                    <xs:simpleType>
+                                        <xs:restriction base="xs:positiveInteger">
+                                            <xs:maxInclusive value="45"/>
+                                            <xs:minInclusive value="1"/>
+                                        </xs:restriction>
+                                    </xs:simpleType>
+                                </xs:attribute>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Prilozi">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Primerak_znaka" type="sema:TPrilog"/>
+                <xs:element name="Spisak_robe" type="sema:TPrilog"/>
+                <xs:element name="Punomoc" type="sema:TPrilog"/>
+                <xs:element name="Ranija_punomoc" type="sema:TPrilog"/>
+                <xs:element name="Naknadna_punomoc" type="sema:TPrilog"/>
+                <xs:element name="Opsti_akt" type="sema:TPrilog"/>
+                <xs:element name="Dokaz_o_pravu_prvenstva" type="sema:TPrilog"/>
+                <xs:element name="Dokaz_o_uplati" type="sema:TPrilog"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

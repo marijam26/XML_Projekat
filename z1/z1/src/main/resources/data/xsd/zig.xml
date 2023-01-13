@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Zahtev_za_zig xmlns="http://ftn.uns.ac.rs/z"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://ftn.uns.ac.rs/z file:/C:/Users/Ivana/Desktop/XML/projekat/zahtev_za_zig.xsd"
+               Broj_prijave="1" Datum_podnosenja="2022-12-06">
+    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Strazilovska</Ulica>
+            <Broj>14</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Kontakt>
+            <Telefon>0654079380</Telefon>
+            <Faks>111</Faks>
+            <E_posta>ivanaj0610@gmail.com</E_posta>
+        </Kontakt>
+        <Ime>Ivana</Ime>
+        <Prezime>Jankovic</Prezime>
+        <Drzavljanstvo>RS i BiH</Drzavljanstvo>
+    </Podnosilac_prijave>
+    <Punomocnik xsi:type="TPravno_lice" xmlns="http://ftn.uns.ac.rs/sema">
+        <Adresa>
+            <Ulica>Vojvodjanska</Ulica>
+            <Broj>17</Broj>
+            <Grad>Novi Sad</Grad>
+            <Postanski_broj>21000</Postanski_broj>
+        </Adresa>
+        <Kontakt>
+            <Telefon>000</Telefon>
+            <Faks>0</Faks>
+            <E_posta>lambda@gmail.com</E_posta>
+        </Kontakt>
+        <Poslovno_ime>lambda</Poslovno_ime>
+    </Punomocnik>
+    <Zig Tip_ziga="individualni" Vrsta_znaka="graficki">
+        <Izgled_znaka>zig.png</Izgled_znaka>
+        <Boja>crna</Boja>
+        <Transliteracija>Dzica</Transliteracija>
+        <Prevod>Dzica</Prevod>
+        <Opis>Neki superkul opis</Opis>
+        <Klasa_robe>1</Klasa_robe>
+        <Klasa_robe>7</Klasa_robe>
+    </Zig>
+    <Takse>
+        <Osnovna_taksa>100</Osnovna_taksa>
+        <Graficko_resenje>200</Graficko_resenje>
+        <Ukupno>800</Ukupno>
+        <Klase Broj_klasa="2">
+            400
+        </Klase>
+    </Takse>
+    <Prilozi>
+        <Primerak_znaka>false</Primerak_znaka>
+        <Spisak_robe>false</Spisak_robe>
+        <Punomoc>false</Punomoc>
+        <Ranija_punomoc>false</Ranija_punomoc>
+        <Naknadna_punomoc>false</Naknadna_punomoc>
+        <Opsti_akt>false</Opsti_akt>
+        <Dokaz_o_pravu_prvenstva>false</Dokaz_o_pravu_prvenstva>
+        <Dokaz_o_uplati>false</Dokaz_o_uplati>
+    </Prilozi>
+</Zahtev_za_zig>

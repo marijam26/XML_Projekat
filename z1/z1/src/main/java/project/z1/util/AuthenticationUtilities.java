@@ -10,8 +10,9 @@ import java.util.Properties;
 public class AuthenticationUtilities {
 	
 	private static String connectionUri = "xmldb:exist://%1$s:%2$s/exist/xmlrpc";
-	
-	/**
+
+
+    /**
 	 * Connection parameters.
 	 */
 	public static class ConnectionProperties {
@@ -38,11 +39,6 @@ public class AuthenticationUtilities {
 		}
 	}
 
-	/**
-	 * Read the configuration properties for the example.
-	 * 
-	 * @return the configuration object
-	 */
 	public static ConnectionProperties loadProperties() throws IOException {
 		String propsName = "exist.properties";
 
@@ -56,16 +52,43 @@ public class AuthenticationUtilities {
 		return new ConnectionProperties(props);
 	}
 
-	/**
-	 * Read a resource for an example.
-	 * 
-	 * @param fileName
-	 *            the name of the resource
-	 * @return an input stream for the resource
-	 * @throws IOException
-	 */
 	public static InputStream openStream(String fileName) throws IOException {
 		return AuthenticationUtilities.class.getClassLoader().getResourceAsStream(fileName);
+	}
+
+	public static class RDFConnectionProperties{
+
+		public String endpoint;
+		public String dataset;
+
+		public String queryEndpoint;
+		public String updateEndpoint;
+		public String dataEndpoint;
+
+
+		public RDFConnectionProperties(Properties props) {
+			super();
+			dataset = props.getProperty("conn.dataset").trim();
+			endpoint = props.getProperty("conn.endpoint").trim();
+
+			queryEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.query").trim());
+			updateEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.update").trim());
+			dataEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.data").trim());
+	}
+
+	}
+
+	public static RDFConnectionProperties loadRdfProperties() throws IOException {
+		String propsName = "fuseki.properties";
+
+		InputStream propsStream = openStream(propsName);
+		if (propsStream == null)
+			throw new IOException("Could not read properties " + propsName);
+
+		Properties props = new Properties();
+		props.load(propsStream);
+
+		return new RDFConnectionProperties(props);
 	}
 	
 }

@@ -12,7 +12,7 @@ import java.io.OutputStream;
 
 public class MarshallingUtils {
 
-    private JAXBContext context;
+    private final JAXBContext context;
 
     public MarshallingUtils() throws JAXBException {
         this.context = JAXBContext.newInstance("project.z1.model.z1");

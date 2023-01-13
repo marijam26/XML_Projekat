@@ -10,6 +10,8 @@ package project.z1.model.z1;
 import project.z1.model.main_schema.TLice;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.math.BigInteger;
 
 
 /**
@@ -56,6 +58,12 @@ public class ZahtevZaZig {
     protected Takse takse;
     @XmlElement(name = "Prilozi", required = true)
     protected Prilozi prilozi;
+    @XmlAttribute(name = "Broj_prijave")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger brojPrijave;
+    @XmlAttribute(name = "Datum_podnosenja")
+    @XmlSchemaType(name = "date")
+    protected XMLGregorianCalendar datumPodnosenja;
 
     /**
      * Gets the value of the podnosilacPrijave property.

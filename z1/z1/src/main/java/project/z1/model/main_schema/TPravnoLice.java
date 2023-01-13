@@ -13,26 +13,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
-/**
- * <p>Java class for TPravno_lice complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType name="TPravno_lice">
- *   &lt;complexContent>
- *     &lt;extension base="{http://ftn.uns.ac.rs/sema}TLice">
- *       &lt;sequence>
- *         &lt;element name="Poslovno_ime" type="{http://www.w3.org/2001/XMLSchema}anyType"/>
- *       &lt;/sequence>
- *     &lt;/extension>
- *   &lt;/complexContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TPravno_lice", propOrder = {
     "poslovnoIme"
@@ -42,7 +22,7 @@ public class TPravnoLice
 {
 
     @XmlElement(name = "Poslovno_ime", required = true)
-    protected Object poslovnoIme;
+    protected String poslovnoIme;
 
     /**
      * Gets the value of the poslovnoIme property.
@@ -52,7 +32,7 @@ public class TPravnoLice
      *     {@link Object }
      *     
      */
-    public Object getPoslovnoIme() {
+    public String getPoslovnoIme() {
         return poslovnoIme;
     }
 
@@ -64,7 +44,7 @@ public class TPravnoLice
      *     {@link Object }
      *     
      */
-    public void setPoslovnoIme(Object value) {
+    public void setPoslovnoIme(String value) {
         this.poslovnoIme = value;
     }
 

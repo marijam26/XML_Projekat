@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://ftn.uns.ac.rs/sema" xmlns:sema="http://ftn.uns.ac.rs/sema">
+
+    <xs:complexType name="TLice" abstract="true">
+        <xs:sequence>
+            <xs:element ref="sema:Adresa"/>
+            <xs:element ref="sema:Kontakt"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Adresa">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Ulica" type="xs:string"/>
+                <xs:element name="Broj" type="xs:positiveInteger"/>
+                <xs:element name="Grad" type="xs:string"/>
+                <xs:element name="Postanski_broj" type="xs:positiveInteger"/>
+                <xs:element minOccurs="0" name="Drzava" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Kontakt">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Telefon" type="xs:string"> </xs:element>
+                <xs:element name="Faks" type="xs:string" minOccurs="0"/>
+                <xs:element name="E_posta" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="TFizicko_lice">
+        <xs:complexContent>
+            <xs:extension base="sema:TLice">
+                <xs:sequence>
+                    <xs:element maxOccurs="1" minOccurs="1" name="Ime" nillable="false"
+                                type="xs:string"/>
+                    <xs:element name="Prezime" type="xs:string"/>
+                    <xs:element name="Drzavljanstvo" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="TPravno_lice">
+        <xs:complexContent>
+            <xs:extension base="sema:TLice">
+                <xs:sequence>
+                    <xs:element name="Poslovno_ime" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Punomocnik" type="sema:TLice"/>
+    <xs:element name="Podnosilac_prijave" type="sema:TLice"/>
+    <xs:complexType name="TPrilog">
+        <xs:simpleContent>
+            <xs:extension base="xs:boolean">
+                <xs:attribute name="Putanja" type="xs:string"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>

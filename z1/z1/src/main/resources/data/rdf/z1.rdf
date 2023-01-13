@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:pred="http://ftn.uns.ac.rs/z/pred/" xmlns:z1="http://ftn.uns.ac.rs/z" xmlns:sema="http://ftn.uns.ac.rs/sema">
+    <rdf:Description rdf:about="Z-1">
+        <pred:Broj>1</pred:Broj>
+        <pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
+        <pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
+        <pred:Podnosilac_prezime>Jankovic</pred:Podnosilac_prezime>
+    </rdf:Description>
+</rdf:RDF>
