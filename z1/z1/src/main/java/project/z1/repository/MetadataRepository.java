@@ -77,10 +77,10 @@ public class MetadataRepository {
         grddlTransformer.transform(source, result);
     }
 
-    public static void main(String[] args) throws JAXBException, IOException, TransformerException{
-        ZahtevZaZig z = new MarshallingUtils().unmarshall("src/main/resources/data/xsd/zig.xml");
-        MetadataRepository repo = new MetadataRepository();
-        repo.extractMetadata(z);
-    }
+//    public static void main(String[] args) throws JAXBException, IOException, TransformerException{
+//        ZahtevZaZig z = new MarshallingUtils().unmarshall("src/main/resources/data/xsd/zig.xml");
+//        MetadataRepository repo = new MetadataRepository();
+//        repo.extractMetadata(z);
+//    }
 
 }

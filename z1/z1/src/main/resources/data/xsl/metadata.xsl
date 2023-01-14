@@ -34,8 +34,6 @@
                     </xsl:otherwise>
                 </xsl:choose>
 
-
-
             </rdf:Description>
         </rdf:RDF>
     </xsl:template>

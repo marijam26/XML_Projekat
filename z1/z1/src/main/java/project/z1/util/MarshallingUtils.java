@@ -1,5 +1,6 @@
 package project.z1.util;
 
+import org.w3c.dom.Node;
 import project.z1.model.z1.ZahtevZaZig;
 
 import javax.xml.bind.JAXBContext;
@@ -29,5 +30,10 @@ public class MarshallingUtils {
     public ZahtevZaZig unmarshall(String filepath) throws JAXBException {
         Unmarshaller unmarshaller = context.createUnmarshaller();
         return (ZahtevZaZig) unmarshaller.unmarshal(new File(filepath));
+    }
+
+    public ZahtevZaZig unmarshallFromNode(Node node) throws JAXBException {
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        return (ZahtevZaZig) unmarshaller.unmarshal(node);
     }
 }

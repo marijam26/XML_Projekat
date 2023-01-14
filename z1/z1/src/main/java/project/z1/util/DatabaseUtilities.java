@@ -1,13 +1,16 @@
 package project.z1.util;
 
 import org.exist.xmldb.EXistResource;
+import org.w3c.dom.Node;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Collection;
 import org.xmldb.api.base.Database;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
+import project.z1.model.z1.ZahtevZaZig;
 
+import javax.xml.transform.OutputKeys;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -110,4 +113,94 @@ public class DatabaseUtilities {
         }
     }
 
+    public static Node getResource(String documentId, String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+
+            res = (XMLResource)col.getResource(documentId);
+            return res.getContentAsDOM();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static ZahtevZaZig getZig(String documentId, String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+
+            res = (XMLResource)col.getResource(documentId);
+
+            if(res == null) {
+                System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
+                return null;
+            } else {
+
+                MarshallingUtils marshallingUtils = new MarshallingUtils();
+                return marshallingUtils.unmarshallFromNode(res.getContentAsDOM());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static int getCollectionSize(String collectionId){
+        Collection col = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            return col.getResourceCount();
+        } catch (Exception e) {
+            return 0;
+        } finally {
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
 }
