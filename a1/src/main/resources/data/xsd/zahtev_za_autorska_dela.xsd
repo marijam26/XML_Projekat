@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+           targetNamespace="http://ftn.uns.ac.rs/autorska_dela"
+           xmlns:a="http://ftn.uns.ac.rs/autorska_dela" xmlns:sema="http://ftn.uns.ac.rs/sema">
+
+    <xs:import namespace="http://ftn.uns.ac.rs/sema" schemaLocation="osnovna_sema.xsd"/>
+    <xs:element name="Zahtev_za_autorska_dela">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="sema:Podnosilac_prijave"/>
+                <xs:element ref="sema:Punomocnik"/>
+                <xs:element ref="a:Autorsko_delo"/>
+                <xs:element ref="a:Prilozi"/>
+                <xs:element name="Autor" type="a:TAutor" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="Datum_podnosenja" type="xs:date"/>
+            <xs:attribute name="Broj" type="xs:positiveInteger"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType abstract="true" name="TAutor">
+        <xs:sequence>
+            <xs:element name="Ime" type="xs:string"/>
+            <xs:element name="Prezime" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TZiv_autor">
+        <xs:complexContent>
+            <xs:extension base="a:TAutor">
+                <xs:sequence>
+                    <xs:element ref="sema:Adresa"/>
+                    <xs:element name="Drzavljanstvo" type="xs:string"/>
+                    <xs:element name="Pseudonim" type="xs:string"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="TPreminuli_autor">
+        <xs:complexContent>
+            <xs:extension base="a:TAutor">
+                <xs:sequence>
+                    <xs:element name="Godina_smrti">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:positiveInteger">
+                                <xs:minInclusive value="1000"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Autorsko_delo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Naslov" type="xs:string"/>
+                <xs:element name="Nacin_koriscenja" type="xs:string"/>
+                <xs:element name="Vrsta">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="a:TVrsta">
+                                <xs:attribute name="Ostala_vrsta_dela" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Format_zapisa">
+                    <xs:complexType>
+                        <xs:simpleContent>
+                            <xs:extension base="a:TFormat_zapisa">
+                                <xs:attribute name="Ostali_format" type="xs:string"/>
+                            </xs:extension>
+                        </xs:simpleContent>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element minOccurs="0" ref="a:Izvorno_delo"/>
+            </xs:sequence>
+            <xs:attribute name="Stvoreno_u_radnom_odnosu" type="xs:boolean"/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Izvorno_delo">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Naslov" type="xs:string"/>
+                <xs:choice>
+                    <xs:element name="Autor" type="a:TAutor"/>
+                    <xs:element default="true" name="Anoniman_autor" type="xs:boolean"/>
+                </xs:choice>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Prilozi">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Opis_dela" type="sema:TPrilog"/>
+                <xs:element name="Primer_dela" type="sema:TPrilog"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:simpleType name="TVrsta">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="knjizevno_delo"/>
+            <xs:enumeration value="muzicko_delo"/>
+            <xs:enumeration value="likovno_delo"/>
+            <xs:enumeration value="racunarski_program"/>
+            <xs:enumeration value="ostalo"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TFormat_zapisa">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="opticki_disk"/>
+            <xs:enumeration value="stampani_tekst"/>
+            <xs:enumeration value="ostalo"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

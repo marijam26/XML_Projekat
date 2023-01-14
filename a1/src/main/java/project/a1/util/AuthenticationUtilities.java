@@ -67,5 +67,39 @@ public class AuthenticationUtilities {
 	public static InputStream openStream(String fileName) throws IOException {
 		return AuthenticationUtilities.class.getClassLoader().getResourceAsStream(fileName);
 	}
-	
+
+	public static class RDFConnectionProperties{
+
+		public String endpoint;
+		public String dataset;
+
+		public String queryEndpoint;
+		public String updateEndpoint;
+		public String dataEndpoint;
+
+
+		public RDFConnectionProperties(Properties props) {
+			super();
+			dataset = props.getProperty("conn.dataset").trim();
+			endpoint = props.getProperty("conn.endpoint").trim();
+
+			queryEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.query").trim());
+			updateEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.update").trim());
+			dataEndpoint = String.join("/", endpoint, dataset, props.getProperty("conn.data").trim());
+		}
+
+	}
+
+	public static RDFConnectionProperties loadRdfProperties() throws IOException {
+		String propsName = "fuseki.properties";
+
+		InputStream propsStream = openStream(propsName);
+		if (propsStream == null)
+			throw new IOException("Could not read properties " + propsName);
+
+		Properties props = new Properties();
+		props.load(propsStream);
+
+		return new RDFConnectionProperties(props);
+	}
 }
