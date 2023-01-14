@@ -254,13 +254,24 @@ export class AutorskoPravoFormComponent {
         pseudonim:''}
       }
       else{
-        let ime = (<HTMLInputElement>document.getElementById('ime_autora'))?.value;
+      let ime;
+      let prezime
+        if (this.anonimanAutor){
+        ime = (<HTMLInputElement>document.getElementById('ime_autora'))?.value;
         if (!this.zivAutor){
           ime = (<HTMLInputElement>document.getElementById('ime_autora_rip'))?.value;
         }
-        let prezime = (<HTMLInputElement>document.getElementById('prezime_autora'))?.value;
+        prezime = (<HTMLInputElement>document.getElementById('prezime_autora'))?.value;
         if (!this.zivAutor){
           prezime = (<HTMLInputElement>document.getElementById('prezime_autora_rip'))?.value;
+        }
+        }else {
+          ime = ''
+          prezime = ''
+        }
+        if (this.anonimanAutorIzvorno){
+          ime = ''
+          prezime = ''
         }
       autor = {
         ime: ime ,
