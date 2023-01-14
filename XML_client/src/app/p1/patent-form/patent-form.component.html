@@ -21,7 +21,7 @@
         <h4>Podnosilac prijave</h4>
       </div>
       <div class="form-check my-2">
-        <input class="form-check-input" type="checkbox" value="" id="podnosilac_je_pronalazac">
+        <input class="form-check-input" type="checkbox" value="" id="podnosilac_je_pronalazac" (change)="changePodnosilacPronalazac()" [checked]="podnosilacJePronalazac">
         <label class="form-check-label" for="podnosilac_je_pronalazac">
           Podnosilac prijave je i pronalazac
         </label>
@@ -363,7 +363,7 @@
         </div>
         <div class="form-group col-3">
           <label for="oznaka">Dvoslovna oznaka drzave:</label>
-          <input type="number" class="form-control" id="oznaka" [(ngModel)]="oznakaRanije">
+          <input type="text" class="form-control" id="oznaka" [(ngModel)]="oznakaRanije">
         </div>
         <div class="col-1" style="padding-top: 23px">
           <button class="btn btn-success" (click)="dodajRanijuPrijavu()">Dodaj</button>

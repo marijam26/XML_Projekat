@@ -1,18 +1,18 @@
-import {RanijaPrijava} from "./ranija-prijava";
-import {OsnovnaPrijava} from "./osnovna-prijava";
+import {RanijaPrijavaDTO} from "./ranija-prijava";
+import {OsnovnaPrijavaDTO} from "./osnovna-prijava-d-t-o";
 import {TLiceDTO} from "../../shared-models/t-lice-d-t-o";
-import {Pronalazak} from "./pronalazak";
-import {PodaciODostavljanju} from "./podaci-o-dostavljanju";
+import {PronalazakDTO} from "./pronalazak";
+import {PodaciODostavljanjuDTO} from "./podaci-o-dostavljanju";
 
-export class ZahtevZaPatent{
+export class ZahtevZaPatentDTO {
   constructor(
-    public osnovnaPrijava: OsnovnaPrijava = new OsnovnaPrijava(),
+    public osnovnaPrijava: OsnovnaPrijavaDTO = new OsnovnaPrijavaDTO(),
     public podnosilacPrijave: TLiceDTO = new TLiceDTO(),
     public punomocnik: TLiceDTO = new TLiceDTO(),
-    public pronalazak: Pronalazak = new Pronalazak(),
-    public ranijaPrijava: RanijaPrijava[] = new Array<RanijaPrijava>(),
+    public pronalazak: PronalazakDTO = new PronalazakDTO(),
+    public ranijaPrijava: RanijaPrijavaDTO[] = new Array<RanijaPrijavaDTO>(),
     public pronalazac: TLiceDTO = new TLiceDTO(),
-    public podaciODostavljanju: PodaciODostavljanju = new PodaciODostavljanju(),
+    public podaciODostavljanju: PodaciODostavljanjuDTO = new PodaciODostavljanjuDTO(),
     public brojPrijave: number = 1,
     public datumPrijema: string = '',
     public datumPodnosenja: string = '',

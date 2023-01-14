@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
+import project.p1.dto.ZahtevZaPatentDTO;
 import project.p1.model.p1.ZahtevZaPatent;
 import project.p1.service.PatentService;
 import project.p1.util.MarshallingUtils;
@@ -44,14 +45,11 @@ public class PatentController {
     }
 
 
-    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_XML_VALUE)
-    public void add(@RequestBody ZahtevZaPatent zahtevZaPatent){
+    @PostMapping(value = "/save", consumes = "application/xml")
+    public void add(@RequestBody ZahtevZaPatentDTO zahtevZaPatentDTO){
         try {
-            //ovo je za proveru
-            MarshallingUtils marshallingUtils = new MarshallingUtils();
-            ZahtevZaPatent z = marshallingUtils.unmarshall("data/patent.xml");
-            System.out.println(z);
-            patentService.save(z);
+            ZahtevZaPatent zahtev = patentService.map(zahtevZaPatentDTO);
+            patentService.save(zahtev);
         } catch (Exception e) {
             // vrati bad request
             System.out.println(e.getMessage());
