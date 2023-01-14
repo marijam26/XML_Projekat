@@ -240,7 +240,7 @@
                             <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
                                 <xsl:variable name="tlice" select="p:Zahtev_za_patent/sema:Podnosilac_prijave/@xsi:type"/>
                                 <xsl:choose>
-                                    <xsl:when test="substring($tlice,5)='TFizicko_lice'">
+                                    <xsl:when test="contains($tlice,'TFizicko_lice')">
                                         <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
                                             <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Ime"/>&#160;
                                             <xsl:value-of select="p:Zahtev_za_patent/sema:Podnosilac_prijave/sema:Prezime"/></p>
@@ -496,7 +496,7 @@
                             <xsl:variable name="p_tlice" select="p:Zahtev_za_patent/sema:Punomocnik/@xsi:type"/>
                             <p style="font-size: 8.5pt; padding:6pt 7pt 0 7pt;">
                                 <xsl:choose>
-                                    <xsl:when test="substring($p_tlice,5)='TFizicko_lice'">
+                                    <xsl:when test="contains($p_tlice,'TFizicko_lice')">
                                         <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Ime"/>&#160;
                                         <xsl:value-of select="p:Zahtev_za_patent/sema:Punomocnik/sema:Prezime"/>
                                     </xsl:when>

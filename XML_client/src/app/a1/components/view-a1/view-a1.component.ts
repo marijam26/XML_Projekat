@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {A1Service} from "../../services/a1.service";
 import {TVrsta} from "../../model/t-vrsta";
 import {ZahtevZaAutorskaDelaDTO} from "../../model/zahtev-za-autorska-dela-d-t-o";
-import {ZahtevZaPatent} from "../../../p1/model/zahtev-za-patent";
+import {ZahtevZaPatentDTO} from "../../../p1/model/zahtev-za-patent";
 
 @Component({
   selector: 'app-view-a1',

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sema="http://ftn.uns.ac.rs/sema" xmlns:pred="http://ftn.uns.ac.rs/p/pred/" xmlns:p1="http://ftn.uns.ac.rs/p">
+  <rdf:Description rdf:about="P-1">
+    <pred:Broj>1</pred:Broj>
+    <pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
+    <pred:Datum_prijema>2022-12-06</pred:Datum_prijema>
+    <pred:Podnosilac_ime>Marija</pred:Podnosilac_ime>
+    <pred:Podnosilac_prezime>Milosevic</pred:Podnosilac_prezime>
+    <pred:Podnosilac_eposta>maki@gmail.com</pred:Podnosilac_eposta>
+    <pred:Pronalazac_ime>Coka</pred:Pronalazac_ime>
+    <pred:Pronalazac_prezime>Milosevic</pred:Pronalazac_prezime>
+    <pred:Pronalazak_naziv_na_engleskom>Cat fountain</pred:Pronalazak_naziv_na_engleskom>
+    <pred:Pronalazak_naziv_na_srpskom>Fontana za macke</pred:Pronalazak_naziv_na_srpskom>
+    <pred:Broj_ranije_prijave>5</pred:Broj_ranije_prijave>
+    <pred:Broj_ranije_prijave>3</pred:Broj_ranije_prijave>
+  </rdf:Description>
+</rdf:RDF>

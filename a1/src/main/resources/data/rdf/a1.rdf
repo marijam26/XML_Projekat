@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sema="http://ftn.uns.ac.rs/sema" xmlns:pred="http://ftn.uns.ac.rs/a/pred/" xmlns:a1="http://ftn.uns.ac.rs/a">
+  <rdf:Description rdf:about="A-1">
+    <pred:Broj>1</pred:Broj>
+    <pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
+    <pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
+    <pred:Podnosilac_prezime>Kasikovic</pred:Podnosilac_prezime>
+    <pred:Podnosilac_eposta>ikasikovic@yahoo.com</pred:Podnosilac_eposta>
+    <pred:Naslov>Povratak snovima</pred:Naslov>
+    <pred:Vrsta>knjizevno delo</pred:Vrsta>
+    <pred:Format>stampani tekst</pred:Format>
+    <pred:Autor_ime>Ivana</pred:Autor_ime>
+    <pred:Autor_prezime>Kasikovic</pred:Autor_prezime>
+  </rdf:Description>
+</rdf:RDF>

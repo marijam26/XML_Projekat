@@ -1,5 +1,6 @@
 package project.a1.controller;
 
+import com.itextpdf.text.DocumentException;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import project.a1.service.AutorskoDeloService;
 import project.a1.util.MarshallingUtils;
 
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -72,6 +74,12 @@ public class AutorskoDeloController {
             // vrati bad request
             System.out.print(e.getMessage());
         }
+    }
+
+    @GetMapping("/getPdf/{id}")
+    public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
+        autorskoDeloService.getDocumentPdf(id);
+        return new ResponseEntity<>("Uspesno", HttpStatus.OK);
     }
 
 
