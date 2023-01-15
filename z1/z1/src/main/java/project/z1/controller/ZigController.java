@@ -49,7 +49,6 @@ public class ZigController {
 
     @PostMapping(value = "/save", consumes = "application/xml")
     public void add(@RequestBody ZahtevZaZigDTO zahtevZaZigDTO){
-        System.out.println("dosao zahtjev");
         try {
             ZahtevZaZig zahtevZaZig = zigService.map(zahtevZaZigDTO);
             zigService.save(zahtevZaZig);

@@ -31,7 +31,7 @@
             <Faks>0</Faks>
             <E_posta>lambda@gmail.com</E_posta>
         </Kontakt>
-        <Poslovno_ime>lambda</Poslovno_ime>
+        <Poslovno_ime>neko poslovno ime</Poslovno_ime>
     </Punomocnik>
     <Zig Tip_ziga="individualni" Vrsta_znaka="graficki">
         <Izgled_znaka>zig.png</Izgled_znaka>

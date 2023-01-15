@@ -83,7 +83,7 @@ public class AutorskoDeloService {
         v.setOstalaVrstaDela(autorskoDelo.vrsta.ostalaVrstaDela);
         a.setVrsta(v);
         AutorskoDelo.FormatZapisa z = new AutorskoDelo.FormatZapisa();
-        z.setValue(TFormatZapisa.valueOf(autorskoDelo.formatZapisa.value));
+        z.setValue(TFormatZapisa.valueOf(autorskoDelo.formatZapisa.value.toUpperCase()));
         z.setOstaliFormat(autorskoDelo.formatZapisa.ostaliFormat);
         a.setFormatZapisa(z);
         a.setIzvornoDelo(mapIzvorno(autorskoDelo.izvornoDelo));

@@ -20,7 +20,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.TransformerException;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -154,7 +153,7 @@ public class PatentService {
 
     private Kontakt mapKontakt(KontaktDTO kontakt) {
         Kontakt k = new Kontakt();
-        k.setEPosta(kontakt.e_posta);
+        k.setEPosta(kontakt.eposta);
         k.setFaks(kontakt.faks);
         k.setTelefon(kontakt.telefon);
         return k;

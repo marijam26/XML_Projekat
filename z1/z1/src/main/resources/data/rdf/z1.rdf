@@ -1,8 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:pred="http://ftn.uns.ac.rs/z/pred/" xmlns:z1="http://ftn.uns.ac.rs/z" xmlns:sema="http://ftn.uns.ac.rs/sema">
-<rdf:Description rdf:about="Z-1">
-<pred:Broj>1</pred:Broj>
-<pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
-<pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
-<pred:Podnosilac_prezime>Jankovic</pred:Podnosilac_prezime>
-</rdf:Description>
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:z1="http://ftn.uns.ac.rs/z"
+         xmlns:pred="http://ftn.uns.ac.rs/z/pred/"
+         xmlns:sema="http://ftn.uns.ac.rs/sema">
+   <rdf:Description rdf:about="Z-1">
+      <pred:Broj>1</pred:Broj>
+      <pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
+      <pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
+      <pred:Podnosilac_prezime>Jankovic</pred:Podnosilac_prezime>
+      <pred:Punomocnik_poslovno_ime>neko poslovno ime</pred:Punomocnik_poslovno_ime>
+      <pred:Tip_ziga>individualni</pred:Tip_ziga>
+      <pred:Vrsta_znaka>graficki</pred:Vrsta_znaka>
+      <pred:Opis_ziga>Neki superkul opis</pred:Opis_ziga>
+   </rdf:Description>
 </rdf:RDF>

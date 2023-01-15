@@ -34,6 +34,34 @@
                     </xsl:otherwise>
                 </xsl:choose>
 
+                <xsl:choose>
+                    <xsl:when test="//sema:Punomocnik/sema:Poslovno_ime">
+                        <pred:Punomocnik_poslovno_ime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Poslovno_ime"/>
+                        </pred:Punomocnik_poslovno_ime>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <pred:Punomocnik_ime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Ime"/>
+                        </pred:Punomocnik_ime>
+                        <pred:Punomocnik_prezime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Prezime"/>
+                        </pred:Punomocnik_prezime>
+                    </xsl:otherwise>
+                </xsl:choose>
+
+                <pred:Tip_ziga>
+                    <xsl:value-of select="//z1:Zahtev_za_zig/z1:Zig/attribute::Tip_ziga"/>
+                </pred:Tip_ziga>
+
+                <pred:Vrsta_znaka>
+                    <xsl:value-of select="//z1:Zahtev_za_zig/z1:Zig/attribute::Vrsta_znaka"/>
+                </pred:Vrsta_znaka>
+
+                <pred:Opis_ziga>
+                    <xsl:value-of select="//z1:Zahtev_za_zig/z1:Zig/z1:Opis"/>
+                </pred:Opis_ziga>
+
             </rdf:Description>
         </rdf:RDF>
     </xsl:template>
