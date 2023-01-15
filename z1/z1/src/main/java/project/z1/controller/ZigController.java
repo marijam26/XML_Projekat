@@ -1,17 +1,20 @@
 package project.z1.controller;
 
 import com.itextpdf.text.DocumentException;
+import org.apache.jena.base.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
+import project.z1.dto.ZahtevZaZigDTO;
 import project.z1.model.z1.ZahtevZaZig;
 import project.z1.service.ZigService;
 import project.z1.util.MarshallingUtils;
 
 import javax.xml.bind.JAXBException;
+import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 
@@ -44,12 +47,14 @@ public class ZigController {
     }
 
 
-    @PostMapping(value = "/", consumes = MediaType.APPLICATION_XML_VALUE)
-    public void add(@RequestBody ZahtevZaZig zahtevZaZig){
+    @PostMapping(value = "/save", consumes = "application/xml")
+    public void add(@RequestBody ZahtevZaZigDTO zahtevZaZigDTO){
+        System.out.println("dosao zahtjev");
         try {
+            ZahtevZaZig zahtevZaZig = zigService.map(zahtevZaZigDTO);
             zigService.save(zahtevZaZig);
         } catch (Exception e) {
-            // vrati bad request
+            e.printStackTrace();
         }
     }
 

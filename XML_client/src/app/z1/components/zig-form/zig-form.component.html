@@ -1,0 +1,369 @@
+<div class="row">
+  <div class="col-1 h-auto min-vh-100" style="background: darkslategrey;"></div>
+  <div class="container px-4 pt-3 col-10">
+    <h2 class="pb-3">Zahtev za priznanje ziga</h2>
+    <div>
+
+      <hr>
+
+      <div class="row pt-3">
+        <h4>Podnosilac prijave</h4>
+      </div>
+
+      <select class="form-select my-3 " style="width: 15%" aria-label="Vrsta podnosioca" #lice [(ngModel)]="podnosilacLice">
+        <option value="Fizicko lice" selected>Fizicko lice</option>
+        <option value="Pravno lice">Pravno lice</option>
+      </select>
+
+      <div class="row pb-2" *ngIf="podnosilacLice === 'Fizicko lice'">
+        <div class="form-group col-3">
+          <label for="ime_podnosioca">Ime:</label>
+          <input type="text" class="form-control" id="ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.ime">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_podnosioca">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.prezime">
+        </div>
+        <div class="form-group col-3">
+          <label for="drzavljanstvo_podnosioca">Drzavljanstvo:</label>
+          <input type="text" class="form-control" id="drzavljanstvo_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.drzavljanstvo">
+        </div>
+      </div>
+
+      <div class="row pb-2" *ngIf="podnosilacLice === 'Pravno lice'">
+        <div class="form-group col-4">
+          <label for="poslovno_ime_podnosioca">Poslovno ime:</label>
+          <input type="text" class="form-control" id="poslovno_ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.poslovnoIme">
+        </div>
+      </div>
+
+      <h5 class="my-3">Adresa</h5>
+      <div class="row">
+        <div class="form-group col-3">
+          <label for="ulica_podnosioca">Ulica:</label>
+          <input type="text" class="form-control" id="ulica_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.ulica">
+        </div>
+        <div class="form-group col-1">
+          <label for="broj_podnosioca">Broj:</label>
+          <input type="number" class="form-control" min="1" id="broj_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.broj">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="form-group col-2">
+          <label for="grad_podnosioca">Grad:</label>
+          <input type="text" class="form-control" id="grad_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.grad">
+        </div>
+        <div class="form-group col-2">
+          <label for="pos_br_podnosioca">Postanski broj:</label>
+          <input type="number" class="form-control" min="1" id="pos_br_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.postanskiBroj">
+        </div>
+        <div class="form-group col-2">
+          <label for="drzava_podnosioca">Drzava:</label>
+          <input type="text" class="form-control" id="drzava_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.drzava">
+        </div>
+      </div>
+      <h5 class="my-3">Kontakt</h5>
+      <div class="row pb-3">
+        <div class="form-group col-2">
+          <label for="telefon_podnosioca">Telefon:</label>
+          <input type="text" class="form-control" id="telefon_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.telefon">
+        </div>
+        <div class="form-group col-2">
+          <label for="faks_podnosioca">Faks:</label>
+          <input type="text" class="form-control" id="faks_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.faks">
+        </div>
+        <div class="form-group col-3">
+          <label for="eposta_podnosioca">E-posta:</label>
+          <input type="email" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.e_posta">
+        </div>
+      </div>
+
+      <hr>
+
+
+      <div class="row pt-3">
+        <h4>Punomocnik</h4>
+      </div>
+
+      <select class="form-select my-3 " style="width: 15%" aria-label="Vrsta punomocnika" #lice2 [(ngModel)]="punomocnikLice">
+        <option value="Fizicko lice" selected>Fizicko lice</option>
+        <option value="Pravno lice">Pravno lice</option>
+      </select>
+
+      <div class="row pb-2" *ngIf="punomocnikLice === 'Fizicko lice'">
+        <div class="form-group col-3">
+          <label for="ime_punomocnika">Ime:</label>
+          <input type="text" class="form-control" id="ime_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.ime">
+        </div>
+        <div class="form-group col-3">
+          <label for="prezime_punomocnika">Prezime:</label>
+          <input type="text" class="form-control" id="prezime_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.prezime">
+        </div>
+        <div class="form-group col-3">
+          <label for="drzavljanstvo_punomocnika">Drzavljanstvo:</label>
+          <input type="text" class="form-control" id="drzavljanstvo_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.drzavljanstvo">
+        </div>
+      </div>
+
+      <div class="row pb-2" *ngIf="punomocnikLice === 'Pravno lice'">
+        <div class="form-group col-4">
+          <label for="poslovno_ime_punomocnika">Poslovno ime:</label>
+          <input type="text" class="form-control" id="poslovno_ime_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.poslovnoIme">
+        </div>
+      </div>
+
+      <h5 class="my-3">Adresa</h5>
+      <div class="row">
+        <div class="form-group col-3">
+          <label for="ulica_punomocnika">Ulica:</label>
+          <input type="text" class="form-control" id="ulica_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.adresa.ulica">
+        </div>
+        <div class="form-group col-1">
+          <label for="broj_punomocnika">Broj:</label>
+          <input type="number" min="1" class="form-control" id="broj_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.adresa.broj">
+        </div>
+      </div>
+      <div class="row py-3">
+        <div class="form-group col-2">
+          <label for="grad_punomocnika">Grad:</label>
+          <input type="text" class="form-control" id="grad_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.adresa.grad">
+        </div>
+        <div class="form-group col-2">
+          <label for="pos_br_punomocnika">Postanski broj:</label>
+          <input type="number" class="form-control" min="1" id="pos_br_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.adresa.postanskiBroj">
+        </div>
+        <div class="form-group col-2">
+          <label for="drzava_punomocnika">Drzava:</label>
+          <input type="text" class="form-control" id="drzava_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.adresa.drzava">
+        </div>
+      </div>
+      <h5 class="my-3">Kontakt</h5>
+      <div class="row pb-3">
+        <div class="form-group col-2">
+          <label for="telefon_punomocnika">Telefon:</label>
+          <input type="text" class="form-control" id="telefon_punomocnika" [(ngModel)]="zahtevZaZig.punomocnik.kontakt.telefon">
+        </div>
+        <div class="form-group col-3">
+          <label for="eposta_punomocnika">E-posta:</label>
+          <input type="email" class="form-control" id="eposta_punomocnika" placeholder="example@gmail.com" [(ngModel)]="zahtevZaZig.punomocnik.kontakt.e_posta">
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row pt-3">
+        <h4>Zig</h4>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-3">
+          <div>
+            Tip ziga
+          </div>
+          <div>
+            <select class="form-select my-1" style="width: 75%" aria-label="Tip ziga" #tipZiga [(ngModel)]="zahtevZaZig.zig.tipZiga">
+              <option value="INDIVIDUALNI" selected>Individualni</option>
+              <option value="KOLEKTIVNI">Kolektivni</option>
+              <option value="ZIG_GARANCIJE">Zig garancije</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-3">
+          <div>
+            Vrsta znaka
+          </div>
+
+          <div>
+            <select class="form-select my-1" style="width: 75%" aria-label="Vrsta znaka" #vrstaZnaka [(ngModel)]="zahtevZaZig.zig.vrstaZnaka">
+              <option value="VERBALNI" selected>Verbalni</option>
+              <option value="GRAFICKI">Graficki</option>
+              <option value="KOMBINOVANI" selected>Kombinovani</option>
+              <option value="TRODIMENZIONALNI">Trodimenzionalni</option>
+              <option value="OSTALO" selected>Druga vrsta</option>
+            </select>
+          </div>
+
+        </div>
+
+        <div class="col-3" *ngIf="vrstaZnaka.value == 'ostalo'">
+          <div>Druga vrsta</div>
+          <input class="form-control my-1" id="ostalo" type="text" [(ngModel)]="zahtevZaZig.zig.ostalo">
+        </div>
+
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-3">
+          <div>Opis</div>
+          <input class="form-control my-1" id="opis" type="text" [(ngModel)]="zahtevZaZig.zig.opis">
+        </div>
+
+        <div class="col-3">
+          <div>Prevod</div>
+          <input class="form-control my-1" id="prevod" type="text" [(ngModel)]="zahtevZaZig.zig.prevod">
+        </div>
+
+        <div class="col-3">
+          <div>Transliteracija</div>
+          <input class="form-control my-1" id="transliteracija" type="text" [(ngModel)]="zahtevZaZig.zig.transliteracija">
+        </div>
+      </div>
+
+      <div class="row mt-3">
+
+        <div class="col-2">
+          <div>Boje</div>
+          <input class="form-control my-1" id="boja" type="text" [(ngModel)]="boja">
+        </div>
+
+        <div class="col-1">
+          <button class="btn btn-success mt-4" (click)="dodajBoju()">Dodaj</button>
+        </div>
+
+        <div class="col-2">
+          <div>Klase (1 - 45)</div>
+          <input class="form-control my-1" id="klasa" type="number" min="1" max="45" [(ngModel)]="klasa">
+        </div>
+
+        <div class="col-1">
+          <button class="btn btn-success mt-4" (click)="dodajKlasu()">Dodaj</button>
+        </div>
+      </div>
+
+
+      <hr>
+
+
+      <div class="row pt-3">
+        <h4>Takse</h4>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-3">
+          <div>Osnovna taksa</div>
+          <input class="form-control my-1" id="osnovna" min="0" type="number" [(ngModel)]="zahtevZaZig.takse.osnovnaTaksa">
+        </div>
+
+        <div class="col-3">
+          <div>Graficko resenje</div>
+          <input class="form-control my-1" id="graficko" min="0" type="number" [(ngModel)]="zahtevZaZig.takse.grafickoResenje">
+        </div>
+
+        <div class="col-3">
+          <div>Za {{zahtevZaZig.zig.klase.length}} klasa</div>
+          <input class="form-control my-1" id="klaseTakse" min="0" type="number" [(ngModel)]="zahtevZaZig.takse.klaseTakse.value">
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="row pt-3">
+        <h4>Prilozi</h4>
+      </div>
+
+      <div class="row pt-3">
+        <div class="form-check form-group my-2 col-3" style="margin-left: 30px">
+          <input class="form-check-input" type="checkbox" value="" id="ranijaPunomoc" [(ngModel)]="zahtevZaZig.prilozi.ranijaPunomoc.value" >
+          <label class="form-check-label" for="ranijaPunomoc">
+            Generalno punomocje ranije prilozeno
+          </label>
+        </div>
+        <div class="form-check form-group my-2 col-6">
+          <input class="form-check-input" type="checkbox" value="" id="naknadnaPunomoc" [(ngModel)]="zahtevZaZig.prilozi.naknadnaPunomoc.value">
+          <label class="form-check-label" for="naknadnaPunomoc">
+            Punomocje ce biti naknadno dostavljeno
+          </label>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Primerak znaka</label>
+          <input type="file" id="primerak" class="form-control mt-2" accept="application/pdf" multiple (change)="addPrimerak($event)"/>
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.primerak.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.primerak.putanja}}
+          <button aria-label="Close" class="close " (click)="removePrimerak()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Spisak robe i usluga</label>
+          <input type="file" id="spisak" class="form-control mt-2" accept="application/pdf" multiple (change)="addSpisak($event)"/>
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.spisakRobe.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.spisakRobe.putanja}}
+          <button aria-label="Close" class="close " (click)="removeSpisak()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Punomocje</label>
+          <input type="file" id="punomoc" class="form-control mt-2" accept="application/pdf" multiple (change)="addPunomoc($event)"/>
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.punomoc.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.punomoc.putanja}}
+          <button aria-label="Close" class="close " (click)="removePunomoc()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Opsti akt o kolektivnom zigu/zigu garancije</label>
+          <input type="file" id="opstiAkt" class="form-control mt-2" accept="application/pdf" multiple (change)="addOpstiAkt($event)"/>
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.opstiAkt.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.opstiAkt.putanja}}
+          <button aria-label="Close" class="close " (click)="removeOpstiAkt()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Dokaz o pravu prvenstva</label>
+          <input type="file" id="dokazPrvenstvo" class="form-control mt-2" accept="application/pdf" multiple (change)="addDokazPrvenstvo($event)"/>
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.dokazOPravuPrvenstva.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.dokazOPravuPrvenstva.putanja}}
+          <button aria-label="Close" class="close " (click)="removeDokazPrvenstvo();" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="form-group col-3">
+          <label for="opis">Dokaz o uplati takse</label>
+          <input type="file" id="dokazTaksa" class="form-control mt-2" accept="application/pdf" multiple (change)="addDokazTakse($event)" />
+        </div>
+
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.dokazOUplati.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.dokazOUplati.putanja}}
+          <button aria-label="Close" class="close " (click)="removeDokazTakse()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
+            <span  aria-hidden="true" class="text-black">&times;</span>
+          </button>
+        </div>
+      </div>
+
+
+      <button class="btn my-5 mx-3" style="background: darkslategrey;color: white" (click)="save()">Posalji zahtev</button>
+    </div>
+  </div>
+  <div class="col-1 h-auto min-vh-100" style="background: darkslategrey"></div>
+</div>

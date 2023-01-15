@@ -10,6 +10,7 @@ package project.z1.model.z1;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -304,4 +305,21 @@ public class Zig {
         this.ostalo = value;
     }
 
+    public void setBoje(String[] boje) {
+        if(boje == null){
+            this.boja = new ArrayList<>();
+        }
+        else{
+            this.boja = Arrays.asList(boje);
+        }
+    }
+
+    public void setKlase(Integer[] klase) {
+        if(klase == null){
+            this.klasaRobe = new ArrayList<>();
+        }
+        else{
+            this.klasaRobe = Arrays.asList(klase);
+        }
+    }
 }

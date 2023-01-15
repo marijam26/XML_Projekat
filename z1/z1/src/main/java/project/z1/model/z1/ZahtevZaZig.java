@@ -65,6 +65,23 @@ public class ZahtevZaZig {
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar datumPodnosenja;
 
+
+    public BigInteger getBrojPrijave() {
+        return brojPrijave;
+    }
+
+    public void setBrojPrijave(BigInteger brojPrijave) {
+        this.brojPrijave = brojPrijave;
+    }
+
+    public XMLGregorianCalendar getDatumPodnosenja() {
+        return datumPodnosenja;
+    }
+
+    public void setDatumPodnosenja(XMLGregorianCalendar datumPodnosenja) {
+        this.datumPodnosenja = datumPodnosenja;
+    }
+
     /**
      * Gets the value of the podnosilacPrijave property.
      * 

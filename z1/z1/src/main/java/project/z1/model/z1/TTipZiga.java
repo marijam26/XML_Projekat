@@ -51,6 +51,7 @@ public enum TTipZiga {
 
     public static TTipZiga fromValue(String v) {
         for (TTipZiga c: TTipZiga.values()) {
+            System.out.println(c.value);
             if (c.value.equals(v)) {
                 return c;
             }
