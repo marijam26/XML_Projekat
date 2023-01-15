@@ -1,6 +1,11 @@
 import {TAutor} from "./t-autor";
 
-export interface TPreminuliAutor extends TAutor{
+export class TPreminuliAutor extends TAutor{
 
-  godinaSmrti: number;
+  constructor(
+    public override godinaSmrti: number = -1
+  ) {
+    super();
+  }
+
 }

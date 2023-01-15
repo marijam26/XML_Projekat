@@ -5,6 +5,6 @@ public class KontaktDTO {
 
     public String telefon;
     public String faks;
-    public String ePosta;
+    public String eposta;
     
 }

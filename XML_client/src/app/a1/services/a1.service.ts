@@ -22,11 +22,7 @@ export class A1Service {
   }
 
   saveAutorskoPravo(zahtev: ZahtevZaAutorskaDelaDTO) {
-    // console.log('doslo')
-    // console.log(zahtev)
-    // let t :TPrilog = {putanja:'sfds',value:true}
     const xmlZahtev = JsonToXML.parse("zahtevZaAutorskaDelaDTO", zahtev);
-    console.log(xmlZahtev);
     const newUrl = this.a1Url ; //document id
     return this._http.post<any>(newUrl,xmlZahtev,{headers:new HttpHeaders({
         'Content-Type': 'application/xml',

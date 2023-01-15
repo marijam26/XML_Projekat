@@ -8,7 +8,9 @@ import {ZahtevZaAutorskaDelaDTO} from "../../model/zahtev-za-autorska-dela-d-t-o
 })
 export class CreateA1Component {
 
-  zahtev: ZahtevZaAutorskaDelaDTO | undefined;
-  upotreba: string = 'create';
+  public upotreba: string = 'create'
+
+  constructor() {}
+
 
 }

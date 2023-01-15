@@ -7,13 +7,14 @@ import {TFormatZapisa} from "./t-format-zapisa";
 
 export class AutorskoDeloDTO {
 
-  public naslov: string = '';
-  public nacinKoriscenja: string = '';
-  public vrsta: VrstaDTO = {value:TVrsta.KNJIZEVNO_DELO,ostalaVrstaDela:''};
-  public formatZapisa: FormatDTO = {value:TFormatZapisa.OPTICKI_DISK,ostaliFormat:''};
-  public izvornoDelo: IzvornoDelo | undefined;
-  public stvorenoURadnomOdnosu: boolean = false;
-  public prerada: boolean = false;
-
+  constructor(
+    public naslov:string = '',
+    public nacinKoriscenja: string = '',
+    public vrsta: VrstaDTO = {value:'knjizevno_delo',ostalaVrstaDela:''},
+    public formatZapisa: FormatDTO = {value:'opticki_disk',ostaliFormat:''},
+    public izvornoDelo: IzvornoDelo = new IzvornoDelo(),
+    public stvorenoURadnomOdnosu: boolean = false,
+    public prerada: boolean = false )
+  {}
 
 }

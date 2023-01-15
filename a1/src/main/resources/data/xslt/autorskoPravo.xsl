@@ -129,7 +129,7 @@
                             <p style="padding-left: 5pt;padding-bottom: 10pt;line-height: 139%;text-align: left;font-size:11pt;">
                                 <xsl:variable name="tlice" select="a:Zahtev_za_autorska_dela/sema:Podnosilac_prijave/@xsi:type"/>
                                 <xsl:choose>
-                                    <xsl:when test="substring($tlice,5)='TFizicko_lice'">
+                                    <xsl:when test="contains($tlice,'TFizicko_lice')">
                                         <p style="font-size: 11pt;padding-top: 6pt;padding-bottom: 6pt;padding-left: 7pt;line-height: 10pt;">
                                             Име и презиме: &#160;
                                             <xsl:value-of select="a:Zahtev_za_autorska_dela/sema:Podnosilac_prijave/sema:Ime"/>&#160; <xsl:value-of select="a:Zahtev_za_autorska_dela/sema:Podnosilac_prijave/sema:Prezime"/>, &#160;
@@ -216,11 +216,9 @@
                                 <xsl:variable name="naslov" select="a:Zahtev_za_autorska_dela/a:Autorsko_delo/a:Izvorno_delo/a:Naslov"/>
                                 Autor:
                                 <xsl:choose>
-                                    <xsl:when test="$anoniman=false and $naslov">
-                                        <p style="font-size: 8.5pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
+                                    <xsl:when test="$anoniman='false'">
                                         <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autorsko_delo/a:Izvorno_delo/a:Autor/a:Ime"/>&#160;
                                         <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autorsko_delo/a:Izvorno_delo/a:Autor/a:Prezime"/>
-                                        </p>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         -
@@ -292,11 +290,12 @@
                                                             Име и презиме: &#160;    <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autor/a:Ime"/>
                                                             &#160;    <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autor/a:Prezime"/>
                                                             <xsl:variable name="tАutor" select="a:Zahtev_za_autorska_dela/a:Autor/@xsi:type"/>
+                                                            <br/>
+                                                            <br/>
                                                             <xsl:choose>
-                                                                <xsl:when test="substring($tАutor,5)='TZiv_autor'">
+                                                                <xsl:when test="contains($tАutor,'TZiv_autor')">
                                                                     <p style="font-size: 11pt;padding-top: 6pt;padding-left: 7pt;line-height: 10pt;">
-                                                                        Адреса и држављанство:
-                                                                        <br/>
+                                                                        Адреса и држављанство:&#160;
                                                                         <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autor/sema:Adresa/sema:Ulica"/>,&#160;
                                                                         <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autor/sema:Adresa/sema:Broj"/>&#160;
                                                                         <xsl:value-of select="a:Zahtev_za_autorska_dela/a:Autor/sema:Adresa/sema:Postanski_broj"/>&#160;&#160;

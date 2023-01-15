@@ -8,7 +8,7 @@ public class AutorskoDeloDTO {
     public String nacinKoriscenja;
     public VrstaDTO vrsta;
     public FormatDTO formatZapisa;
-    public IzvornoDelo izvornoDeloAutorskoDelo;
+    public IzvornoDeloDTO izvornoDelo;
     public boolean stvorenoURadnomOdnosu;
     public boolean prerada;
 }

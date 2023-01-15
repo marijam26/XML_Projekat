@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
-import project.a1.dto.a1.AutorskoDeloDTO;
-import project.a1.dto.a1.PriloziDTO;
-import project.a1.dto.a1.TAutorDTO;
-import project.a1.dto.a1.ZahtevZaAutorskaDelaDTO;
+import project.a1.dto.a1.*;
 import project.a1.dto.main_schema.AdresaDTO;
 import project.a1.dto.main_schema.KontaktDTO;
 import project.a1.dto.main_schema.TLiceDTO;
@@ -79,7 +76,6 @@ public class AutorskoDeloService {
         AutorskoDelo a = new AutorskoDelo();
         a.setNaslov(autorskoDelo.naslov);
         a.setNacinKoriscenja(autorskoDelo.nacinKoriscenja);
-        a.setIzvornoDelo(autorskoDelo.izvornoDeloAutorskoDelo);
         a.setPrerada(autorskoDelo.prerada);
         a.setStvorenoURadnomOdnosu(autorskoDelo.stvorenoURadnomOdnosu);
         AutorskoDelo.Vrsta v = new AutorskoDelo.Vrsta();
@@ -90,12 +86,23 @@ public class AutorskoDeloService {
         z.setValue(TFormatZapisa.valueOf(autorskoDelo.formatZapisa.value));
         z.setOstaliFormat(autorskoDelo.formatZapisa.ostaliFormat);
         a.setFormatZapisa(z);
+        a.setIzvornoDelo(mapIzvorno(autorskoDelo.izvornoDelo));
         return a;
+    }
+
+    private IzvornoDelo mapIzvorno(IzvornoDeloDTO izvornoDelo) {
+        IzvornoDelo d = new IzvornoDelo();
+        d.setNaslov(izvornoDelo.naslov);
+        d.setAnonimanAutor(izvornoDelo.anonimanAutor);
+        if (!izvornoDelo.anonimanAutor){
+            d.setAutor(mapAutor(izvornoDelo.autor));
+        }
+        return d;
     }
 
     private TAutor mapAutor(TAutorDTO autor) {
         Adresa a = mapAdresa(autor.adresa);
-        if (autor.godinaSmrti == null){
+        if (autor.godinaSmrti == null || autor.godinaSmrti == 0  ){
             TZivAutor t = new TZivAutor();
             t.setIme(autor.ime);
             t.setPrezime(autor.prezime);
@@ -134,7 +141,7 @@ public class AutorskoDeloService {
 
     private Kontakt mapKontakt(KontaktDTO kontakt) {
         Kontakt k = new Kontakt();
-        k.setEPosta(kontakt.ePosta);
+        k.setEPosta(kontakt.eposta);
         k.setFaks(kontakt.faks);
         k.setTelefon(kontakt.telefon);
         return k;

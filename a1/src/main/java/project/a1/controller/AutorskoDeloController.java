@@ -66,7 +66,6 @@ public class AutorskoDeloController {
 
     @PostMapping(value = "/", consumes = "application/xml")
     public void add(@RequestBody ZahtevZaAutorskaDelaDTO dto){
-        //System.out.print(dto);
         try {
             ZahtevZaAutorskaDela zahtevZaAutorskaDela = autorskoDeloService.map(dto);
             autorskoDeloService.save(zahtevZaAutorskaDela);

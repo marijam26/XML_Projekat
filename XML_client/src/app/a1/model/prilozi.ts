@@ -1,8 +1,10 @@
 import {TPrilog} from "../../shared-models/t-prilog";
 
-export interface Prilozi{
-
-  opisDela: TPrilog;
-  primerDela: TPrilog;
-
+export class Prilozi{
+  constructor(
+    public opisDela: TPrilog = {value:false,putanja:''},
+    public primerDela: TPrilog = {value:false,putanja:''},
+  ) {}
 }
+
+

@@ -2,10 +2,13 @@ import {TZivAutor} from "./t-ziv-autor";
 import {TPreminuliAutor} from "./t-preminuli-autor";
 import {TAutor} from "./t-autor";
 
-export interface IzvornoDelo{
+export class IzvornoDelo{
 
-  naslov: string;
-  autor: TAutor;
-  anonimanAutor: boolean;
+  constructor(
+    public naslov: string = '',
+    public autor: TAutor = new TAutor(),
+    public anonimanAutor: boolean = false
+  ) {}
+
 
 }

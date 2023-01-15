@@ -1,12 +1,15 @@
 import {AdresaDTO} from "../../shared-models/adresaDTO";
 
-export interface TAutor{
+export class TAutor{
 
-  ime: string;
-  prezime: string;
-  adresa: AdresaDTO;
-  drzavljanstvo: string;
-  pseudonim: string;
-  godinaSmrti: number;
+  constructor(
+    public ime: string = '',
+    public prezime: string ='',
+    public adresa: AdresaDTO = new AdresaDTO(),
+    public drzavljanstvo: string = '',
+    public pseudonim: string = '',
+    public godinaSmrti: number = 0
+  ){}
+
 
 }

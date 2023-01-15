@@ -11,18 +11,11 @@ import {ZahtevZaPatentDTO} from "../../../p1/model/zahtev-za-patent";
 })
 export class ViewA1Component {
 
-  zahtev: ZahtevZaAutorskaDelaDTO | undefined;
-  filtersLoaded: Promise<boolean> = Promise.resolve(false);
+
+  public upotreba: string = 'read'
 
 
-  constructor(private a1:A1Service) {
-    let con = this;
-    this.a1.getAutorskoPravo().subscribe((data)=>{
-      con.zahtev = data;
-      console.log(this.zahtev)
-      this.filtersLoaded = Promise.resolve(true); // Setting the Promise as resolved after I have the needed data
-    });
-  }
+  constructor() {}
 
 
 }

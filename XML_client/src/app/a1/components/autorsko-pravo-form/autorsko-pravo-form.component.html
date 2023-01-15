@@ -28,25 +28,25 @@
         <option value="pravno" id="pravno" >Pravno lice</option>
       </select>
 
-      <div class="row pb-2" *ngIf="podnosilacLice === 'Fizicko lice'">
+      <div class="row pb-2" *ngIf="podnosilacLice === 'fizicko'">
         <div class="form-group col-3">
           <label for="ime_podnosioca">Ime:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.ime" class="form-control" id="ime_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.ime" class="form-control" id="ime_podnosioca">
         </div>
         <div class="form-group col-3">
           <label for="prezime_podnosioca">Prezime:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.prezime" class="form-control" id="prezime_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.prezime" class="form-control" id="prezime_podnosioca">
         </div>
         <div class="form-group col-3">
           <label for="drzavljanstvo_podnosioca">Drzavljanstvo:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.drzavljanstvo" class="form-control" id="drzavljanstvo_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.drzavljanstvo" class="form-control" id="drzavljanstvo_podnosioca">
         </div>
       </div>
 
-      <div class="row pb-2" *ngIf="podnosilacLice === 'Pravno lice'">
+      <div class="row pb-2" *ngIf="podnosilacLice === 'pravno'">
         <div class="form-group col-4">
           <label for="poslovno_ime_podnosioca">Poslovno ime:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.poslovnoIme" class="form-control" id="poslovno_ime_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.poslovnoIme" class="form-control" id="poslovno_ime_podnosioca">
         </div>
       </div>
 
@@ -54,36 +54,36 @@
       <div class="row">
         <div class="form-group col-3">
           <label for="ulica_podnosioca">Ulica:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.adresa?.ulica" class="form-control" id="ulica_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.adresa.ulica" class="form-control" id="ulica_podnosioca">
         </div>
         <div class="form-group col-1">
           <label for="broj_podnosioca">Broj:</label>
-          <input type="number" [ngModel]="zahtev?.podnosilacPrijave?.adresa?.broj" class="form-control" id="broj_podnosioca">
+          <input type="number" [(ngModel)]="zahtev.podnosilacPrijave.adresa.broj" class="form-control" id="broj_podnosioca">
         </div>
       </div>
       <div class="row py-3">
         <div class="form-group col-2">
           <label for="grad_podnosioca">Grad:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.adresa?.grad" class="form-control" id="grad_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.adresa.grad" class="form-control" id="grad_podnosioca">
         </div>
         <div class="form-group col-2">
           <label for="pos_br_podnosioca">Postanski broj:</label>
-          <input type="number" [ngModel]="zahtev?.podnosilacPrijave?.adresa?.postanskiBroj" class="form-control" id="pos_br_podnosioca">
+          <input type="number" [(ngModel)]="zahtev.podnosilacPrijave.adresa.postanskiBroj" class="form-control" id="pos_br_podnosioca">
         </div>
         <div class="form-group col-2">
           <label for="drzava_podnosioca">Drzava:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.adresa?.drzava" class="form-control" id="drzava_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.adresa.drzava" class="form-control" id="drzava_podnosioca">
         </div>
       </div>
       <h5 class="my-3">Kontakt</h5>
       <div class="row pb-3">
         <div class="form-group col-2">
           <label for="telefon_podnosioca">Telefon:</label>
-          <input type="text" [ngModel]="zahtev?.podnosilacPrijave?.kontakt?.telefon" class="form-control" id="telefon_podnosioca">
+          <input type="text" [(ngModel)]="zahtev.podnosilacPrijave.kontakt.telefon" class="form-control" id="telefon_podnosioca">
         </div>
         <div class="form-group col-3">
           <label for="eposta_podnosioca">E-posta:</label>
-          <input type="email" [ngModel]="zahtev?.podnosilacPrijave?.kontakt?.e_posta" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com">
+          <input type="email" [(ngModel)]="zahtev.podnosilacPrijave.kontakt.eposta" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com">
         </div>
       </div>
 
@@ -96,36 +96,36 @@
         <div class="row pb-2">
            <div class="form-group col-3">
           <label for="ime_punomocnika">Ime:</label>
-          <input type="text" [ngModel]="zahtev?.punomocnik?.ime" class="form-control" id="ime_punomocnika">
+          <input type="text" [(ngModel)]="zahtev.punomocnik.ime" class="form-control" id="ime_punomocnika">
         </div>
         <div class="form-group col-3">
           <label for="prezime_punomocnika">Prezime:</label>
-          <input type="text" [ngModel]="zahtev?.punomocnik?.prezime" class="form-control" id="prezime_punomocnika">
+          <input type="text" [(ngModel)]="zahtev.punomocnik.prezime" class="form-control" id="prezime_punomocnika">
         </div>
 
         <h5 class="my-3">Adresa</h5>
         <div class="row">
           <div class="form-group col-3">
             <label for="ulica_punomocnika">Ulica:</label>
-            <input type="text" [ngModel]="zahtev?.punomocnik?.adresa?.ulica" class="form-control" id="ulica_punomocnika">
+            <input type="text" [(ngModel)]="zahtev.punomocnik.adresa.ulica" class="form-control" id="ulica_punomocnika">
           </div>
           <div class="form-group col-1">
             <label for="broj_punomocnika">Broj:</label>
-            <input type="number" [ngModel]="zahtev?.punomocnik?.adresa?.broj" class="form-control" id="broj_punomocnika">
+            <input type="number" [(ngModel)]="zahtev.punomocnik.adresa.broj" class="form-control" id="broj_punomocnika">
           </div>
         </div>
         <div class="row py-3">
           <div class="form-group col-2">
             <label for="grad_punomocnika">Grad:</label>
-            <input type="text" [ngModel]="zahtev?.punomocnik?.adresa?.grad" class="form-control" id="grad_punomocnika">
+            <input type="text" [(ngModel)]="zahtev.punomocnik.adresa.grad" class="form-control" id="grad_punomocnika">
           </div>
           <div class="form-group col-2">
             <label for="pos_br_punomocnika">Postanski broj:</label>
-            <input type="number" [ngModel]="zahtev?.punomocnik?.adresa?.postanskiBroj" class="form-control" id="pos_br_punomocnika">
+            <input type="number" [(ngModel)]="zahtev.punomocnik.adresa.postanskiBroj" class="form-control" id="pos_br_punomocnika">
           </div>
           <div class="form-group col-2">
             <label for="drzava_punomocnika">Drzava:</label>
-            <input type="text" [ngModel]="zahtev?.punomocnik?.adresa?.drzava" class="form-control" id="drzava_punomocnika">
+            <input type="text" [(ngModel)]="zahtev.punomocnik.adresa.drzava" class="form-control" id="drzava_punomocnika">
           </div>
       </div>
       </div>
@@ -159,12 +159,12 @@
     <div class="row m-1">
     <div class="form-group col-3">
       <label for="naslov_dela">Naslov:</label>
-      <input type="text" [ngModel]="zahtev?.autorskoDelo?.naslov" class="form-control" id="naslov_dela">
+      <input type="text" [(ngModel)]="zahtev.autorskoDelo.naslov" class="form-control" id="naslov_dela">
     </div>
 
     <div class="form-group col-5">
       <label for="nacin_koristenja">Nacin koristenja autorskog dela:</label>
-      <input type="text" [ngModel]="zahtev?.autorskoDelo?.nacinKoriscenja" class="form-control" id="nacin_koristenja">
+      <input type="text" [(ngModel)]="zahtev.autorskoDelo.nacinKoriscenja" class="form-control" id="nacin_koristenja">
     </div>
     </div>
 
@@ -208,7 +208,7 @@
       </div>
       <div class="form-group col-3 pt-2" *ngIf="drugaVrsta" style="margin-left:10px">
         <label for="vrsta_dela">Unesite drugu vrstu dela:</label>
-        <input type="text" [ngModel]="zahtev?.autorskoDelo?.vrsta?.ostalaVrstaDela" class="form-control" id="vrsta_dela">
+        <input type="text" [(ngModel)]="zahtev.autorskoDelo.vrsta.ostalaVrstaDela" class="form-control" id="vrsta_dela">
       </div>
 
     <div class="row pt-4">
@@ -236,7 +236,7 @@
     </div>
     <div class="form-group col-3 pt-2" *ngIf="drugaForma" style="margin-left:10px">
       <label for="forma_dela">Unesite drugu formu dela:</label>
-      <input type="text" [ngModel]="zahtev?.autorskoDelo?.formatZapisa?.ostaliFormat" class="form-control" id="forma_dela">
+      <input type="text" [(ngModel)]="zahtev.autorskoDelo.formatZapisa.ostaliFormat" class="form-control" id="forma_dela">
     </div>
 
     <span *ngIf="!podnosilacJeAutor">
@@ -264,39 +264,39 @@
         <div class="row">
       <div class="form-group col-3">
           <label for="ime_autora">Ime:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.ime" class="form-control" id="ime_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.ime" class="form-control" id="ime_autora">
         </div>
         <div class="form-group col-3">
           <label for="prezime_autora">Prezime:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.prezime" class="form-control" id="prezime_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.prezime" class="form-control" id="prezime_autora">
         </div>
         <div class="form-group col-3">
           <label for="drzavljanstvo_autora">Drzavljanstvo:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.drzavljanstvo" class="form-control" id="drzavljanstvo_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.drzavljanstvo" class="form-control" id="drzavljanstvo_autora">
         </div></div>
         <h5 class="my-3">Adresa</h5>
       <div class="row">
         <div class="form-group col-3">
           <label for="ulica_autora">Ulica:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.adresa?.ulica" class="form-control" id="ulica_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.adresa.ulica" class="form-control" id="ulica_autora">
         </div>
         <div class="form-group col-1">
           <label for="broj_autora">Broj:</label>
-          <input type="number" [ngModel]="zahtev?.autor?.adresa?.broj" class="form-control" id="broj_autora">
+          <input type="number" [(ngModel)]="zahtev.autor.adresa.broj" class="form-control" id="broj_autora">
         </div>
       </div>
       <div class="row py-3">
         <div class="form-group col-2">
           <label for="grad_autora">Grad:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.adresa?.grad" class="form-control" id="grad_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.adresa.grad" class="form-control" id="grad_autora">
         </div>
         <div class="form-group col-2">
           <label for="pos_br_autora">Postanski broj:</label>
-          <input type="number" [ngModel]="zahtev?.autor?.adresa?.postanskiBroj" class="form-control" id="pos_br_autora">
+          <input type="number" [(ngModel)]="zahtev.autor.adresa.postanskiBroj" class="form-control" id="pos_br_autora">
         </div>
         <div class="form-group col-2">
           <label for="drzava_autora">Drzava:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.adresa?.drzava" class="form-control" id="drzava_autora">
+          <input type="text" [(ngModel)]="zahtev.autor.adresa.drzava" class="form-control" id="drzava_autora">
         </div>
       </div>
       </span>
@@ -304,15 +304,15 @@
       <div class="row" *ngIf="!zivAutor">
         <div class="form-group col-3">
           <label for="ime_autora_rip">Ime:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.ime" class="form-control" id="ime_autora_rip">
+          <input type="text" [(ngModel)]="zahtev.autor.ime" class="form-control" id="ime_autora_rip">
         </div>
         <div class="form-group col-3">
           <label for="prezime_autora_rip">Prezime:</label>
-          <input type="text" [ngModel]="zahtev?.autor?.prezime" class="form-control" id="prezime_autora_rip">
+          <input type="text" [(ngModel)]="zahtev.autor.prezime" class="form-control" id="prezime_autora_rip">
         </div>
         <div class="form-group col-3">
           <label for="godina_smrti">Godina smrti:</label>
-          <input type="number" [ngModel]="zahtev?.autor?.godinaSmrti" class="form-control" id="godina_smrti">
+          <input type="number" [(ngModel)]="zahtev.autor.godinaSmrti" class="form-control" id="godina_smrti">
         </div>
       </div>
       </span>
@@ -325,7 +325,7 @@
 
       <div class="form-group col-3">
         <label for="naslov_prerade">Naslov:</label>
-        <input type="text" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.naslov" class="form-control" id="naslov_prerade">
+        <input type="text" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.naslov" class="form-control" id="naslov_prerade">
       </div>
 
       <div class="row pt-4">
@@ -348,55 +348,55 @@
         <div class="row">
       <div class="form-group col-3">
           <label for="ime_autora_izvorno">Ime:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.ime" class="form-control" id="ime_autora_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.ime" class="form-control" id="ime_autora_izvorno">
         </div>
         <div class="form-group col-3">
           <label for="prezime_autora_izvorno">Prezime:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.prezime" class="form-control" id="prezime_autora_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.prezime" class="form-control" id="prezime_autora_izvorno">
         </div>
         <div class="form-group col-3">
           <label for="drzavljanstvo_autora_izvorno">Drzavljanstvo:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.drzavljanstvo" class="form-control" id="drzavljanstvo_autora_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.drzavljanstvo" class="form-control" id="drzavljanstvo_autora_izvorno">
         </div></div>
         <h5 class="my-3">Adresa</h5>
       <div class="row">
         <div class="form-group col-3">
           <label for="ulica_autora_izvorno">Ulica:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.adresa?.ulica" class="form-control" id="ulica_autora_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.adresa.ulica" class="form-control" id="ulica_autora_izvorno">
         </div>
         <div class="form-group col-1">
           <label for="broj_autora_izvorno">Broj:</label>
-          <input type="number" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.adresa?.broj" class="form-control" id="broj_autora_izvorno">
+          <input type="number" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.adresa.broj" class="form-control" id="broj_autora_izvorno">
         </div>
       </div>
       <div class="row py-3">
         <div class="form-group col-2">
           <label for="grad_autora_izvorno">Grad:</label>
-          <input type="text" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.adresa?.grad" class="form-control" id="grad_autora_izvorno">
+          <input type="text" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.adresa.grad" class="form-control" id="grad_autora_izvorno">
         </div>
         <div class="form-group col-2">
           <label for="pos_br_autora_izvorno">Postanski broj:</label>
-          <input type="number" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.adresa?.postanskiBroj" class="form-control" id="pos_br_autora_izvorno">
+          <input type="number" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.adresa.postanskiBroj" class="form-control" id="pos_br_autora_izvorno">
         </div>
         <div class="form-group col-2">
           <label for="drzava_autora_izvorno">Drzava:</label>
-          <input type="text" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.adresa?.drzava" class="form-control" id="drzava_autora_izvorno">
+          <input type="text" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.adresa.drzava" class="form-control" id="drzava_autora_izvorno">
         </div>
       </div>
       </span>
 
-      <div class="row" *ngIf="!zivAutor">
+      <div class="row" *ngIf="!zivAutorIzvorno">
         <div class="form-group col-3">
           <label for="ime_autora_rip_izvorno">Ime:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.ime" class="form-control" id="ime_autora_rip_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.ime" class="form-control" id="ime_autora_rip_izvorno">
         </div>
         <div class="form-group col-3">
           <label for="prezime_autora_rip_izvorno">Prezime:</label>
-          <input type="text"  [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.prezime" class="form-control" id="prezime_autora_rip_izvorno">
+          <input type="text"  [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.prezime" class="form-control" id="prezime_autora_rip_izvorno">
         </div>
         <div class="form-group col-3">
           <label for="godina_smrti_izvorno">Godina smrti:</label>
-          <input type="number" [ngModel]="zahtev?.autorskoDelo?.izvornoDelo?.autor?.godinaSmrti" class="form-control" id="godina_smrti_izvorno">
+          <input type="number" [(ngModel)]="zahtev.autorskoDelo.izvornoDelo.autor.godinaSmrti" class="form-control" id="godina_smrti_izvorno">
         </div>
       </div>
     </span>
@@ -412,8 +412,8 @@
       <input type="file"  id="opis" (change)="onFileSelectedOpis($event)" class="form-control mt-2" accept="application/pdf" multiple />
     </div>
 
-      <div class="form-group col-5" *ngIf="this.zahtev?.prilozi?.opisDela?.value" style="padding-top: 30px">
-        Izabrani fajl: {{this.zahtev?.prilozi?.opisDela?.putanja}}
+      <div class="form-group col-5" *ngIf="this.zahtev.prilozi.opisDela.value" style="padding-top: 30px">
+        Izabrani fajl: {{this.zahtev.prilozi.opisDela.putanja}}
         <button aria-label="Close" class="close " (click)="removeOpis()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
         <span  aria-hidden="true" class="text-black">&times;</span>
       </button>
@@ -426,8 +426,8 @@
       <label for="primer">Primer autorskog dela (slika, video zapis, audio zapis) </label>
       <input type="file" id="primer" (change)="onFileSelectedPrimer($event)" class="form-control mt-2" accept="application/mp4,image/png, image/gif, image/jpeg" multiple />
     </div>
-      <div *ngIf="this.zahtev?.prilozi?.primerDela?.value" class=" form-group col-5" style="padding-top: 40px">
-        Izabrani fajl: {{this.zahtev?.prilozi?.primerDela?.putanja}}
+      <div *ngIf="this.zahtev.prilozi.primerDela.value" class=" form-group col-5" style="padding-top: 40px">
+        Izabrani fajl: {{this.zahtev.prilozi.primerDela.putanja}}
         <button aria-label="Close" class="close " (click)="removePrimer()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
           <span  aria-hidden="true" class="text-black">&times;</span>
         </button>
