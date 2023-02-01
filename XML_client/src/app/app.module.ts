@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ViewA1Component } from './a1/components/view-a1/view-a1.component';
 import { CreateA1Component } from './a1/components/create-a1/create-a1.component';
 import { ZigFormComponent } from './z1/components/zig-form/zig-form.component';
+import { LoginRegistrationComponent } from './auth/components/login-registration/login-registration.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { ZigFormComponent } from './z1/components/zig-form/zig-form.component';
     ViewA1Component,
     CreateA1Component,
     ZigFormComponent,
+    LoginRegistrationComponent,
   ],
   imports: [
     BrowserModule,
