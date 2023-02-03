@@ -16,7 +16,7 @@
           <h2>LOGIN</h2>
           <input type="text" placeholder="Email" [(ngModel)]="loginInfo.email" >
           <input type="password" placeholder="Password" [(ngModel)]="loginInfo.password">
-          <button type="button" class="btn btn-secondary">Login</button>
+          <button type="button" class="btn btn-secondary" (click)="loginUser()">Login</button>
         </div>
         <div *ngIf="!showLogin" class="register-show show-log-panel">
           <h2>REGISTER</h2>
@@ -25,7 +25,7 @@
             <input class="col-6" type="text" placeholder="Last name" [(ngModel)]="korisnik.prezime">
           </div>
           <div class="row px-2">
-            <input class="col-6" type="text" placeholder="Email">
+            <input class="col-6" type="text" placeholder="Email" [(ngModel)]="korisnik.email">
             <select class="col-6" [(ngModel)]="korisnik.uloga">
               <option value="Gradjanin" selected>Gradjanin</option>
               <option value="Sluzbenik">Sluzbenik</option>
@@ -35,7 +35,7 @@
             <input type="password" placeholder="Password" [(ngModel)]="korisnik.lozinka">
           </div>
 
-          <button type="button" class="btn btn-secondary">Register</button>
+          <button type="button" class="btn btn-secondary" (click)="registerUser()">Register</button>
         </div>
       </div>
     </div>

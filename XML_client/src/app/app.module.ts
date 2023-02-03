@@ -11,6 +11,12 @@ import { ViewA1Component } from './a1/components/view-a1/view-a1.component';
 import { CreateA1Component } from './a1/components/create-a1/create-a1.component';
 import { ZigFormComponent } from './z1/components/zig-form/zig-form.component';
 import { LoginRegistrationComponent } from './auth/components/login-registration/login-registration.component';
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { ViewApplicationsComponent } from './components/view-applications/view-applications.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { SearchApplicationsComponent } from './components/search-applications/search-applications.component';
 
 @NgModule({
   declarations: [
@@ -21,13 +27,23 @@ import { LoginRegistrationComponent } from './auth/components/login-registration
     CreateA1Component,
     ZigFormComponent,
     LoginRegistrationComponent,
+    HomepageComponent,
+    ViewApplicationsComponent,
+    NavbarComponent,
+    SearchApplicationsComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
     FormsModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

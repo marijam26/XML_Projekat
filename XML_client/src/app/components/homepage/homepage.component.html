@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+<section class="vh-100" style="background: whitesmoke">
+  <div class="text-center pt-5 px-3">
+    <div class="pb-4">
+      <p style="font-size: 40px">Dobrodošli Pero Peric na zvanični sajt Republike Srbije za posnošenje zahteva za intelektualnu svojinu!</p>
+      <p style="font-size: 30px;color: #3B3B25">Izberite vrstu zahteva koji zelite da podnesete ili pretrazite.</p>
+    </div>
+
+    <div class="row justify-content-between pt-4" style="padding: 0 350px">
+      <div class="card rounded-2 justify-content-center col-4 zoom" style="width: 190px;height: 190px;background: indianred">
+        <i class="fa-solid fa-book fa-3x pb-3 pt-5 text-white"></i>
+        <strong class="text-white pb-4">Autorsko pravo</strong>
+        <div class="row btn-group">
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="redirectToSearch()">Pretraga</button>
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="zahtevZaAutorsko()">Zahtev</button>
+        </div>
+      </div>
+
+      <div class="card rounded-2 justify-content-center col-4 zoom" style="width: 190px;height: 190px;background: goldenrod">
+        <i class="fa-solid fa-pen-to-square fa-3x pb-3 pt-5 text-white"></i>
+        <strong class="text-white pb-4">Patent</strong>
+        <div class="row btn-group">
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="redirectToSearch()">Pretraga</button>
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="zahtevZaPatent()">Zahtev</button>
+        </div>
+      </div>
+
+      <div class="card rounded-2 justify-content-center col-4 zoom" style="width: 190px;height: 190px;background: mediumseagreen">
+        <i class="fa-solid fa-stamp fa-3x pb-3 pt-5 text-white"></i>
+        <strong class="text-white pb-4">Žig</strong>
+        <div class="row btn-group">
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="redirectToSearch()">Pretraga</button>
+          <button class="btn btn-outline-light col-6 btn-sm" (click)="zahtevZaZig()">Zahtev</button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>

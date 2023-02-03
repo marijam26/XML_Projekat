@@ -1,4 +1,4 @@
-export class Kosrisnik{
+export class Korisnik {
   constructor(
     public ime:string = '',
     public prezime:string = '',
