@@ -2,12 +2,8 @@
 <Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
-    Broj_prijave="1" Datum_podnosenja="2022-12-06" Datum_prijema="2022-12-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
-    <Osnovna_prijava>
-        <Datum>2022-05-02</Datum>
-        <Broj>5</Broj>
-    </Osnovna_prijava>
-    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+    Broj_prijave="3" Datum_podnosenja="2022-05-17" Datum_prijema="2022-10-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
+    <Podnosilac_prijave xsi:type="TPravno_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Doza Djerdja</Ulica>
             <Broj>57</Broj>
@@ -20,13 +16,11 @@
             <Faks>faksic</Faks>
             <E_posta>maki@gmail.com</E_posta>
         </Kontakt>
-        <Ime>Marija</Ime>
-        <Prezime>Milosevic</Prezime>
-        <Drzavljanstvo>RS</Drzavljanstvo>
+        <Poslovno_ime>Profit</Poslovno_ime>
     </Podnosilac_prijave>
     <Pronalazak>
-        <Srpski_naziv>Fontana za macke</Srpski_naziv>
-        <Engleski_naziv>Cat fountain</Engleski_naziv>
+        <Srpski_naziv>Kisobran</Srpski_naziv>
+        <Engleski_naziv>Umbrella</Engleski_naziv>
     </Pronalazak>
     <Punomocnik xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>

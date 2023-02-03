@@ -45,6 +45,10 @@ public class PatentService {
         return patentRepository.getPatentById(id);
     }
 
+    public List<ZahtevZaPatent> getAllPatents(){
+        return patentRepository.getAll();
+    }
+
     public void saveMetadataForZahetv(String id) throws JAXBException, IOException, TransformerException {
         ZahtevZaPatent zahtevZaPatent = getPatent(id);
         MetadataRepository repo = new MetadataRepository();

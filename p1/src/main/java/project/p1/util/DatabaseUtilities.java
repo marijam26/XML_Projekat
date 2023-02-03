@@ -13,6 +13,8 @@ import project.p1.model.p1.ZahtevZaPatent;
 import javax.xml.transform.OutputKeys;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUtilities {
 
@@ -194,6 +196,43 @@ public class DatabaseUtilities {
         } catch (Exception e) {
             return 0;
         } finally {
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<ZahtevZaPatent> getAllPatent(String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            MarshallingUtils marshallingUtils = new MarshallingUtils();
+            List<ZahtevZaPatent> zahtevZaPatentList = new ArrayList<>();
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            for(String s: col.listResources()){
+                res = (XMLResource)col.getResource(s);
+                zahtevZaPatentList.add(marshallingUtils.unmarshallFromNode(res.getContentAsDOM()));
+            }
+
+            return zahtevZaPatentList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
             if(col != null) {
                 try {
                     col.close();

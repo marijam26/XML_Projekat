@@ -8,6 +8,7 @@ import project.p1.util.DatabaseUtilities;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 
 @Repository
 public class PatentRepository {
@@ -22,6 +23,8 @@ public class PatentRepository {
         String documentId = "p" + (DatabaseUtilities.getCollectionSize(collectionId) + 1);
         DatabaseUtilities.storeResource(collectionId, documentId, os);
     }
+
+    public List<ZahtevZaPatent> getAll(){ return  DatabaseUtilities.getAllPatent(collectionId); }
 
     public ZahtevZaPatent getPatentById(String id){
         return DatabaseUtilities.getPatent(id, collectionId);
