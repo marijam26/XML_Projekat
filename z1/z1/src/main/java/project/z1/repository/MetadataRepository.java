@@ -1,5 +1,6 @@
 package project.z1.repository;
 
+import org.apache.jena.base.Sys;
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -23,6 +24,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class MetadataRepository {
 
     private static final String XSL_FILE = "src/main/resources/data/xsl/metadata.xsl";
     private static final String RDF_FILE = "src/main/resources/data/rdf/z1.rdf";
-    private static final String SPARQL_NAMED_GRAPH_URI = "metadata";
+    private static final String SPARQL_NAMED_GRAPH_URI = "/metadata";
     private final TransformerFactory transformerFactory;
 
     public MetadataRepository(){
@@ -78,18 +80,12 @@ public class MetadataRepository {
         grddlTransformer.transform(source, result);
     }
 
-    public static void main(String[] args) throws JAXBException, IOException, TransformerException{
-        ZahtevZaZig z = new MarshallingUtils().unmarshall("src/main/resources/data/xsd/zig.xml");
-        MetadataRepository repo = new MetadataRepository();
-        repo.extractMetadata(z);
-    }
-
     public String getMetadataSimpleQuery(String pred, String value) throws IOException {
         AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
         return String.format(SparqlUtil.SIMPLE_METADATA,  conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, pred, value);
     }
 
-    public List<RDFNode> searchMetadata(String sparqlQuery) throws IOException {
+    public static List<RDFNode> searchMetadata(String sparqlQuery) throws IOException {
         AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
 
         QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
@@ -107,8 +103,58 @@ public class MetadataRepository {
         return nodes;
     }
 
-    public String getMetadataAdvancedQuery(String data) throws IOException {
+    public static String getMetadataAdvancedQuery(List<String> preds, List<String> values, List<String> operators) throws IOException {
         AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
-        return "";
+
+        StringBuilder query = new StringBuilder();
+        StringBuilder filter = new StringBuilder();
+        query.append(String.format("SELECT * FROM <%s> WHERE { ", conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI));
+        filter.append("\nFILTER(");
+
+        String equals = "=";
+        if(operators.get(0).equals("!")){
+            equals = "!=";
+        }
+        String nextEquals;
+        for(int i = 0; i < preds.size(); i++){
+
+            if(i != preds.size() - 1 && operators.get(i+1).contains("!")){
+                nextEquals = "!=";
+                operators.set(i+1, operators.get(i+1).substring(0, 2));
+            }
+            else{
+                nextEquals = "=";
+            }
+
+            query.append(String.format("\n\t ?z <http://ftn.uns.ac.rs/z/pred/%s> ?%s .", preds.get(i), preds.get(i)));
+            if(i != preds.size() - 1) {
+                filter.append(String.format("?%s %s \"%s\" %s ", preds.get(i), equals, values.get(i), operators.get(i+1)));
+            }
+            else{
+                filter.append(String.format("?%s %s \"%s\")\n}", preds.get(i), equals, values.get(i)));
+                query.append(filter);
+            }
+
+            equals = nextEquals;
+        }
+
+        return query.toString();
     }
+
+    public static void main(String[] args) throws JAXBException, IOException, TransformerException{
+//        ZahtevZaZig z = new MarshallingUtils().unmarshall("src/main/resources/data/xsd/zig.xml");
+//        MetadataRepository repo = new MetadataRepository();
+//        repo.extractMetadata(z);
+//        List<String> preds = Arrays.asList("Id", "Datum_podnosenja");
+//        List<String> values = Arrays.asList("Z-1-2022", "2022-12-06");
+//        List<String> operators = Arrays.asList(" ", "&&");
+//
+//        String query = getMetadataAdvancedQuery(preds, values, operators);
+//        System.out.println(query);
+//        List<RDFNode> nodes = searchMetadata(query);
+//        for(RDFNode node: nodes){
+//            System.out.println(node.toString());
+//        }
+    }
+
 }
