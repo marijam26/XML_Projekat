@@ -14,6 +14,10 @@
                     <xsl:value-of select="//p1:Zahtev_za_patent/@Broj_prijave"/>
                 </pred:Broj>
 
+                <pred:Id>
+                    <xsl:value-of select="//p1:Zahtev_za_patent/@Id"/>
+                </pred:Id>
+
                 <pred:Datum_podnosenja>
                     <xsl:value-of select="//p1:Zahtev_za_patent/@Datum_podnosenja"/>
                 </pred:Datum_podnosenja>
@@ -35,6 +39,22 @@
                         <pred:Podnosilac_prezime>
                             <xsl:value-of select="//sema:Podnosilac_prijave/sema:Prezime"/>
                         </pred:Podnosilac_prezime>
+                    </xsl:otherwise>
+                </xsl:choose>
+
+                <xsl:choose>
+                    <xsl:when test="//sema:Punomocnik/sema:Poslovno_ime">
+                        <pred:Punomocnik_poslovno_ime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Poslovno_ime"/>
+                        </pred:Punomocnik_poslovno_ime>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <pred:Punomocnik_ime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Ime"/>
+                        </pred:Punomocnik_ime>
+                        <pred:Punomocnik_prezime>
+                            <xsl:value-of select="//sema:Punomocnik/sema:Prezime"/>
+                        </pred:Punomocnik_prezime>
                     </xsl:otherwise>
                 </xsl:choose>
 

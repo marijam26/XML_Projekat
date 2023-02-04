@@ -7,7 +7,7 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./advanced-search.component.css']
 })
 export class AdvancedSearchComponent {
-  operatori:string[] = [];
+  operatori:string[] = [''];
   metapodaci:string[] = [''];
   vredosti:string[] = [''];
 
@@ -22,12 +22,16 @@ export class AdvancedSearchComponent {
     }else{
       this.toast.error('Unesite sve!')
     }
-
-    console.log(this.metapodaci)
   }
 
   pretrazi(){
-    //salje se
+    //ukloni se poslednji ako je prazan
+    if(this.metapodaci.at(-1) === '' || this.vredosti.at(-1) === '') {
+      this.metapodaci.splice(this.metapodaci.length-1,1)
+      this.vredosti.splice(this.vredosti.length-1,1)
+      this.operatori.splice(this.operatori.length-1,1)
+    }
+
     console.log(this.operatori)
     console.log(this.metapodaci)
     console.log(this.vredosti)

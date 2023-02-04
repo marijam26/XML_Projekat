@@ -5,19 +5,43 @@
       <p class="px-5 pb-3" style="font-size: 33px">Napredna pretraga po metapodacima</p>
       <div class="row px-5" *ngFor="let m of metapodaci;let index = index;">
         <div class="col-2" *ngIf="index!==0">
-          <select class=" form-control" [(ngModel)]="operatori[index-1]">
+          <select class=" form-control" [(ngModel)]="operatori[index]">
             <option value="&&">I</option>
             <option value="||" selected>ILI</option>
-            <option value="!" >NE</option>
+            <option value="&&!" >I NE</option>
+            <option value="||!" >ILI NE</option>
+          </select>
+        </div>
+        <div class="col-2" *ngIf="index===0">
+          <select class=" form-control" [(ngModel)]="operatori[index]">
+            <option value=" " selected></option>
+            <option value="!">NE</option>
           </select>
         </div>
 
         <div class="col-4">
           <select class=" form-control" [(ngModel)]="metapodaci[index]" >
             <option value="" disabled selected>Izaberi metapodatak</option>
-            <option>Broj_prijave</option>
-            <option>Datum</option>
-            <option>Nesto</option>
+            <option>Id</option>
+            <option>Broj</option>
+            <option>Datum_podnosenja</option>
+            <option>Podnosilac_ime</option>
+            <option>Podnosilac_prezime</option>
+            <option>Podnosilac_poslovno_ime</option>
+            <option>Punomocnik_ime</option>
+            <option>Punomocnik_prezime</option>
+            <option>Punomocnik_poslovno_ime</option>
+            <option>Tip_ziga</option>
+            <option>Vrsta_znaka</option>
+            <option>Naslov_autorskog_dela</option>
+            <option>Vrsta_autorskog_dela</option>
+            <option>Autor_ime</option>
+            <option>Autor_prezime</option>
+            <option>Pronalazac_ime</option>
+            <option>Pronalazac_prezime</option>
+            <option>Pronalazak_naziv_na_srpskom</option>
+            <option>Pronalazak_naziv_na_engleskom</option>
+            <option>Broj_ranije_prijave</option>
           </select>
         </div>
 
