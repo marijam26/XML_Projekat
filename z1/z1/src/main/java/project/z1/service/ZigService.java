@@ -201,8 +201,8 @@ public class ZigService {
         return getByQuery(query);
     }
 
-    public List<ZahtevZaZig> searchMetadataAdvanced(String data) throws IOException {
-        String query = metadataRepository.getMetadataAdvancedQuery(data);
+    public List<ZahtevZaZig> searchMetadataAdvanced(MetadataSearchDTO data) throws IOException {
+        String query = metadataRepository.getMetadataAdvancedQuery(data.getPreds(), data.getValues(), data.getOperators());
         return getByQuery(query);
     }
 

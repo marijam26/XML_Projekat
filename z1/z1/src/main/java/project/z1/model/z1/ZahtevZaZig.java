@@ -65,18 +65,18 @@ public class ZahtevZaZig {
 
     @XmlAttribute(name = "Id")
     @XmlSchemaType(name = "string")
-    protected BigInteger id;
+    protected String id;
 
     @XmlAttribute(name = "Datum_podnosenja")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar datumPodnosenja;
 
 
-    public BigInteger getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(String id) {
         this.id = id;
     }
 

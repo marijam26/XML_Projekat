@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
+import project.z1.dto.MetadataSearchDTO;
 import project.z1.dto.ZahtevZaZigDTO;
 import project.z1.model.z1.ZahtevZaZig;
 import project.z1.service.ZigService;
@@ -65,8 +66,8 @@ public class ZigController {
     }
 
 
-    @GetMapping(value = "/searchMetadata/advanced/{data}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> searchMetadataAdvanced(@PathVariable String data) throws Exception {
+    @PostMapping(value = "/searchMetadata/advanced", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaZig>> searchMetadataAdvanced(@RequestBody MetadataSearchDTO data) throws Exception {
         List<ZahtevZaZig> zahtevi = zigService.searchMetadataAdvanced(data);
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
