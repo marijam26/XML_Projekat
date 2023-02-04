@@ -40,7 +40,7 @@
       <div *ngFor="let zahtev of neobradjeniZahtavi" class="card rounded-2 col-4 zoom mx-3 my-2 zoom" style="width: 300px;height: 175px;background: white;">
         <div class="row pt-3">
           <i class="fa-solid fa-pen-to-square pt-2 col-1 "></i>
-          <strong class="col-8" style="font-size: 20px">P{{zahtev.brojPrijave}}-{{zahtev.datumPodnosenja}}</strong>
+          <strong class="col-8" style="font-size: 20px">P{{zahtev.id}}-{{zahtev.datumPodnosenja}}</strong>
         </div>
 
         <p *ngIf="zahtev.podnosilacPrijave.poslovnoIme === ''" class="pt-1" style="font-size: 19px">Podnosilac: {{zahtev.podnosilacPrijave.ime}} {{zahtev.podnosilacPrijave.prezime}}</p>
@@ -48,18 +48,18 @@
 
 
         <div class="row pt-5 btn-group">
-          <button class="btn btn-success col-5 btn-sm">Prihvati</button>
-          <button class="btn btn-danger col-5 btn-sm" (click)="showModal=true">Odbij</button>
-          <button class="btn btn-dark col-2 btn-sm" (click)="clickShow(zahtev.brojPrijave.toString())"><i class="fa-solid fa-download"></i></button>
+          <button class="btn btn-success col-5 btn-sm" (click)="prihvatiZahtev(zahtev)">Prihvati</button>
+          <button class="btn btn-danger col-5 btn-sm" (click)="clickOdbij(zahtev)">Odbij</button>
+          <button class="btn btn-dark col-2 btn-sm" (click)="clickShow(zahtev.id.toString())"><i class="fa-solid fa-download"></i></button>
 
         </div>
         <div class="row justify-content-end">
-          <div class="dropdown-menu col-2" [class.show]="showDropDown === zahtev.brojPrijave.toString()" >
-            <a class="dropdown-item" (click)="getPDF(zahtev.brojPrijave.toString())" href="/view">PDF</a>
-            <a class="dropdown-item" (click)="getHTML(zahtev.brojPrijave.toString())" href="/view">HTML</a>
+          <div class="dropdown-menu col-2" [class.show]="showDropDown === zahtev.id.toString()" >
+            <a class="dropdown-item" (click)="getPDF(zahtev.id.toString())" href="/view">PDF</a>
+            <a class="dropdown-item" (click)="getHTML(zahtev.id.toString())" href="/view">HTML</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="getRDF(zahtev.brojPrijave.toString())" href="/view">RDF</a>
-            <a class="dropdown-item" (click)="getJSON(zahtev.brojPrijave.toString())" href="/view">JSON</a>
+            <a class="dropdown-item" (click)="getRDF(zahtev.id.toString())" href="/view">RDF</a>
+            <a class="dropdown-item" (click)="getJSON(zahtev.id.toString())" href="/view">JSON</a>
           </div>
         </div>
       </div>
@@ -69,10 +69,11 @@
       <div *ngFor="let zahtev of obradjeniZahtevi" class="card rounded-2 col-4 zoom mx-3 my-2" style="width: 300px;height: 175px;background: white">
         <div class="row pt-3">
           <i class="fa-solid fa-book pt-2 col-1 "></i>
-          <strong class="col-8" style="font-size: 20px">A1-20.01.2022</strong>
+          <strong class="col-8" style="font-size: 20px">P{{zahtev.brojPrijave}}-{{zahtev.datumPodnosenja}}</strong>
         </div>
 
-        <p class="pt-1" style="font-size: 19px">Podnosilac: Pera Peric</p>
+        <p *ngIf="zahtev.podnosilacPrijave.poslovnoIme === ''" class="pt-1" style="font-size: 19px">Podnosilac: {{zahtev.podnosilacPrijave.ime}} {{zahtev.podnosilacPrijave.prezime}}</p>
+        <p *ngIf="zahtev.podnosilacPrijave.poslovnoIme !== ''" class="pt-1" style="font-size: 19px">Podnosilac: {{zahtev.podnosilacPrijave.poslovnoIme}}</p>
 
         <div class="row pt-5">
           <button class="btn btn-success">Prihvacen</button>
@@ -93,11 +94,11 @@
                 </button>
               </div>
               <div class="modal-body px-3 pt-4 pb-3">
-                <textarea class="form-control" placeholder="Razlog odijanja"></textarea>
+                <textarea class="form-control" placeholder="Razlog odijanja" [(ngModel)]="obrazlozenje"></textarea>
 
               </div>
               <div class="modal-footer p-2">
-                <button  class="btn btn-outline-light" type="button">
+                <button  class="btn btn-outline-light" type="button" (click)="odbijZahtev()">
                   Posalji
                 </button>
               </div>

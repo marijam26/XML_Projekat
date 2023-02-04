@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ZahtevZaPatentDTO} from '../model/zahtev-za-patent';
 import * as JsonToXML from 'js2xmlparser';
 import {RanijaPrijavaDTO} from "../model/ranija-prijava";
+import {ResenjeDTO} from "../../shared-models/resenjeDTO";
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +30,36 @@ export class P1Service {
     });
   }
 
+  getAllZahetvPatent() {
+    return this._http.get(this.p1Url + '/getAllZahetve', {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text'
+    });
+  }
+
+  getAllOdobrenePatent() {
+    return this._http.get(this.p1Url + '/getAllOdobrene', {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text'
+    });
+  }
+
   savePatent(zahtev: ZahtevZaPatentDTO) {
     const xmlZahtev = JsonToXML.parse('zahtevZaPatentDTO', zahtev);
-    console.log(xmlZahtev);
-    const newUrl = this.p1Url + '/save'; //document id
+    const newUrl = this.p1Url + '/save';
     return this._http.post<any>(newUrl, xmlZahtev, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/xml',
+        'Access-Control-Allow-Origin': '*',
+        responseType: 'text',
+      }),
+    });
+  }
+
+  saveResenje(resenje:ResenjeDTO){
+    const resenjeXML = JsonToXML.parse('resenjeDTO', resenje);
+    const newUrl = this.p1Url + '/saveResenje';
+    return this._http.post<any>(newUrl, resenjeXML, {
       headers: new HttpHeaders({
         'Content-Type': 'application/xml',
         'Access-Control-Allow-Origin': '*',
@@ -44,6 +70,7 @@ export class P1Service {
 
   mapXmlToPatent(data:any){
     let zahtev = new ZahtevZaPatentDTO();
+    zahtev.id = data['_attributes']['Id'];
     zahtev.brojPrijave = data['_attributes']['Broj_prijave'];
     zahtev.datumPodnosenja = data['_attributes']['Datum_podnosenja'];
     zahtev.datumPrijema = data['_attributes']['Datum_prijema'];
@@ -113,9 +140,14 @@ export class P1Service {
     zahtev.pronalazak.srpskiNaziv = data['ns3:Pronalazak']['ns3:Srpski_naziv']._text;
 
     if(data['ns3:Ranija_prijava'] != undefined){
-      for(let ranija of data['ns3:Ranija_prijava']){
-        zahtev.ranijaPrijava.push(new RanijaPrijavaDTO(ranija['ns3:Broj']._text,ranija['ns3:Datum']._text,ranija['ns3:Oznaka_drzave']._text));
+      if(Array.isArray(data['ns3:Ranija_prijava'])){
+        for(let ranija of data['ns3:Ranija_prijava']){
+          zahtev.ranijaPrijava.push(new RanijaPrijavaDTO(ranija['ns3:Broj']._text,ranija['ns3:Datum']._text,ranija['ns3:Oznaka_drzave']._text));
+        }
+      }else{
+        zahtev.ranijaPrijava.push(new RanijaPrijavaDTO(data['ns3:Ranija_prijava']['ns3:Broj']._text,data['ns3:Ranija_prijava']['ns3:Datum']._text,data['ns3:Ranija_prijava']['ns3:Oznaka_drzave']._text));
       }
+
     }
 
     console.log(zahtev)
