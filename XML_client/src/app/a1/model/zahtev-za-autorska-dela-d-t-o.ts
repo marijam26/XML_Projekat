@@ -6,6 +6,7 @@ import {Prilozi} from "./prilozi";
 export class ZahtevZaAutorskaDelaDTO {
 
   constructor(
+    public id:string = '',
     public broj:number = 11,
     public datumPodnosenja: string = '',
     public podnosilacPrijave:TLiceDTO = new TLiceDTO(),

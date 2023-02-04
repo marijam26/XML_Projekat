@@ -7,24 +7,28 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
 import project.a1.dto.a1.*;
-import project.a1.dto.main_schema.AdresaDTO;
-import project.a1.dto.main_schema.KontaktDTO;
-import project.a1.dto.main_schema.TLiceDTO;
-import project.a1.dto.main_schema.TPrilogDTO;
+import project.a1.dto.main_schema.*;
 import project.a1.model.a1.*;
 import project.a1.model.main_schema.*;
+import project.a1.model.resenje.Resenje;
 import project.a1.repository.AutorskoDeloRepository;
+import project.a1.repository.MetadataRepository;
+import project.a1.util.DatabaseUtilities;
 import project.a1.util.MarshallingUtils;
 import project.a1.util.PDFTransformer;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AutorskoDeloService {
@@ -41,13 +45,49 @@ public class AutorskoDeloService {
         autorskoDeloRepository.save(os);
     }
 
+    public void save(Resenje resenje) throws JAXBException, XMLDBException {
+        MarshallingUtils marshallingUtils = new MarshallingUtils();
+        OutputStream os = marshallingUtils.marshall(resenje);
+        autorskoDeloRepository.saveResenje(os,resenje.getReferenca(),resenje.getSifraZahteva());
+    }
+
+
 
     public ZahtevZaAutorskaDela getOne(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         return autorskoDeloRepository.getOne(id);
     }
 
+    public Resenje map(ResenjeDTO resenjeDTO){
+        Resenje resenje = new Resenje();
+        resenje.setImeSluzbenika(resenjeDTO.imeSluzbenika);
+        resenje.setPrezimeSluzbenika(resenjeDTO.prezimeSluzbenika);
+        resenje.setOdobren(resenjeDTO.odobren);
+        resenje.setReferenca(resenjeDTO.referenca);
+        resenje.setObrazlozenje(resenjeDTO.obrazlozenje);
+        resenje.setSifraZahteva(resenjeDTO.referenca);
+        resenje.setDatumRazresenjaZahteva(getDateXML(new Date()));
+        return resenje;
+    }
+
+
+    private XMLGregorianCalendar getDateXML(Date datum) {
+        XMLGregorianCalendar xmlDate = null;
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(datum);
+
+        try {
+            xmlDate = DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(gc);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return xmlDate;
+    }
+
     public ZahtevZaAutorskaDela map(ZahtevZaAutorskaDelaDTO dto) {
         ZahtevZaAutorskaDela delo = new ZahtevZaAutorskaDela();
+        delo.setId("A-"+ (DatabaseUtilities.getCollectionSize("db/autorskaDela")+1)+"-"+ dto.datumPodnosenja.getYear());
         delo.setpodnosilacJeAutor(dto.podnosilacJeAutor);
         delo.setPodnosilacPrijave(mapTLice(dto.podnosilacPrijave));
         delo.setAutorskoDelo(mapDelo(dto.autorskoDelo));
@@ -79,7 +119,7 @@ public class AutorskoDeloService {
         a.setPrerada(autorskoDelo.prerada);
         a.setStvorenoURadnomOdnosu(autorskoDelo.stvorenoURadnomOdnosu);
         AutorskoDelo.Vrsta v = new AutorskoDelo.Vrsta();
-        v.setValue(TVrsta.valueOf(autorskoDelo.vrsta.value));
+        v.setValue(mapVrstaDela(autorskoDelo.vrsta.value));
         v.setOstalaVrstaDela(autorskoDelo.vrsta.ostalaVrstaDela);
         a.setVrsta(v);
         AutorskoDelo.FormatZapisa z = new AutorskoDelo.FormatZapisa();
@@ -88,6 +128,22 @@ public class AutorskoDeloService {
         a.setFormatZapisa(z);
         a.setIzvornoDelo(mapIzvorno(autorskoDelo.izvornoDelo));
         return a;
+    }
+
+    private TVrsta mapVrstaDela(String value) {
+        if (value.equalsIgnoreCase("knjizevno_delo")){
+            return TVrsta.KNJIZEVNO_DELO;
+        }
+        else if(value.equalsIgnoreCase("muzicko_delo")){
+            return TVrsta.MUZICKO_DELO;
+        }
+        else if(value.equalsIgnoreCase("likovno_delo")){
+            return TVrsta.LIKOVNO_DELO;
+        }else if (value.equalsIgnoreCase("racunarski_program")){
+            return TVrsta.RACUNARSKI_PROGRAM;
+        }else{
+            return TVrsta.OSTALO;
+        }
     }
 
     private IzvornoDelo mapIzvorno(IzvornoDeloDTO izvornoDelo) {
@@ -175,13 +231,58 @@ public class AutorskoDeloService {
 
     public void getDocumentPdf(String id) throws DocumentException, IOException {
         PDFTransformer pdfTransformer = new PDFTransformer();
-        String fileNamePDF = "p" + id + ".pdf";
-        String fileNameHTML = "p" + id + ".html";
+        String fileNamePDF = "a" + id + ".pdf";
+        String fileNameHTML = "a" + id + ".html";
 
         Node patentNode = autorskoDeloRepository.getAutorskoPravoNode(id);
 
         pdfTransformer.generateHTML(fileNameHTML,patentNode);
         pdfTransformer.generatePDF(fileNamePDF,fileNameHTML);
 
+    }
+
+    public List<ZahtevZaAutorskaDela> search(String data) throws Exception {
+        return autorskoDeloRepository.search(data);
+    }
+
+    public List<ZahtevZaAutorskaDela> getAll() {
+        return autorskoDeloRepository.getAll();
+    }
+
+    public List<ZahtevZaAutorskaDela> getAllRequests() throws XMLDBException {
+        List<ZahtevZaAutorskaDela> sviZahtevi = autorskoDeloRepository.getAll();
+        List<ZahtevZaAutorskaDela> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = autorskoDeloRepository.getAllResenja();
+        List<String> reference = svaResenja.stream().map(Resenje::getReferenca).collect(Collectors.toList());
+        for (ZahtevZaAutorskaDela zahtev:sviZahtevi){
+            if(!reference.contains(zahtev.getId())){
+                zahtevi.add(zahtev);
+            }
+        }
+
+        return zahtevi;
+    }
+
+    public List<ZahtevZaAutorskaDela> getAllApprovedRequests() throws XMLDBException {
+        List<ZahtevZaAutorskaDela> sviZahtevi = autorskoDeloRepository.getAll();
+        List<ZahtevZaAutorskaDela> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = autorskoDeloRepository.getAllResenja();
+        for (Resenje resenje:svaResenja){
+            if(resenje.getOdobren()){
+                for(ZahtevZaAutorskaDela z:sviZahtevi){
+                    if(z.getId().equals(resenje.getReferenca())){
+                        zahtevi.add(z);
+                    }
+                }
+            }
+
+        }
+        return zahtevi;
+    }
+
+    public void saveMetadataForZahtev(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, TransformerException {
+        ZahtevZaAutorskaDela zahtevZaPatent = getOne(id);
+        MetadataRepository repo = new MetadataRepository();
+        repo.extractMetadata(zahtevZaPatent);
     }
 }

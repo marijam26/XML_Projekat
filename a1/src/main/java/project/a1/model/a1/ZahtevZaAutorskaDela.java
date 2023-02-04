@@ -69,6 +69,9 @@ public class ZahtevZaAutorskaDela {
     protected BigInteger broj;
     @XmlAttribute(name = "Podnosilac_je_autor")
     protected Boolean podnosilacJeAutor = false;
+    @XmlAttribute(name = "Id")
+    @XmlSchemaType(name = "string")
+    protected String id;
 
     /**
      * Gets the value of the podnosilacPrijave property.
@@ -236,6 +239,14 @@ public class ZahtevZaAutorskaDela {
      */
     public void setBroj(BigInteger value) {
         this.broj = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String value) {
+        this.id = value;
     }
 
     public Boolean getpodnosilacJeAutor() {

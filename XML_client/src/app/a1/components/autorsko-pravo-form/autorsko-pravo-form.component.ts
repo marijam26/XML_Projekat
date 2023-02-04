@@ -4,6 +4,7 @@ import { ZahtevZaAutorskaDelaDTO } from '../../model/zahtev-za-autorska-dela-d-t
 import { TVrsta } from '../../model/t-vrsta';
 import { TFormatZapisa } from '../../model/t-format-zapisa';
 import { AdresaDTO } from '../../../shared-models/adresaDTO';
+import {Toast, ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-autorsko-pravo-form',
@@ -33,7 +34,7 @@ export class AutorskoPravoFormComponent {
   vrsta: string = 'KNJIZEVNO_DELO';
   format: string = 'OPTICKI_DISK';
 
-  constructor(private a1: A1Service) {
+  constructor(private a1: A1Service,private toast:ToastrService) {
     let con = this;
     if (this.upotreba === 'read') {
       this.a1.getAutorskoPravo().subscribe((data) => {
@@ -243,7 +244,9 @@ export class AutorskoPravoFormComponent {
 
   sendRequest() {
     console.log(this.zahtev);
-    if (this.zahtev != undefined)
+    if (this.zahtev != undefined){
       this.a1.saveAutorskoPravo(this.zahtev).subscribe();
+      this.toast.success("Successful!","Congradulations!");
+    }
   }
 }
