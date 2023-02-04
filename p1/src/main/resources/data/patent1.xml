@@ -2,8 +2,8 @@
 <Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
-    Broj_prijave="3" Datum_podnosenja="2022-05-17" Datum_prijema="2022-10-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
-    <Podnosilac_prijave xsi:type="TPravno_lice" xmlns="http://ftn.uns.ac.rs/sema">
+    Id="4" Broj_prijave="4" Datum_podnosenja="2022-06-25" Datum_prijema="2022-06-25" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
+    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Doza Djerdja</Ulica>
             <Broj>57</Broj>
@@ -16,11 +16,13 @@
             <Faks>faksic</Faks>
             <E_posta>maki@gmail.com</E_posta>
         </Kontakt>
-        <Poslovno_ime>Profit</Poslovno_ime>
+        <Ime>Novica</Ime>
+        <Prezime>Novic</Prezime>
+        <Drzavljanstvo>RS</Drzavljanstvo>
     </Podnosilac_prijave>
     <Pronalazak>
-        <Srpski_naziv>Kisobran</Srpski_naziv>
-        <Engleski_naziv>Umbrella</Engleski_naziv>
+        <Srpski_naziv>Bubanj</Srpski_naziv>
+        <Engleski_naziv>Drums</Engleski_naziv>
     </Pronalazak>
     <Punomocnik xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
@@ -51,11 +53,6 @@
         <Broj>5</Broj>
         <Datum>2022-06-06</Datum>
         <Oznaka_drzave>GM</Oznaka_drzave>
-    </Ranija_prijava>
-    <Ranija_prijava>
-        <Broj>3</Broj>
-        <Datum>2022-06-06</Datum>
-        <Oznaka_drzave>RS</Oznaka_drzave>
     </Ranija_prijava>
     <Pronalazac>
         <Adresa xmlns="http://ftn.uns.ac.rs/sema">

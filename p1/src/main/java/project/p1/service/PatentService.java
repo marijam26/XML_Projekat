@@ -11,8 +11,10 @@ import project.p1.model.p1.OsnovnaPrijava;
 import project.p1.model.p1.TNacinDostavljanja;
 import project.p1.model.p1.TVrstaPunomocnika;
 import project.p1.model.p1.ZahtevZaPatent;
+import project.p1.model.resenje.Resenje;
 import project.p1.repository.MetadataRepository;
 import project.p1.repository.PatentRepository;
+import project.p1.util.DatabaseUtilities;
 import project.p1.util.MarshallingUtils;
 import project.p1.util.PDFTransformer;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PatentService {
@@ -38,7 +41,13 @@ public class PatentService {
     public void save(ZahtevZaPatent zahtevZaPatent) throws JAXBException, XMLDBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaPatent);
-        patentRepository.save(os);
+        patentRepository.save(os,zahtevZaPatent.getId().toString());
+    }
+
+    public void save(Resenje resenje) throws JAXBException, XMLDBException {
+        MarshallingUtils marshallingUtils = new MarshallingUtils();
+        OutputStream os = marshallingUtils.marshall(resenje);
+        patentRepository.saveResenje(os,resenje.getReferenca(),resenje.getSifraZahteva());
     }
 
     public ZahtevZaPatent getPatent(String id){
@@ -47,6 +56,37 @@ public class PatentService {
 
     public List<ZahtevZaPatent> getAllPatents(){
         return patentRepository.getAll();
+    }
+
+    public List<ZahtevZaPatent> getAllZahtevePatents(){
+        List<ZahtevZaPatent> sviZahtevi = patentRepository.getAll();
+        List<ZahtevZaPatent> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = patentRepository.getAllResenja();
+        List<String> reference = svaResenja.stream().map(Resenje::getReferenca).collect(Collectors.toList());
+        for (ZahtevZaPatent zahtev:sviZahtevi){
+            if(!reference.contains(zahtev.getId().toString())){
+                zahtevi.add(zahtev);
+            }
+        }
+
+        return zahtevi;
+    }
+
+    public List<ZahtevZaPatent> getAllOdobrenePatents(){
+        List<ZahtevZaPatent> sviZahtevi = patentRepository.getAll();
+        List<ZahtevZaPatent> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = patentRepository.getAllResenja();
+        for (Resenje resenje:svaResenja){
+            if(resenje.getOdobren()){
+                for(ZahtevZaPatent z:sviZahtevi){
+                    if(z.getId().toString().equals(resenje.getReferenca())){
+                        zahtevi.add(z);
+                    }
+                }
+            }
+
+        }
+        return zahtevi;
     }
 
     public void saveMetadataForZahetv(String id) throws JAXBException, IOException, TransformerException {
@@ -67,9 +107,22 @@ public class PatentService {
 
     }
 
+    public Resenje map(ResenjeDTO resenjeDTO){
+        Resenje resenje = new Resenje();
+        resenje.setImeSluzbenika(resenjeDTO.imeSluzbenika);
+        resenje.setPrezimeSluzbenika(resenjeDTO.prezimeSluzbenika);
+        resenje.setOdobren(resenjeDTO.odobren);
+        resenje.setReferenca(resenjeDTO.referenca);
+        resenje.setObrazlozenje(resenjeDTO.obrazlozenje);
+        resenje.setSifraZahteva(resenjeDTO.referenca);
+        resenje.setDatumRazresenjaZahteva(getDateXML(new Date()));
+        return resenje;
+    }
+
     public ZahtevZaPatent map(ZahtevZaPatentDTO zahtevZaPatent) {
         ZahtevZaPatent zahtev = new ZahtevZaPatent();
-        zahtev.setBrojPrijave(zahtevZaPatent.brojPrijave);
+        zahtev.setId(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/patenti") + 1));
+        zahtev.setBrojPrijave(zahtev.getId());
         zahtev.setDatumPrijema(getDateXML(new Date()));
         zahtev.setDatumPodnosenja(getDateXML(new Date()));
         zahtev.setVrstaPunomocnika(TVrstaPunomocnika.fromValue(zahtevZaPatent.vrstaPunomocnika));

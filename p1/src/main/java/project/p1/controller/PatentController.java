@@ -10,8 +10,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import project.p1.dto.ListaZahtevaZaPatentDTO;
+import project.p1.dto.ResenjeDTO;
 import project.p1.dto.ZahtevZaPatentDTO;
 import project.p1.model.p1.ZahtevZaPatent;
+import project.p1.model.resenje.Resenje;
 import project.p1.service.PatentService;
 import project.p1.util.MarshallingUtils;
 
@@ -42,6 +44,32 @@ public class PatentController {
 
     }
 
+    @GetMapping(value = "/getAllZahetve", produces = MediaType.APPLICATION_XML_VALUE,consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<ListaZahtevaZaPatentDTO> getAllZahteve(HttpServletRequest request){
+        try {
+            List<ZahtevZaPatent> zahtevZaPatentList = patentService.getAllZahtevePatents();
+            ListaZahtevaZaPatentDTO listaZahtevaZaPatentDTO = new ListaZahtevaZaPatentDTO(zahtevZaPatentList);
+            return new ResponseEntity<>(listaZahtevaZaPatentDTO,HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @GetMapping(value = "/getAllOdobrene", produces = MediaType.APPLICATION_XML_VALUE,consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<ListaZahtevaZaPatentDTO> getAllOdobrene(HttpServletRequest request){
+        try {
+            List<ZahtevZaPatent> zahtevZaPatentList = patentService.getAllOdobrenePatents();
+            ListaZahtevaZaPatentDTO listaZahtevaZaPatentDTO = new ListaZahtevaZaPatentDTO(zahtevZaPatentList);
+            return new ResponseEntity<>(listaZahtevaZaPatentDTO,HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<ZahtevZaPatent> getOne(@PathVariable String id){
         ZahtevZaPatent zahtevZaPatent = patentService.getPatent(id);
@@ -63,6 +91,18 @@ public class PatentController {
         try {
             ZahtevZaPatent zahtev = patentService.map(zahtevZaPatentDTO);
             patentService.save(zahtev);
+        } catch (Exception e) {
+            // vrati bad request
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    @PostMapping(value = "/saveResenje", consumes = "application/xml")
+    public void addResenje(@RequestBody ResenjeDTO resenjeDTO){
+        try {
+            Resenje resenje = patentService.map(resenjeDTO);
+            patentService.save(resenje);
         } catch (Exception e) {
             // vrati bad request
             System.out.println(e.getMessage());
@@ -108,5 +148,6 @@ public class PatentController {
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         }
     }
+
 
 }

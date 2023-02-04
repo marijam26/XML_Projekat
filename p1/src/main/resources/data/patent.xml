@@ -2,7 +2,7 @@
 <Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
-    Broj_prijave="1" Datum_podnosenja="2022-12-06" Datum_prijema="2022-12-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
+    Id="1" Broj_prijave="1" Datum_podnosenja="2022-12-06" Datum_prijema="2022-12-06" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
     <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Doza Djerdja</Ulica>

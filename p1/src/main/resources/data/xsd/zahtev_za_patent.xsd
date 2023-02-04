@@ -48,6 +48,7 @@
                 </xs:element>
                 <xs:element name="Pronalazac" type="sema:TFizicko_lice" minOccurs="0"/>
             </xs:sequence>
+            <xs:attribute name="Id" type="xs:positiveInteger"/>
             <xs:attribute name="Broj_prijave" type="xs:positiveInteger"/>
             <xs:attribute name="Datum_prijema" type="xs:date"/>
             <xs:attribute name="Datum_podnosenja" type="xs:date"/>

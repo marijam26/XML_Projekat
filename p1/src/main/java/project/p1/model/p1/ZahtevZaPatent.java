@@ -40,6 +40,9 @@ public class ZahtevZaPatent {
     protected List<RanijaPrijava> ranijaPrijava;
     @XmlElement(name = "Pronalazac")
     protected TFizickoLice pronalazac;
+    @XmlAttribute(name = "Id")
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger id;
     @XmlAttribute(name = "Broj_prijave")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger brojPrijave;
