@@ -8,19 +8,23 @@ import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
 import project.z1.dto.*;
 import project.z1.model.main_schema.*;
+import project.z1.model.resenje.Resenje;
 import project.z1.model.z1.*;
 import project.z1.repository.MetadataRepository;
 import project.z1.repository.ZigRepository;
+import project.z1.util.DatabaseUtilities;
 import project.z1.util.MarshallingUtils;
 import project.z1.util.PDFTransformer;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ZigService {
@@ -28,13 +32,20 @@ public class ZigService {
     @Autowired
     private ZigRepository zigRepository;
 
-    @Autowired
     private MetadataRepository metadataRepository;
 
-    public void save(ZahtevZaZig zahtevZaZig) throws JAXBException, XMLDBException {
+    public void save(ZahtevZaZig zahtevZaZig) throws JAXBException, XMLDBException, IOException, TransformerException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaZig);
         zigRepository.save(os);
+        metadataRepository = new MetadataRepository();
+        metadataRepository.extractMetadata(zahtevZaZig);
+    }
+
+    public void save(Resenje resenje) throws JAXBException, XMLDBException {
+        MarshallingUtils marshallingUtils = new MarshallingUtils();
+        OutputStream os = marshallingUtils.marshall(resenje);
+        zigRepository.saveResenje(os,resenje.getReferenca());
     }
 
 
@@ -53,17 +64,52 @@ public class ZigService {
         return zigRepository.getById(id);
     }
 
-    public ZahtevZaZig map(ZahtevZaZigDTO zahtevZaZigDTO) {
-        ZahtevZaZig zahtevZaZig = new ZahtevZaZig();
-        zahtevZaZig.setBrojPrijave(BigInteger.valueOf(1));  // ...
-        zahtevZaZig.setDatumPodnosenja(getCurrentDate());
-        zahtevZaZig.setPodnosilacPrijave(getTLice(zahtevZaZigDTO.podnosilac));
-        zahtevZaZig.setPunomocnik(getTLice(zahtevZaZigDTO.punomocnik));
-        zahtevZaZig.setZig(getZigFromDTO(zahtevZaZigDTO.zig));
-        zahtevZaZig.setTakse(getTakse(zahtevZaZigDTO.takse));
-        zahtevZaZig.setPrilozi(getPrilozi(zahtevZaZigDTO.prilozi));
-        return zahtevZaZig;
+    public ZahtevZaZig map(ZahtevZaZigDTO zahtevZaZig) {
+        ZahtevZaZig zahtev = new ZahtevZaZig();
+        zahtev.setBrojPrijave(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/zigovi") + 1));
+        zahtev.setId("Z-"+ zahtev.getBrojPrijave()+"-"+formatDateToXML(zahtevZaZig.datumPodnosenja).getYear());
+        zahtev.setDatumPodnosenja(getDateXML(new Date()));
+        zahtev.setPodnosilacPrijave(getTLice(zahtevZaZig.podnosilacPrijave));
+        zahtev.setPunomocnik(getTLice(zahtevZaZig.punomocnik));
+        zahtev.setZig(getZigFromDTO(zahtevZaZig.zig));
+        zahtev.setTakse(getTakse(zahtevZaZig.takse));
+        zahtev.setPrilozi(getPrilozi(zahtevZaZig.prilozi));
+        return zahtev;
     }
+
+    public Resenje map(ResenjeDTO resenjeDTO){
+        Resenje resenje = new Resenje();
+        resenje.setImeSluzbenika(resenjeDTO.imeSluzbenika);
+        resenje.setPrezimeSluzbenika(resenjeDTO.prezimeSluzbenika);
+        resenje.setOdobren(resenjeDTO.odobren);
+        resenje.setReferenca(resenjeDTO.referenca);
+        resenje.setObrazlozenje(resenjeDTO.obrazlozenje);
+        resenje.setSifraZahteva(resenjeDTO.referenca);
+        resenje.setDatumRazresenjaZahteva(getDateXML(new Date()));
+        return resenje;
+    }
+
+    private XMLGregorianCalendar getDateXML(Date datum) {
+        XMLGregorianCalendar xmlDate = null;
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(datum);
+
+        try {
+            xmlDate = DatatypeFactory.newInstance()
+                    .newXMLGregorianCalendar(gc);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return xmlDate;
+    }
+
+    public XMLGregorianCalendar formatDateToXML(String datum){
+        String[] datum_delovi = datum.split("-");
+        GregorianCalendar gc = new GregorianCalendar(Integer.parseInt(datum_delovi[0]), Integer.parseInt(datum_delovi[1]),Integer.parseInt(datum_delovi[2]));
+        return getDateXML(gc.getTime());
+    }
+
 
     private Prilozi getPrilozi(ZigPrilozi priloziDTO) {
         Prilozi prilozi = new Prilozi();
@@ -141,7 +187,7 @@ public class ZigService {
     private TLice getTLice(TLiceDTO podnosilac) {
         Adresa a = mapAdresa(podnosilac.adresa);
         Kontakt k = mapKontakt(podnosilac.kontakt);
-        if (podnosilac.poslovnoIme != null && !podnosilac.poslovnoIme.equals("") && !podnosilac.poslovnoIme.equals("undefined")){
+        if (!podnosilac.poslovnoIme.equals("")){
             TPravnoLice t = new TPravnoLice();
             t.setPoslovnoIme(podnosilac.poslovnoIme);
             t.setAdresa(a);
@@ -176,22 +222,6 @@ public class ZigService {
         return a;
     }
 
-    public XMLGregorianCalendar getCurrentDate(){
-        Date date = new Date();
-        XMLGregorianCalendar xmlDate = null;
-        GregorianCalendar gc = new GregorianCalendar();
-        gc.setTime(date);
-
-        try {
-            xmlDate = DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendar(gc);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return xmlDate;
-    }
-
     public List<ZahtevZaZig> search(String data) throws Exception {
         return zigRepository.search(data);
     }
@@ -211,6 +241,41 @@ public class ZigService {
         List<ZahtevZaZig> zahtevi = new ArrayList<>();
         for(RDFNode f: files){
             zahtevi.add(zigRepository.getById(f.toString()));
+        }
+        return zahtevi;
+    }
+
+    public List<ZahtevZaZig> getAll() {
+        return zigRepository.getAll();
+    }
+
+    public List<ZahtevZaZig> getAllZahteve() {
+        List<ZahtevZaZig> sviZahtevi = zigRepository.getAll();
+        List<ZahtevZaZig> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = zigRepository.getAllResenja();
+        List<String> reference = svaResenja.stream().map(Resenje::getReferenca).collect(Collectors.toList());
+        for (ZahtevZaZig zahtev: sviZahtevi){
+            if(!reference.contains(zahtev.getId())){
+                zahtevi.add(zahtev);
+            }
+        }
+
+        return zahtevi;
+    }
+
+    public List<ZahtevZaZig> getAllOdobrene() {
+        List<ZahtevZaZig> sviZahtevi = zigRepository.getAll();
+        List<ZahtevZaZig> zahtevi = new ArrayList<>();
+        List<Resenje> svaResenja = zigRepository.getAllResenja();
+        for (Resenje resenje: svaResenja){
+            if(resenje.getOdobren()){
+                for(ZahtevZaZig z: sviZahtevi){
+                    if(z.getId().equals(resenje.getReferenca())){
+                        zahtevi.add(z);
+                    }
+                }
+            }
+
         }
         return zahtevi;
     }

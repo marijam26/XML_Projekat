@@ -1,12 +1,14 @@
 package project.z1.repository;
 
 import org.exist.xmldb.EXistResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.w3c.dom.Node;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.*;
 import org.xmldb.api.modules.XMLResource;
 import org.xmldb.api.modules.XPathQueryService;
+import project.z1.model.resenje.Resenje;
 import project.z1.model.z1.ZahtevZaZig;
 import project.z1.util.AuthenticationUtilities;
 import project.z1.util.DatabaseUtilities;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ZigRepository {
 
     private final String collectionId = "db/zigovi";
+    private final String collectionIdResenja = "db/zResenja";
 
     private Collection col;
 
@@ -96,5 +99,18 @@ public class ZigRepository {
         }
 
         return resources;
+    }
+
+    public List<ZahtevZaZig> getAll() {
+        return DatabaseUtilities.getAll(collectionId);
+    }
+
+    public List<Resenje> getAllResenja() {
+        return DatabaseUtilities.getAllResenja(collectionIdResenja);
+    }
+
+    public void saveResenje(OutputStream os, String id) throws XMLDBException {
+        String documentId = "resenje-" + id;
+        DatabaseUtilities.storeResource(collectionIdResenja, documentId, os);
     }
 }
