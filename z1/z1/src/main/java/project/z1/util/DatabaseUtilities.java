@@ -155,7 +155,6 @@ public class DatabaseUtilities {
             res = (XMLResource)col.getResource(documentId);
 
             if(res == null) {
-                System.out.println("[WARNING] Document '" + documentId + "' can not be found!");
                 return null;
             } else {
 

@@ -11,14 +11,10 @@ import project.z1.model.z1.ZahtevZaZig;
 import project.z1.util.AuthenticationUtilities;
 import project.z1.util.DatabaseUtilities;
 import project.z1.util.MarshallingUtils;
-
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
 @Repository
 public class ZigRepository {
 
@@ -100,9 +96,5 @@ public class ZigRepository {
         }
 
         return resources;
-    }
-
-
-    public static void main(String[] args) {
     }
 }

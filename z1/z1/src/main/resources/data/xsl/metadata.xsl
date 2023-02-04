@@ -8,7 +8,7 @@
 >
     <xsl:template match="/">
         <rdf:RDF>
-            <xsl:variable name="Zahtev_za_zig">Z-<xsl:value-of select="//z1:Zahtev_za_zig/attribute::Broj_prijave"/></xsl:variable>
+            <xsl:variable name="Zahtev_za_zig"><xsl:value-of select="//z1:Zahtev_za_zig/attribute::Id"/></xsl:variable>
             <rdf:Description rdf:about="{$Zahtev_za_zig}">
                 <pred:Broj>
                     <xsl:value-of select="//z1:Zahtev_za_zig/attribute::Broj_prijave"/>
@@ -17,6 +17,8 @@
                 <pred:Datum_podnosenja>
                     <xsl:value-of select="//z1:Zahtev_za_zig/attribute::Datum_podnosenja"/>
                 </pred:Datum_podnosenja>
+
+                <pred:Id><xsl:value-of select="//z1:Zahtev_za_zig/attribute::Id"/></pred:Id>
 
                 <xsl:choose>
                     <xsl:when test="//sema:Podnosilac_prijave/sema:Poslovno_ime">

@@ -1,6 +1,7 @@
 package project.z1.service;
 
 import com.itextpdf.text.DocumentException;
+import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -8,6 +9,7 @@ import org.xmldb.api.base.XMLDBException;
 import project.z1.dto.*;
 import project.z1.model.main_schema.*;
 import project.z1.model.z1.*;
+import project.z1.repository.MetadataRepository;
 import project.z1.repository.ZigRepository;
 import project.z1.util.MarshallingUtils;
 import project.z1.util.PDFTransformer;
@@ -18,16 +20,16 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 public class ZigService {
 
     @Autowired
     private ZigRepository zigRepository;
+
+    @Autowired
+    private MetadataRepository metadataRepository;
 
     public void save(ZahtevZaZig zahtevZaZig) throws JAXBException, XMLDBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
@@ -192,5 +194,24 @@ public class ZigService {
 
     public List<ZahtevZaZig> search(String data) throws Exception {
         return zigRepository.search(data);
+    }
+
+    public List<ZahtevZaZig> searchMetadata(String pred, String value) throws IOException {
+        String query = metadataRepository.getMetadataSimpleQuery(pred, value);
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaZig> searchMetadataAdvanced(String data) throws IOException {
+        String query = metadataRepository.getMetadataAdvancedQuery(data);
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaZig> getByQuery(String query) throws IOException {
+        List<RDFNode> files =  metadataRepository.searchMetadata(query);
+        List<ZahtevZaZig> zahtevi = new ArrayList<>();
+        for(RDFNode f: files){
+            zahtevi.add(zigRepository.getById(f.toString()));
+        }
+        return zahtevi;
     }
 }

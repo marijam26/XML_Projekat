@@ -58,13 +58,27 @@ public class ZahtevZaZig {
     protected Takse takse;
     @XmlElement(name = "Prilozi", required = true)
     protected Prilozi prilozi;
+
     @XmlAttribute(name = "Broj_prijave")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger brojPrijave;
+
+    @XmlAttribute(name = "Id")
+    @XmlSchemaType(name = "string")
+    protected BigInteger id;
+
     @XmlAttribute(name = "Datum_podnosenja")
     @XmlSchemaType(name = "date")
     protected XMLGregorianCalendar datumPodnosenja;
 
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
 
     public BigInteger getBrojPrijave() {
         return brojPrijave;

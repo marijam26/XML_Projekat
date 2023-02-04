@@ -1,11 +1,9 @@
 package project.z1.repository;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -24,6 +22,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 @Repository
@@ -83,4 +84,31 @@ public class MetadataRepository {
         repo.extractMetadata(z);
     }
 
+    public String getMetadataSimpleQuery(String pred, String value) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+        return String.format(SparqlUtil.SIMPLE_METADATA,  conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, pred, value);
+    }
+
+    public List<RDFNode> searchMetadata(String sparqlQuery) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+
+        QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
+        ResultSet results = query.execSelect();
+
+        String varName = "Id";
+        List<RDFNode> nodes = new ArrayList<>();
+
+        while (results.hasNext()) {
+            QuerySolution querySolution = results.next();
+            nodes.add(querySolution.get(varName));
+        }
+
+        query.close();
+        return nodes;
+    }
+
+    public String getMetadataAdvancedQuery(String data) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+        return "";
+    }
 }

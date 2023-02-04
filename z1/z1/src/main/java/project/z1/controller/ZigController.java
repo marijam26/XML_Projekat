@@ -14,7 +14,6 @@ import project.z1.service.ZigService;
 import project.z1.util.MarshallingUtils;
 
 import javax.xml.bind.JAXBException;
-import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 
@@ -36,16 +35,6 @@ public class ZigController {
         ZahtevZaZig zahtevZaZig = zigService.getZig(id);
         return new ResponseEntity<>(zahtevZaZig, HttpStatus.OK);
     }
-
-    @GetMapping(value = "/save1")
-    public ResponseEntity<List<ZahtevZaZig>> save() throws JAXBException, XMLDBException {
-        MarshallingUtils marshallingUtils = new MarshallingUtils();
-        ZahtevZaZig z = marshallingUtils.unmarshall("src/main/resources/data/xsd/zig.xml");
-        System.out.println(z);
-        zigService.save(z);
-        return null;
-    }
-
 
     @PostMapping(value = "/save", consumes = "application/xml")
     public void add(@RequestBody ZahtevZaZigDTO zahtevZaZigDTO){
@@ -69,5 +58,17 @@ public class ZigController {
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/searchMetadata/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaZig>> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
+        List<ZahtevZaZig> zahtevi = zigService.searchMetadata(pred, value);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/searchMetadata/advanced/{data}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaZig>> searchMetadataAdvanced(@PathVariable String data) throws Exception {
+        List<ZahtevZaZig> zahtevi = zigService.searchMetadataAdvanced(data);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
 
 }
