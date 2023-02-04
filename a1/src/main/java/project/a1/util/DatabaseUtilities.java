@@ -9,11 +9,14 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 import org.xmldb.api.modules.XMLResource;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
+import project.a1.model.resenje.Resenje;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.OutputKeys;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUtilities {
 
@@ -28,6 +31,46 @@ public class DatabaseUtilities {
         database.setProperty("create-database", "true");
         DatabaseManager.registerDatabase(database);
     }
+
+    public static void storeResource(String collectionId, String documentId, OutputStream outputStream) throws XMLDBException {
+        Collection col = null;
+        XMLResource res = null;
+
+        try {
+
+            System.out.println("[INFO] Retrieving the collection: " + collectionId);
+            col = getOrCreateCollection(collectionId);
+
+            System.out.println("[INFO] Inserting the document: " + documentId);
+            res = (XMLResource) col.createResource(documentId, XMLResource.RESOURCE_TYPE);
+
+            res.setContent(outputStream);
+            System.out.println("[INFO] Storing the document: " + res.getId());
+
+            col.storeResource(res);
+            System.out.println("[INFO] Done.");
+
+        } finally {
+
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+
+    }
+
 
     public static void storeResource( String documentId, OutputStream outputStream) throws XMLDBException {
         Collection col = null;
@@ -183,4 +226,98 @@ public class DatabaseUtilities {
             }
         }
     }
+
+    public static List<ZahtevZaAutorskaDela> getAll(String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            List<ZahtevZaAutorskaDela> zahtevZaDeloList = new ArrayList<>();
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            for(String s: col.listResources()){
+                res = (XMLResource)col.getResource(s);
+                zahtevZaDeloList.add(MarshallingUtils.unmarshallFromDOM(res.getContentAsDOM()));
+            }
+
+            return zahtevZaDeloList;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static List<Resenje> getAllResenja(String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            MarshallingUtils marshallingUtils = new MarshallingUtils();
+            List<Resenje> resenja = new ArrayList<>();
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            for(String s: col.listResources()){
+                res = (XMLResource)col.getResource(s);
+                resenja.add(marshallingUtils.unmarshallFromNodeResenje(res.getContentAsDOM()));
+            }
+
+            return resenja;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public static int getCollectionSize(String collectionId){
+        Collection col = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+            return col.getResourceCount();
+        } catch (Exception e) {
+            return 0;
+        } finally {
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

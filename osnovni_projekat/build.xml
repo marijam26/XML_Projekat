@@ -12,7 +12,7 @@
   	<property name="lib.dir" value="${basedir}/lib"/>
   	<property name="bin.dir" value="${basedir}/bin"/>
   	<property name="data.dir" value="${basedir}/data"/>
-	<property name="gen.dir" value="${basedir}/src/main/java/project/xml/z1"/>
+	<property name="gen.dir" value="${basedir}/src/main/java/project/xml/resenje"/>
 	
 	<!-- Task za generisanje objektnog modela na osnovu XSD seme -->
 	<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
@@ -36,7 +36,7 @@
 	</target>
 	
 	<target name="generate_classes_1" depends="init">
-		<xjc schema="${data.dir}/zahtev_za_zig.xsd" destdir="${gen.dir}"/>
+		<xjc schema="${data.dir}/resenje.xsd" destdir="${gen.dir}"/>
 	</target>
 
 		
