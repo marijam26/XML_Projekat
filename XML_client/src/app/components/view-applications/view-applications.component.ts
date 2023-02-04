@@ -94,19 +94,19 @@ export class ViewApplicationsComponent implements OnInit{
   }
 
   getPDF(id:string){
-    window.open("http://localhost:9001/api/patent/downloadPDF/p"+id+".pdf");
+    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".pdf");
   }
 
   getHTML(id:string){
-    window.open("http://localhost:9001/api/patent/downloadHTML/p"+id+".html");
+    window.open("http://localhost:9001/api/patent/downloadHTML/"+id+".html");
   }
 
   getRDF(id:string){
-    window.open("http://localhost:9001/api/patent/downloadPDF/p"+id+".rdf");
+    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".rdf");
   }
 
   getJSON(id:string){
-    window.open("http://localhost:9001/api/patent/downloadPDF/p"+id+".rdf");
+    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".rdf");
   }
 
   clickOdbij(zahtev:ZahtevZaPatentDTO){
@@ -139,6 +139,10 @@ export class ViewApplicationsComponent implements OnInit{
       },
       (err)=>this.toast.error('Greska u slanju!')
     )
+  }
+
+  naprednaPretraga(){
+    window.location.href = '/advancedSearch';
   }
 
 }
