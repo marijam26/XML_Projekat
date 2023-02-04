@@ -41,7 +41,7 @@ public class PatentService {
     public void save(ZahtevZaPatent zahtevZaPatent) throws JAXBException, XMLDBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaPatent);
-        patentRepository.save(os,zahtevZaPatent.getId().toString());
+        patentRepository.save(os,zahtevZaPatent.getId());
     }
 
     public void save(Resenje resenje) throws JAXBException, XMLDBException {
@@ -64,7 +64,7 @@ public class PatentService {
         List<Resenje> svaResenja = patentRepository.getAllResenja();
         List<String> reference = svaResenja.stream().map(Resenje::getReferenca).collect(Collectors.toList());
         for (ZahtevZaPatent zahtev:sviZahtevi){
-            if(!reference.contains(zahtev.getId().toString())){
+            if(!reference.contains(zahtev.getId())){
                 zahtevi.add(zahtev);
             }
         }
@@ -121,8 +121,8 @@ public class PatentService {
 
     public ZahtevZaPatent map(ZahtevZaPatentDTO zahtevZaPatent) {
         ZahtevZaPatent zahtev = new ZahtevZaPatent();
-        zahtev.setId(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/patenti") + 1));
-        zahtev.setBrojPrijave(zahtev.getId());
+        zahtev.setBrojPrijave(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/patenti") + 1));
+        zahtev.setId("P-"+ zahtev.getBrojPrijave()+"-"+formatDateToXML(zahtevZaPatent.datumPodnosenja).getYear());
         zahtev.setDatumPrijema(getDateXML(new Date()));
         zahtev.setDatumPodnosenja(getDateXML(new Date()));
         zahtev.setVrstaPunomocnika(TVrstaPunomocnika.fromValue(zahtevZaPatent.vrstaPunomocnika));

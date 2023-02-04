@@ -14,7 +14,7 @@ export class ZahtevZaPatentDTO {
     public pronalazac: TLiceDTO = new TLiceDTO(),
     public podaciODostavljanju: PodaciODostavljanjuDTO = new PodaciODostavljanjuDTO(),
     public brojPrijave: number = 1,
-    public id: number = 1,
+    public id: string = '',
     public datumPrijema: string = '',
     public datumPodnosenja: string = '',
     public vrstaPunomocnika: string = '',

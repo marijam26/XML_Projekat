@@ -23,10 +23,16 @@ export class LoginRegistrationComponent {
     }else{
       this.authenticationService.loginUser(this.loginInfo).subscribe(
         (data)=> {
+          console.log(data)
+          sessionStorage.setItem('logged',data);
           this.toastr.success('Successfully logged in!');
-          setTimeout(window.location.href='/home',3000);
+          if (data.uloga === 'Gradjanin'){
+            setTimeout(window.location.href='/home',3000);
+          }else{
+            setTimeout(window.location.href='/view',3000);
+          }
         },
-        (err)=>this.toastr.error(err.error)
+        (err)=>this.toastr.error('Wrong credentials!')
       )
     }
   }

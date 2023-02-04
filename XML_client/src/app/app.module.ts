@@ -17,6 +17,7 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { ViewApplicationsComponent } from './components/view-applications/view-applications.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchApplicationsComponent } from './components/search-applications/search-applications.component';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SearchApplicationsComponent } from './components/search-applications/se
     ViewApplicationsComponent,
     NavbarComponent,
     SearchApplicationsComponent,
+    AdvancedSearchComponent,
   ],
   imports: [
     BrowserModule,

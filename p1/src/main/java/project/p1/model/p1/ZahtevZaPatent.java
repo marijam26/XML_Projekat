@@ -42,7 +42,7 @@ public class ZahtevZaPatent {
     protected TFizickoLice pronalazac;
     @XmlAttribute(name = "Id")
     @XmlSchemaType(name = "positiveInteger")
-    protected BigInteger id;
+    protected String id;
     @XmlAttribute(name = "Broj_prijave")
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger brojPrijave;

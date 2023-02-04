@@ -24,11 +24,11 @@ public class PatentRepository {
 
     public void save(OutputStream os,String id) throws XMLDBException {
         String documentId = "p" + id;
-        DatabaseUtilities.storeResource(collectionId, documentId, os);
+        DatabaseUtilities.storeResource(collectionId, id, os);
     }
 
     public void saveResenje(OutputStream os,String id,String brojPrijave) throws XMLDBException {
-        String documentId = "resenje-p" + id;
+        String documentId = "resenje-" + id;
         DatabaseUtilities.storeResource(collectionIdResenja, documentId, os);
         //DatabaseUtilities.updatePatent("p"+id,collectionId,brojPrijave);
     }

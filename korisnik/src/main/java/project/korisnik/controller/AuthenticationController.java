@@ -35,16 +35,16 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/login", consumes = "application/xml")
-    public ResponseEntity<String> login(@RequestBody LoginInfoDTO loginInfoDTO){
+    public ResponseEntity<Korisnik> login(@RequestBody LoginInfoDTO loginInfoDTO){
         try {
-            boolean isLoggedIn = korisnikService.loginUser(loginInfoDTO);
-            if(isLoggedIn){
-                return new ResponseEntity<>(HttpStatus.OK);
+            Korisnik loggedIn = korisnikService.loginUser(loginInfoDTO);
+            if(loggedIn != null){
+                return new ResponseEntity<>(loggedIn,HttpStatus.OK);
             }
-            return new ResponseEntity<>("Username or password are not valid!", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>("Server error", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

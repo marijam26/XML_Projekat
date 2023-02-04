@@ -8,6 +8,7 @@ import {LoginRegistrationComponent} from "./auth/components/login-registration/l
 import {HomepageComponent} from "./components/homepage/homepage.component";
 import {ViewApplicationsComponent} from "./components/view-applications/view-applications.component";
 import {SearchApplicationsComponent} from "./components/search-applications/search-applications.component";
+import {AdvancedSearchComponent} from "./components/advanced-search/advanced-search.component";
 
 const routes: Routes = [
   { path: 'p1', component: PatentFormComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: '', component: LoginRegistrationComponent},
   { path: 'home', component: HomepageComponent},
   { path: 'view', component: ViewApplicationsComponent},
-  { path: 'search', component: SearchApplicationsComponent}
+  { path: 'search', component: SearchApplicationsComponent},
+  { path: 'advancedSearch', component: AdvancedSearchComponent},
 ];
 
 @NgModule({

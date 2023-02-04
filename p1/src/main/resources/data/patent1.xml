@@ -2,8 +2,8 @@
 <Zahtev_za_patent xmlns="http://ftn.uns.ac.rs/p"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://ftn.uns.ac.rs/p ./xsd/zahtev_za_patent.xsd"
-    Id="4" Broj_prijave="4" Datum_podnosenja="2022-06-25" Datum_prijema="2022-06-25" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
-    <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
+    Id="P-4-2022" Broj_prijave="4" Datum_podnosenja="2022-11-12" Datum_prijema="2022-06-25" Vrsta_punomocnika="za_prijem_pismena" Zajednicki_predstavnik="false">
+    <Podnosilac_prijave xsi:type="TPravno_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Doza Djerdja</Ulica>
             <Broj>57</Broj>
@@ -16,13 +16,11 @@
             <Faks>faksic</Faks>
             <E_posta>maki@gmail.com</E_posta>
         </Kontakt>
-        <Ime>Novica</Ime>
-        <Prezime>Novic</Prezime>
-        <Drzavljanstvo>RS</Drzavljanstvo>
+        <Poslovno_ime>Profit</Poslovno_ime>
     </Podnosilac_prijave>
     <Pronalazak>
-        <Srpski_naziv>Bubanj</Srpski_naziv>
-        <Engleski_naziv>Drums</Engleski_naziv>
+        <Srpski_naziv>Fontana za macke</Srpski_naziv>
+        <Engleski_naziv>Cat fountain</Engleski_naziv>
     </Pronalazak>
     <Punomocnik xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
@@ -49,6 +47,11 @@
         </Adresa>
         <Nacin_dostavljanja>papirna_forma</Nacin_dostavljanja>
     </Podaci_o_dostavljanju>
+    <Ranija_prijava>
+        <Broj>5</Broj>
+        <Datum>2022-06-06</Datum>
+        <Oznaka_drzave>GM</Oznaka_drzave>
+    </Ranija_prijava>
     <Ranija_prijava>
         <Broj>5</Broj>
         <Datum>2022-06-06</Datum>

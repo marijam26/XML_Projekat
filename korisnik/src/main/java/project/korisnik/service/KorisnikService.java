@@ -35,12 +35,16 @@ public class KorisnikService {
         return korisnikRepository.save(os,korisnik.getEposta());
     }
 
-    public boolean loginUser(LoginInfoDTO loginInfoDTO){
+    public Korisnik loginUser(LoginInfoDTO loginInfoDTO){
         Korisnik korisnik = getUser(loginInfoDTO.email);
         if(korisnik == null){
-            return false;
+            return korisnik;
         }else{
-            return korisnik.getLozinka().equals(loginInfoDTO.password);
+            if(korisnik.getLozinka().equals(loginInfoDTO.password)){
+                return korisnik;
+            }else{
+                return null;
+            }
         }
     }
 
