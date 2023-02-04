@@ -62,4 +62,12 @@ public class ZigController {
         zigService.getDocumentPdf(id);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    @GetMapping(value = "/search/{data}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaZig>> search(@PathVariable String data) throws Exception {
+        List<ZahtevZaZig> zahtevi = zigService.search(data);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+
 }

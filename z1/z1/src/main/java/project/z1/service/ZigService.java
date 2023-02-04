@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -187,5 +188,9 @@ public class ZigService {
             e.printStackTrace();
         }
         return xmlDate;
+    }
+
+    public List<ZahtevZaZig> search(String data) throws Exception {
+        return zigRepository.search(data);
     }
 }
