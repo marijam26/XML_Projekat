@@ -61,14 +61,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Takse.Klase }
-     * 
-     */
-    public Takse.Klase createTakseKlase() {
-        return new Takse.Klase();
-    }
-
-    /**
      * Create an instance of {@link Prilozi }
      * 
      */

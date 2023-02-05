@@ -3,7 +3,7 @@ import { Prilog } from './prilog';
 
 export class ZigPrilozi {
   constructor(
-    public primerak: Prilog = new Prilog(),
+    public primerakZnaka: Prilog = new Prilog(),
     public spisakRobe: Prilog = new Prilog(),
     public punomoc: Prilog = new Prilog(),
     public ranijaPunomoc: Prilog = new Prilog(),

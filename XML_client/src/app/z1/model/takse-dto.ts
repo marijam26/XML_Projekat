@@ -5,6 +5,7 @@ export class TakseDTO {
     public osnovnaTaksa: number = 0,
     public grafickoResenje: number = 0,
     public ukupno: number = 0,
-    public klaseTakse: KlaseTakse = new KlaseTakse()
+    public klase: number = 0,
+    public brojKlasa: number = 0
   ) {}
 }

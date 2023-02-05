@@ -46,9 +46,8 @@
         <Osnovna_taksa>100</Osnovna_taksa>
         <Graficko_resenje>200</Graficko_resenje>
         <Ukupno>800</Ukupno>
-        <Klase Broj_klasa="2">
-            400
-        </Klase>
+        <Klase>200</Klase>
+        <Broj_klasa>2</Broj_klasa>
     </Takse>
     <Prilozi>
         <Primerak_znaka>false</Primerak_znaka>

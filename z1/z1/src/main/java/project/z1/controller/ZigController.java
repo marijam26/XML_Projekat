@@ -32,13 +32,13 @@ public class ZigController {
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getAllZahteve", produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(value = "/zahtevi", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<List<ZahtevZaZig>> getAllZahteve(){
         List<ZahtevZaZig> zahtevi = zigService.getAllZahteve();
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getAllOdobrene", produces = MediaType.APPLICATION_XML_VALUE)
+    @GetMapping(value = "/odobreni", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<List<ZahtevZaZig>> getAllOdobrene(){
         List<ZahtevZaZig> zahtevi = zigService.getAllOdobrene();
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);

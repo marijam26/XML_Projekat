@@ -91,7 +91,6 @@ public class PatentService {
 
     public void saveMetadataForZahetv(String id) throws JAXBException, IOException, TransformerException {
         ZahtevZaPatent zahtevZaPatent = getPatent(id);
-        MetadataRepository repo = new MetadataRepository();
         repo.extractMetadata(zahtevZaPatent);
     }
 

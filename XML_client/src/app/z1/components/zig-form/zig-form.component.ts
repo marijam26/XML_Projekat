@@ -24,14 +24,14 @@ export class ZigFormComponent {
     this.zahtevZaZig.takse.ukupno =
       this.zahtevZaZig.takse.osnovnaTaksa +
       this.zahtevZaZig.takse.grafickoResenje +
-      this.zahtevZaZig.takse.klaseTakse.value;
+      this.zahtevZaZig.takse.klase;
     this.zigService.save(this.zahtevZaZig).subscribe();
   }
 
   dodajKlasu() {
     if (!this.zahtevZaZig.zig.klase.includes(this.klasa)) {
       this.zahtevZaZig.zig.klase.push(this.klasa);
-      this.zahtevZaZig.takse.klaseTakse.brojKlasa += 1;
+      this.zahtevZaZig.takse.brojKlasa += 1;
       alert('Dodato');
     } else {
       alert('Nije dodato');
@@ -40,14 +40,14 @@ export class ZigFormComponent {
   }
 
   removePrimerak() {
-    this.zahtevZaZig.prilozi.primerak.value = false;
-    this.zahtevZaZig.prilozi.primerak.putanja = '';
+    this.zahtevZaZig.prilozi.primerakZnaka.value = false;
+    this.zahtevZaZig.prilozi.primerakZnaka.putanja = '';
   }
 
   addPrimerak($event: any) {
     let file = $event.target.files[0];
-    this.zahtevZaZig.prilozi.primerak.value = true;
-    this.zahtevZaZig.prilozi.primerak.putanja = file.name;
+    this.zahtevZaZig.prilozi.primerakZnaka.value = true;
+    this.zahtevZaZig.prilozi.primerakZnaka.putanja = file.name;
   }
 
   removeSpisak() {

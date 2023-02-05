@@ -18,22 +18,22 @@
       <div class="row pb-2" *ngIf="podnosilacLice === 'Fizicko lice'">
         <div class="form-group col-3">
           <label for="ime_podnosioca">Ime:</label>
-          <input type="text" class="form-control" id="ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.ime">
+          <input type="text" class="form-control" id="ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.ime">
         </div>
         <div class="form-group col-3">
           <label for="prezime_podnosioca">Prezime:</label>
-          <input type="text" class="form-control" id="prezime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.prezime">
+          <input type="text" class="form-control" id="prezime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.prezime">
         </div>
         <div class="form-group col-3">
           <label for="drzavljanstvo_podnosioca">Drzavljanstvo:</label>
-          <input type="text" class="form-control" id="drzavljanstvo_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.drzavljanstvo">
+          <input type="text" class="form-control" id="drzavljanstvo_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.drzavljanstvo">
         </div>
       </div>
 
       <div class="row pb-2" *ngIf="podnosilacLice === 'Pravno lice'">
         <div class="form-group col-4">
           <label for="poslovno_ime_podnosioca">Poslovno ime:</label>
-          <input type="text" class="form-control" id="poslovno_ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.poslovnoIme">
+          <input type="text" class="form-control" id="poslovno_ime_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.poslovnoIme">
         </div>
       </div>
 
@@ -41,40 +41,40 @@
       <div class="row">
         <div class="form-group col-3">
           <label for="ulica_podnosioca">Ulica:</label>
-          <input type="text" class="form-control" id="ulica_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.ulica">
+          <input type="text" class="form-control" id="ulica_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.adresa.ulica">
         </div>
         <div class="form-group col-1">
           <label for="broj_podnosioca">Broj:</label>
-          <input type="number" class="form-control" min="1" id="broj_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.broj">
+          <input type="number" class="form-control" min="1" id="broj_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.adresa.broj">
         </div>
       </div>
       <div class="row py-3">
         <div class="form-group col-2">
           <label for="grad_podnosioca">Grad:</label>
-          <input type="text" class="form-control" id="grad_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.grad">
+          <input type="text" class="form-control" id="grad_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.adresa.grad">
         </div>
         <div class="form-group col-2">
           <label for="pos_br_podnosioca">Postanski broj:</label>
-          <input type="number" class="form-control" min="1" id="pos_br_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.postanskiBroj">
+          <input type="number" class="form-control" min="1" id="pos_br_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.adresa.postanskiBroj">
         </div>
         <div class="form-group col-2">
           <label for="drzava_podnosioca">Drzava:</label>
-          <input type="text" class="form-control" id="drzava_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.adresa.drzava">
+          <input type="text" class="form-control" id="drzava_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.adresa.drzava">
         </div>
       </div>
       <h5 class="my-3">Kontakt</h5>
       <div class="row pb-3">
         <div class="form-group col-2">
           <label for="telefon_podnosioca">Telefon:</label>
-          <input type="text" class="form-control" id="telefon_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.telefon">
+          <input type="text" class="form-control" id="telefon_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.kontakt.telefon">
         </div>
         <div class="form-group col-2">
           <label for="faks_podnosioca">Faks:</label>
-          <input type="text" class="form-control" id="faks_podnosioca" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.faks">
+          <input type="text" class="form-control" id="faks_podnosioca" [(ngModel)]="zahtevZaZig.podnosilacPrijave.kontakt.faks">
         </div>
         <div class="form-group col-3">
           <label for="eposta_podnosioca">E-posta:</label>
-          <input type="email" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com" [(ngModel)]="zahtevZaZig.podnosilac.kontakt.eposta">
+          <input type="email" class="form-control" id="eposta_podnosioca" placeholder="example@gmail.com" [(ngModel)]="zahtevZaZig.podnosilacPrijave.kontakt.eposta">
         </div>
       </div>
 
@@ -252,7 +252,7 @@
 
         <div class="col-3">
           <div>Za {{zahtevZaZig.zig.klase.length}} klasa</div>
-          <input class="form-control my-1" id="klaseTakse" min="0" type="number" [(ngModel)]="zahtevZaZig.takse.klaseTakse.value">
+          <input class="form-control my-1" id="klaseTakse" min="0" type="number" [(ngModel)]="zahtevZaZig.takse.klase">
         </div>
       </div>
 
@@ -283,8 +283,8 @@
           <input type="file" id="primerak" class="form-control mt-2" accept="application/pdf" multiple (change)="addPrimerak($event)"/>
         </div>
 
-        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.primerak.value" style="padding-top: 30px">
-          Izabrani fajl: {{zahtevZaZig.prilozi.primerak.putanja}}
+        <div class="form-group col-5" *ngIf="zahtevZaZig.prilozi.primerakZnaka.value" style="padding-top: 30px">
+          Izabrani fajl: {{zahtevZaZig.prilozi.primerakZnaka.putanja}}
           <button aria-label="Close" class="close " (click)="removePrimerak()" type="button" style="height: 25px; width: 25px; margin-left: 20px">
             <span  aria-hidden="true" class="text-black">&times;</span>
           </button>

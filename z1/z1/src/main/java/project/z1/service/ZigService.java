@@ -162,10 +162,8 @@ public class ZigService {
         takse.setOsnovnaTaksa(BigInteger.valueOf(takseDTO.osnovnaTaksa));
         takse.setGrafickoResenje(BigInteger.valueOf(takseDTO.grafickoResenje));
         takse.setUkupno(BigInteger.valueOf(takseDTO.ukupno));
-        Takse.Klase klaseTakse = new Takse.Klase();
-        klaseTakse.setBrojKlasa(takseDTO.klaseTakse.brojKlasa);
-        klaseTakse.setValue(BigInteger.valueOf(takseDTO.klaseTakse.value));
-        takse.setKlase(klaseTakse);
+        takse.setKlase(BigInteger.valueOf(takseDTO.klase));
+        takse.setBrojKlasa(BigInteger.valueOf(takseDTO.brojKlasa));
         return takse;
     }
 

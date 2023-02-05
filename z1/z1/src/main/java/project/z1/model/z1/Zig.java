@@ -281,6 +281,15 @@ public class Zig {
         this.vrstaZnaka = value;
     }
 
+
+    public void setBoja(List<String> boja) {
+        this.boja = boja;
+    }
+
+    public void setKlasaRobe(List<Integer> klasaRobe) {
+        this.klasaRobe = klasaRobe;
+    }
+
     /**
      * Gets the value of the ostalo property.
      * 

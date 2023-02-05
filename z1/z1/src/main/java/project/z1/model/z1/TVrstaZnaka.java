@@ -45,6 +45,11 @@ public enum TVrstaZnaka {
     TRODIMENZIONALNI("trodimenzionalni"),
     @XmlEnumValue("ostalo")
     OSTALO("ostalo");
+
+    public String getValue() {
+        return value;
+    }
+
     private final String value;
 
     TVrstaZnaka(String v) {

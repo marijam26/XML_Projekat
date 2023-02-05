@@ -49,6 +49,10 @@ public enum TTipZiga {
         return value;
     }
 
+    public String getValue() {
+        return value;
+    }
+
     public static TTipZiga fromValue(String v) {
         for (TTipZiga c: TTipZiga.values()) {
             System.out.println(c.value);

@@ -54,7 +54,8 @@ import java.math.BigInteger;
     "osnovnaTaksa",
     "grafickoResenje",
     "ukupno",
-    "klase"
+    "klase",
+        "brojKlasa"
 })
 @XmlRootElement(name = "Takse")
 public class Takse {
@@ -69,7 +70,28 @@ public class Takse {
     @XmlSchemaType(name = "positiveInteger")
     protected BigInteger ukupno;
     @XmlElement(name = "Klase", required = true)
-    protected Takse.Klase klase;
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger klase;
+
+    @XmlElement(name = "Broj_klasa", required = true)
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger brojKlasa;
+
+    public BigInteger getBrojKlasa() {
+        return brojKlasa;
+    }
+
+    public void setBrojKlasa(BigInteger brojKlasa) {
+        this.brojKlasa = brojKlasa;
+    }
+
+    public BigInteger getKlase() {
+        return klase;
+    }
+
+    public void setKlase(BigInteger klase) {
+        this.klase = klase;
+    }
 
     /**
      * Gets the value of the osnovnaTaksa property.
@@ -143,115 +165,5 @@ public class Takse {
         this.ukupno = value;
     }
 
-    /**
-     * Gets the value of the klase property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Klase }
-     *     
-     */
-    public Klase getKlase() {
-        return klase;
-    }
-
-    /**
-     * Sets the value of the klase property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Klase }
-     *     
-     */
-    public void setKlase(Klase value) {
-        this.klase = value;
-    }
-
-
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;simpleContent>
-     *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>positiveInteger">
-     *       &lt;attribute name="Broj_klasa">
-     *         &lt;simpleType>
-     *           &lt;restriction base="{http://www.w3.org/2001/XMLSchema}positiveInteger">
-     *             &lt;maxInclusive value="45"/>
-     *             &lt;minInclusive value="1"/>
-     *           &lt;/restriction>
-     *         &lt;/simpleType>
-     *       &lt;/attribute>
-     *     &lt;/extension>
-     *   &lt;/simpleContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "value"
-    })
-    public static class Klase {
-
-        @XmlValue
-        @XmlSchemaType(name = "positiveInteger")
-        protected BigInteger value;
-        @XmlAttribute(name = "Broj_klasa")
-        protected Integer brojKlasa;
-
-        /**
-         * Gets the value of the value property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigInteger }
-         *     
-         */
-        public BigInteger getValue() {
-            return value;
-        }
-
-        /**
-         * Sets the value of the value property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigInteger }
-         *     
-         */
-        public void setValue(BigInteger value) {
-            this.value = value;
-        }
-
-        /**
-         * Gets the value of the brojKlasa property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link Integer }
-         *     
-         */
-        public Integer getBrojKlasa() {
-            return brojKlasa;
-        }
-
-        /**
-         * Sets the value of the brojKlasa property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link Integer }
-         *     
-         */
-        public void setBrojKlasa(Integer value) {
-            this.brojKlasa = value;
-        }
-
-    }
 
 }
