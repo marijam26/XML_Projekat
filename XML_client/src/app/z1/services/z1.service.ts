@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ZahtevZaZigDTO } from '../model/zahtev-za-zig';
 import * as JsonToXML from 'js2xmlparser';
 import { ResenjeDTO } from '../../shared-models/resenjeDTO';
+import { IzvestajDTO } from '../../shared-models/izvestajDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +76,18 @@ export class Z1Service {
     const resenjeXML = JsonToXML.parse('resenjeDTO', resenje);
     const newUrl = this.url + '/saveResenje';
     return this._http.post<any>(newUrl, resenjeXML, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/xml',
+        'Access-Control-Allow-Origin': '*',
+        responseType: 'text',
+      }),
+    });
+  }
+
+  generateReport(izvestaj: IzvestajDTO) {
+    const xmlZahtev = JsonToXML.parse('izvestajDTO', izvestaj);
+    const newUrl = this.url + '/report';
+    return this._http.post<any>(newUrl, xmlZahtev, {
       headers: new HttpHeaders({
         'Content-Type': 'application/xml',
         'Access-Control-Allow-Origin': '*',

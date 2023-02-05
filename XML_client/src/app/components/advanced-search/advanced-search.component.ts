@@ -100,21 +100,21 @@ export class AdvancedSearchComponent {
   }
 
   getAutorskoZahtevi(data: string) {
-    this.autorksoDelo.searchMetadata(data).subscribe({
-      next: async (value) => {
-        this.zahtevi = [];
-        let result: any = await this.parseXml(value);
-        if (result.List === '') {
-          return;
-        }
-        for (let z of result.List.item) {
-          let zahtev = this.autorksoDelo.mapXmlToDelo(
-            JSON.parse(JSON.stringify(z))
-          );
-          this.zahtevi.push(zahtev);
-        }
-      },
-    });
+    // this.autorksoDelo.searchMetadata(data).subscribe({
+    //   next: async (value) => {
+    //     this.zahtevi = [];
+    //     let result: any = await this.parseXml(value);
+    //     if (result.List === '') {
+    //       return;
+    //     }
+    //     for (let z of result.List.item) {
+    //       let zahtev = this.autorksoDelo.mapXmlToDelo(
+    //         JSON.parse(JSON.stringify(z))
+    //       );
+    //       this.zahtevi.push(zahtev);
+    //     }
+    //   },
+    // });
   }
 
   clickShow(zahtev: string) {
