@@ -29,6 +29,7 @@ export class ViewApplicationsComponent implements OnInit {
   obrazlozenje: string = '';
   showModalReference: boolean = false;
   ulogovani: Korisnik | null = new Korisnik();
+  searchField: string = '';
 
   constructor(
     private patentService: P1Service,
@@ -52,7 +53,6 @@ export class ViewApplicationsComponent implements OnInit {
   getZigovi() {
     this.zigService.getZahtevi().subscribe({
       next: async (value) => {
-        console.log(value);
         let result: any = await this.parseXml(value);
         if (result.List === '') {
           return;

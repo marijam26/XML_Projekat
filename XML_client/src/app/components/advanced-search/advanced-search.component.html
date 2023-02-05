@@ -63,7 +63,29 @@
       </div>
     </div>
     <div class="col-6 text-center">
-      Ovde rezultati
+      <div *ngFor="let zahtev of zahtevi" class="card rounded-2 col-4 zoom mx-3 my-2 p-3" style="width: 300px;height: 175px;background: white">
+        <div class="row pt-3">
+          <i class="fa-solid fa-pen-to-square pt-2 col-1 "></i>
+          <strong class="col-8" style="font-size: 20px">{{zahtev.id}}</strong>
+        </div>
+
+        <p *ngIf="zahtev.podnosilacPrijave.poslovnoIme === ''" class="pt-1" style="font-size: 19px">Podnosilac: {{zahtev.podnosilacPrijave.ime}} {{zahtev.podnosilacPrijave.prezime}}</p>
+        <p *ngIf="zahtev.podnosilacPrijave.poslovnoIme !== ''" class="pt-1" style="font-size: 19px">Podnosilac: {{zahtev.podnosilacPrijave.poslovnoIme}}</p>
+
+        <div class="row pt-5">
+          <button class="btn btn-dark btn-sm" (click)="clickShow(zahtev.id.toString())">Preuzmi<i class="fa-solid fa-download ms-4"></i></button>
+        </div>
+
+        <div class="row justify-content-end">
+          <div class="dropdown-menu col-2" [class.show]="showDropDown === zahtev.id.toString()" >
+            <a class="dropdown-item" (click)="getPDF(zahtev.id)" href="/view">PDF</a>
+            <a class="dropdown-item" (click)="getHTML(zahtev.id)" href="/view">HTML</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="getRDF(zahtev.id)" href="/view">RDF</a>
+            <a class="dropdown-item" (click)="getJSON(zahtev.id)" href="/view">JSON</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

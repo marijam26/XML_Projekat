@@ -4,6 +4,7 @@ import { ZahtevZaZigDTO } from '../model/zahtev-za-zig';
 import * as JsonToXML from 'js2xmlparser';
 import { ResenjeDTO } from '../../shared-models/resenjeDTO';
 import { TLiceDTO } from '../../shared-models/t-lice-d-t-o';
+import { MetadataSearchDto } from '../../shared-models/metadataSearchDto';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,20 @@ export class Z1Service {
 
   getOdobreni() {
     return this._http.get(this.url + '/odobreni', {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text',
+    });
+  }
+
+  search(value: string) {
+    return this._http.get(this.url + '/search/' + value, {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text',
+    });
+  }
+
+  searchMetadata(value: String) {
+    return this._http.get(this.url + '/searchMetadata/' + value, {
       headers: new HttpHeaders().set('Content-Type', 'application/xml'),
       responseType: 'text',
     });
