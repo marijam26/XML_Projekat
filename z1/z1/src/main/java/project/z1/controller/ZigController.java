@@ -8,10 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
-import project.z1.dto.ListaZahteva;
-import project.z1.dto.MetadataSearchDTO;
-import project.z1.dto.ResenjeDTO;
-import project.z1.dto.ZahtevZaZigDTO;
+import project.z1.dto.*;
 import project.z1.model.resenje.Resenje;
 import project.z1.model.z1.ZahtevZaZig;
 import project.z1.repository.MetadataRepository;
@@ -161,6 +158,13 @@ public class ZigController {
     public ResponseEntity<List<ZahtevZaZig>> save() throws JAXBException, XMLDBException, IOException, TransformerException {
         zigRepository.nesto();
         return null;
+    }
+
+
+    @PostMapping(value = "/report",consumes = "application/xml")
+    public ResponseEntity<String> getIzvestaj(@RequestBody IzvestajDTO izvestajDTO) throws DocumentException, FileNotFoundException, XMLDBException {
+        zigService.kreirajIzvestaj(izvestajDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
