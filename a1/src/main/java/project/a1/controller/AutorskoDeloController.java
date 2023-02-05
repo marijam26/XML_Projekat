@@ -274,7 +274,7 @@ public class AutorskoDeloController {
 
     @RequestMapping("/downloadResenje/{fileName}")
     public void downloadResenje(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
-        String path = "src/main/resources/data/resenje/" + fileName.split(":")[0]+"/"+fileName.split(":")[1];
+        String path = "src/main/resources/data/resenje/" + fileName;
         File file = new File(path);
         if (file.exists()) {
             String mimeType = "application/pdf";

@@ -105,7 +105,7 @@
                         </td>
                     </tr>
                     <tr style="height: 160pt">
-                        <td class="left_right" style="width: 100%;" colspan="2">
+                        <td  style="width: 100%;" colspan="2">
                             <p style="padding-left: 5pt;text-align: left;font-size:11pt;">
 
                             </p>

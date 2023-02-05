@@ -370,15 +370,14 @@ public class AutorskoDeloService {
             System.out.print("salje");
             MimeMessageHelper mail = new MimeMessageHelper(javaMailSender.createMimeMessage(), true, "UTF-8");
             mail.setTo("ikasikovic@yahoo.com");
-            mail.setFrom(Objects.requireNonNull(env.getProperty("spring.mail.username")));
-            mail.setSubject("Uber account password forgotten");
+            mail.setSubject("Resenje");
 
-            String link = "http://localhost:4200/downloadResenje/" + docId;
+            String link = "http://localhost:9002/downloadResenje/" + docId;
             mail.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"margin: 50px;\">\n" +
                     "            <div style=\"background-color: rgb(99, 216, 99);height: 55px;\">\n" +
-                    "                    <h1 style=\"margin-left:15px; color: white;\">Change your password</h1>\n" +
+                    "                    <h1 style=\"margin-left:15px; color: white;\">Resenje</h1>\n" +
                     "            </div>\n" +
                     "            <div style=\"margin-top: 10px;\">\n" +
                     "                <div style=\"margin: 25px;\">\n" +
