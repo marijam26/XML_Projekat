@@ -8,15 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
+import project.z1.dto.ListaZahteva;
 import project.z1.dto.MetadataSearchDTO;
 import project.z1.dto.ResenjeDTO;
 import project.z1.dto.ZahtevZaZigDTO;
 import project.z1.model.resenje.Resenje;
 import project.z1.model.z1.ZahtevZaZig;
+import project.z1.repository.MetadataRepository;
 import project.z1.service.ZigService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.util.List;
 
@@ -27,22 +31,28 @@ public class ZigController {
     @Autowired
     private ZigService zigService;
 
+    @Autowired
+    private MetadataRepository zigRepository;
+
     @GetMapping(value = "/", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> getAll(){
+    public ResponseEntity<ListaZahteva> getAll(){
         List<ZahtevZaZig> zahtevi = zigService.getAll();
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @GetMapping(value = "/zahtevi", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> getAllZahteve() throws XMLDBException {
+    public ResponseEntity<ListaZahteva> getAllZahteve() throws XMLDBException {
         List<ZahtevZaZig> zahtevi = zigService.getAllZahteve();
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @GetMapping(value = "/odobreni", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> getAllOdobrene() throws XMLDBException {
+    public ResponseEntity<ListaZahteva> getAllOdobrene() throws XMLDBException {
         List<ZahtevZaZig> zahtevi = zigService.getAllOdobrene();
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
 
@@ -57,6 +67,7 @@ public class ZigController {
         try {
             ZahtevZaZig zahtevZaZig = zigService.map(zahtevZaZigDTO);
             zigService.save(zahtevZaZig);
+            zigService.getDocumentPdf(zahtevZaZig.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,22 +91,28 @@ public class ZigController {
     }
 
     @GetMapping(value = "/search/{data}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> search(@PathVariable String data) throws Exception {
+    public ResponseEntity<ListaZahteva> search(@PathVariable String data) throws Exception {
         List<ZahtevZaZig> zahtevi = zigService.search(data);
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/searchMetadata/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
+    @GetMapping(value = "/search/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<ListaZahteva> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
         List<ZahtevZaZig> zahtevi = zigService.searchMetadata(pred, value);
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
 
-    @PostMapping(value = "/searchMetadata/advanced", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> searchMetadataAdvanced(@RequestBody MetadataSearchDTO data) throws Exception {
-        List<ZahtevZaZig> zahtevi = zigService.searchMetadataAdvanced(data);
-        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    @GetMapping(value = "/searchMetadata/{value}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<ListaZahteva> searchMetadataAdvanced(@PathVariable("value") String value) throws Exception {
+        System.out.println(value);
+        MetadataSearchDTO dto = zigService.getDtoFromString(value);
+
+        List<ZahtevZaZig> zahtevi = zigService.searchMetadataAdvanced(dto);
+        ListaZahteva lista = new ListaZahteva(zahtevi);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     @RequestMapping("/downloadPDF/{fileName}")
@@ -138,6 +155,12 @@ public class ZigController {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         }
+    }
+
+    @GetMapping(value = "/save1")
+    public ResponseEntity<List<ZahtevZaZig>> save() throws JAXBException, XMLDBException, IOException, TransformerException {
+        zigRepository.nesto();
+        return null;
     }
 
 }

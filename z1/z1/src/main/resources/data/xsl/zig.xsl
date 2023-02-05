@@ -544,7 +544,7 @@
                     <tr style="height: 50pt">
                         <td style="width: 100%; display: table-cell; vertical-align: center" colspan="3">
                             <p style="padding-left: 5pt; text-align: left; font-size: 9pt">
-                                <b>б) за <xsl:value-of select="z:Zahtev_za_zig/z:Takse/z:Klase/@Broj_klasa"/> класа</b> <br/>
+                                <b>б) за <xsl:value-of select="z:Zahtev_za_zig/z:Takse/z:Broj_klasa"/> класа</b> <br/>
                                 <b>б) за  графичко решење</b>
                             </p>
                         </td>

@@ -8,6 +8,9 @@
 
 package project.z1.model.z1;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +61,8 @@ import java.util.List;
     "klasaRobe"
 })
 @XmlRootElement(name = "Zig")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Zig {
 
     @XmlElement(name = "Izgled_znaka", required = true)

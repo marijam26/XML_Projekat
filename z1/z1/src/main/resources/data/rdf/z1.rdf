@@ -3,15 +3,16 @@
          xmlns:z1="http://ftn.uns.ac.rs/z"
          xmlns:pred="http://ftn.uns.ac.rs/z/pred/"
          xmlns:sema="http://ftn.uns.ac.rs/sema">
-   <rdf:Description rdf:about="Z-1-2022">
-      <pred:Broj>1</pred:Broj>
-      <pred:Datum_podnosenja>2022-12-06</pred:Datum_podnosenja>
-      <pred:Id>Z-1-2022</pred:Id>
-      <pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
-      <pred:Podnosilac_prezime>Jankovic</pred:Podnosilac_prezime>
-      <pred:Punomocnik_poslovno_ime>neko poslovno ime</pred:Punomocnik_poslovno_ime>
+   <rdf:Description rdf:about="Z-2-2023">
+      <pred:Broj>2</pred:Broj>
+      <pred:Datum_podnosenja>2023-02-05+01:00</pred:Datum_podnosenja>
+      <pred:Id>Z-2-2023</pred:Id>
+      <pred:Podnosilac_ime>r</pred:Podnosilac_ime>
+      <pred:Podnosilac_prezime>r</pred:Podnosilac_prezime>
+      <pred:Punomocnik_ime>5</pred:Punomocnik_ime>
+      <pred:Punomocnik_prezime>5</pred:Punomocnik_prezime>
       <pred:Tip_ziga>individualni</pred:Tip_ziga>
-      <pred:Vrsta_znaka>graficki</pred:Vrsta_znaka>
-      <pred:Opis_ziga>Neki superkul opis</pred:Opis_ziga>
+      <pred:Vrsta_znaka>verbalni</pred:Vrsta_znaka>
+      <pred:Opis_ziga>55</pred:Opis_ziga>
    </rdf:Description>
 </rdf:RDF>

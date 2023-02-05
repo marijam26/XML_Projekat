@@ -7,6 +7,8 @@
 
 
 package project.z1.model.z1;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import project.z1.model.main_schema.TLice;
 
 import javax.xml.bind.annotation.*;
@@ -46,6 +48,8 @@ import java.math.BigInteger;
     "prilozi"
 })
 @XmlRootElement(name = "Zahtev_za_zig")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ZahtevZaZig {
 
     @XmlElement(name = "Podnosilac_prijave", namespace = "http://ftn.uns.ac.rs/sema", required = true)

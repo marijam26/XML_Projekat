@@ -1,7 +1,6 @@
 package project.z1.service;
 
 import com.itextpdf.text.DocumentException;
-import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -32,12 +31,13 @@ public class ZigService {
     @Autowired
     private ZigRepository zigRepository;
 
+    @Autowired
     private MetadataRepository metadataRepository;
 
     public void save(ZahtevZaZig zahtevZaZig) throws JAXBException, XMLDBException, IOException, TransformerException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaZig);
-        zigRepository.save(os);
+        zigRepository.save(os, zahtevZaZig.getId());
         metadataRepository = new MetadataRepository();
         metadataRepository.extractMetadata(zahtevZaZig);
     }
@@ -67,7 +67,7 @@ public class ZigService {
     public ZahtevZaZig map(ZahtevZaZigDTO zahtevZaZig) {
         ZahtevZaZig zahtev = new ZahtevZaZig();
         zahtev.setBrojPrijave(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/zigovi") + 1));
-        zahtev.setId("Z-"+ zahtev.getBrojPrijave()+"-"+formatDateToXML(zahtevZaZig.datumPodnosenja).getYear());
+        zahtev.setId("Z-"+ zahtev.getBrojPrijave()+"-"+getDateXML(new Date()).getYear());
         zahtev.setDatumPodnosenja(getDateXML(new Date()));
         zahtev.setPodnosilacPrijave(getTLice(zahtevZaZig.podnosilacPrijave));
         zahtev.setPunomocnik(getTLice(zahtevZaZig.punomocnik));
@@ -115,8 +115,8 @@ public class ZigService {
         Prilozi prilozi = new Prilozi();
 
         TPrilog primerak = new TPrilog();
-        primerak.setValue(priloziDTO.primerak.value);
-        primerak.setPutanja(priloziDTO.primerak.putanja);
+        primerak.setValue(priloziDTO.primerakZnaka.value);
+        primerak.setPutanja(priloziDTO.primerakZnaka.putanja);
         prilozi.setPrimerakZnaka(primerak);
 
         TPrilog spisakRobe = new TPrilog();
@@ -204,7 +204,7 @@ public class ZigService {
 
     private Kontakt mapKontakt(KontaktDTO kontakt) {
         Kontakt k = new Kontakt();
-        k.setEPosta(kontakt.e_posta);
+        k.setEPosta(kontakt.eposta);
         k.setFaks(kontakt.faks);
         k.setTelefon(kontakt.telefon);
         return k;
@@ -230,15 +230,18 @@ public class ZigService {
     }
 
     public List<ZahtevZaZig> searchMetadataAdvanced(MetadataSearchDTO data) throws IOException {
+        metadataRepository = new MetadataRepository();
         String query = metadataRepository.getMetadataAdvancedQuery(data.getPreds(), data.getValues(), data.getOperators());
+        System.out.println(query);
         return getByQuery(query);
     }
 
     public List<ZahtevZaZig> getByQuery(String query) throws IOException {
-        List<RDFNode> files =  metadataRepository.searchMetadata(query);
+        List<String> files =  metadataRepository.searchMetadata(query);
         List<ZahtevZaZig> zahtevi = new ArrayList<>();
-        for(RDFNode f: files){
-            zahtevi.add(zigRepository.getById(f.toString()));
+        for(String f: files){
+            ZahtevZaZig zahtevZaZig = zigRepository.getById(f);
+            zahtevi.add(zahtevZaZig);
         }
         return zahtevi;
     }
@@ -276,5 +279,17 @@ public class ZigService {
 
         }
         return zahtevi;
+    }
+
+    public MetadataSearchDTO getDtoFromString(String data) {
+        String[] tokens = data.split("---");
+        System.out.println(tokens);
+        if(!tokens[0].contains(",")){
+            return new MetadataSearchDTO(Arrays.asList(tokens[1]), Arrays.asList(tokens[0]), Arrays.asList(tokens[2]));
+        }
+        String[] values = tokens[0].split(",");
+        String[] preds = tokens[1].split(",");
+        String[] operators = tokens[2].split(",");
+        return new MetadataSearchDTO(Arrays.asList(preds), Arrays.asList(values), Arrays.asList(operators));
     }
 }

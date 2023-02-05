@@ -8,6 +8,8 @@
 
 package project.z1.model.z1;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import project.z1.model.main_schema.TPrilog;
 
 import javax.xml.bind.annotation.*;
@@ -51,6 +53,8 @@ import javax.xml.bind.annotation.*;
     "dokazOUplati"
 })
 @XmlRootElement(name = "Prilozi")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Prilozi {
 
     @XmlElement(name = "Primerak_znaka", required = true)

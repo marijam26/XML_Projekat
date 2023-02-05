@@ -2,7 +2,7 @@
 <Zahtev_za_zig xmlns="http://ftn.uns.ac.rs/z"
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://ftn.uns.ac.rs/z file:/C:/Users/Ivana/Desktop/XML/projekat/zahtev_za_zig.xsd"
-               Broj_prijave="1" Datum_podnosenja="2022-12-06" Id="Z-1-2022">
+               Broj_prijave="1" Datum_podnosenja="2022-12-06" Id="Z-1-2023">
     <Podnosilac_prijave xsi:type="TFizicko_lice" xmlns="http://ftn.uns.ac.rs/sema">
         <Adresa>
             <Ulica>Strazilovska</Ulica>

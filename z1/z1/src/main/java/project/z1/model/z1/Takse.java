@@ -8,6 +8,9 @@
 
 package project.z1.model.z1;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
 
@@ -58,6 +61,8 @@ import java.math.BigInteger;
         "brojKlasa"
 })
 @XmlRootElement(name = "Takse")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Takse {
 
     @XmlElement(name = "Osnovna_taksa", required = true)

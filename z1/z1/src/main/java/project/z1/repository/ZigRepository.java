@@ -29,8 +29,8 @@ public class ZigRepository {
         DatabaseUtilities.init();
     }
 
-    public void save(OutputStream os) throws XMLDBException {
-        DatabaseUtilities.storeResource("db/zigovi", "1", os);
+    public void save(OutputStream os, String id) throws XMLDBException {
+        DatabaseUtilities.storeResource("db/zigovi", id, os);
     }
 
     public Node getZigNode(String id) {
