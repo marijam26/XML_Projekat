@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Z1Service } from '../../z1/services/z1.service';
+import {P1Service} from "../../p1/services/p1.service";
 
 @Component({
   selector: 'app-search-applications',
@@ -11,7 +12,7 @@ export class SearchApplicationsComponent {
   searchField: string = '';
   showDropDown: string = '';
 
-  constructor(private zigService: Z1Service) {}
+  constructor(private zigService: Z1Service,private patentService: P1Service) {}
 
   advancedSearch() {
     window.location.href = '/advancedSearch';
@@ -19,11 +20,38 @@ export class SearchApplicationsComponent {
 
   search() {
     this.searchZig();
+    //this.searchPatent();
   }
 
   searchZig() {
     this.zigService.search(this.searchField).subscribe({
       next: async (value) => {
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(value, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.zahtevi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.zahtevi.push(z);
+        }
+      },
+    });
+  }
+
+  searchPatent() {
+    this.patentService.search(this.searchField).subscribe({
+      next: (value) => {
         let convert = require('xml-js');
         let result1 = convert.xml2json(value, {
           compact: true,

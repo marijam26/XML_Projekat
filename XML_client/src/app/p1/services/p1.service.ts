@@ -58,6 +58,21 @@ export class P1Service {
   }
 
 
+  search(value: string) {
+    return this._http.get(this.p1Url + '/search/' + value, {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text',
+    });
+  }
+
+  searchMetadata(value: String) {
+    return this._http.get(this.p1Url + '/searchMetadata/' + value, {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text',
+    });
+  }
+
+
   generateReport(izvestaj: IzvestajDTO) {
     const xmlZahtev = JsonToXML.parse('izvestajDTO', izvestaj);
     const newUrl = this.p1Url + '/report';

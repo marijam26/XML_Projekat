@@ -1,5 +1,6 @@
 package project.a1.controller;
 
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -16,6 +17,7 @@ import project.a1.dto.main_schema.MetadataSearchDTO;
 import project.a1.dto.main_schema.ResenjeDTO;
 import project.a1.model.a1.Prilozi;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
+import project.a1.model.main_schema.IzvestajDTO;
 import project.a1.model.main_schema.TPrilog;
 import project.a1.model.resenje.Resenje;
 import project.a1.repository.MetadataRepository;
@@ -296,6 +298,12 @@ public class AutorskoDeloController {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         }
+    }
+
+    @PostMapping(value = "/report",consumes = "application/xml")
+    public ResponseEntity<String> getIzvestaj(@RequestBody IzvestajDTO izvestajDTO) throws DocumentException, FileNotFoundException, XMLDBException {
+        autorskoDeloService.kreirajIzvestaj(izvestajDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
