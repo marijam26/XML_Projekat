@@ -53,7 +53,7 @@ export class ReportComponent {
         (data) => {
           this.toast.success('Uspesno generisan izvestaj!');
           window.open(
-            'http://localhost:9001/api/autorskoPravo/downloadPDF/izvestaj.pdf'
+            'http://localhost:9002/api/autorskoPravo/downloadPDF/izvestaj.pdf'
           );
         },
         (err) => console.log(err)

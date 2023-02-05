@@ -17,7 +17,7 @@ import project.a1.dto.main_schema.MetadataSearchDTO;
 import project.a1.dto.main_schema.ResenjeDTO;
 import project.a1.model.a1.Prilozi;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
-import project.a1.model.main_schema.IzvestajDTO;
+import project.a1.dto.main_schema.IzvestajDTO;
 import project.a1.model.main_schema.TPrilog;
 import project.a1.model.resenje.Resenje;
 import project.a1.repository.MetadataRepository;
@@ -306,5 +306,10 @@ public class AutorskoDeloController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+//    @GetMapping(value = "/search/{data}", produces = MediaType.APPLICATION_XML_VALUE)
+//    public ResponseEntity<ListaZahtevaZaAutorskoDeloDTO> searchData(@PathVariable String data) throws Exception {
+//        List<ZahtevZaAutorskaDela> zahtevi = autorskoDeloService.search(data);
+//        ListaZahtevaZaAutorskoDeloDTO lista = new ListaZahtevaZaAutorskoDeloDTO(zahtevi);
+//        return new ResponseEntity<>(lista, HttpStatus.OK);
+//    }
 }
