@@ -4,6 +4,7 @@ import { Z1Service } from '../../z1/services/z1.service';
 import * as xml2js from 'xml2js';
 import {A1Service} from "../../a1/services/a1.service";
 import {P1Service} from "../../p1/services/p1.service";
+import convert from "xml-js";
 
 @Component({
   selector: 'app-advanced-search',
@@ -101,22 +102,29 @@ export class AdvancedSearchComponent {
 
   getAutorskoZahtevi(data: string) {
     this.autorksoDelo.searchMetadata(data).subscribe({
-      next: async (value) => {
-        this.zahtevi = [];
-        let result: any = await this.parseXml(value);
-        if (result.List === '') {
-          return;
-        }
-        for (let z of result.List.item) {
-          let zahtev = this.autorksoDelo.mapXmlToDelo(
-            JSON.parse(JSON.stringify(z))
-          );
-          this.zahtevi.push(zahtev);
+      next: (value) => {
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(value, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.zahtevi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.zahtevi.push(z);
         }
       },
     });
   }
-
   getPatentZahtevi(data:string) {
     this.patentService.searchMetadata(data).subscribe({
       next: (value) => {
@@ -142,6 +150,7 @@ export class AdvancedSearchComponent {
       },
     });
   }
+
 
   async parseXml(xmlString: string) {
     return await new Promise((resolve, reject) =>
