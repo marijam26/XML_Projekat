@@ -8,7 +8,7 @@ export class XonomyService {
 
   constructor() { }
 
-  public patentXonomy = {
+  public FpodnosilacXonomy = {
     elements: {
       Podnosilac_prijave: {
         expanded: true,
@@ -47,91 +47,91 @@ export class XonomyService {
             }
           },
           {
-            caption: 'Dodaj <Poslovno_ime>',
+            caption: 'Dodaj <Drzavljanstvo>',
             action: Xonomy.newElementChild,
-            actionParameter: '<Poslovno_ime></Poslovno_ime>',
+            actionParameter: '<Drzavljanstvo></Drzavljanstvo>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Poslovno_ime")
+              return jsElement.hasAttribute("Drzavljanstvo")
             }
           },
         ],
       },
       Adresa:{
-        mustBeBefore:["Kontakt","Ime", "Prezime", "Poslovno_ime"],
+        mustBeBefore:["Kontakt","Ime", "Prezime","Drzavljanstvo"],
         menu:[
           {
             caption: 'Dodaj grad',
             action: Xonomy.newElementChild,
-            actionParameter: '<grad></grad>',
+            actionParameter: '<Grad></Grad>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("grad");
+              return jsElement.hasChildElement("Grad");
             }
           },
           {
             caption: 'Dodaj ulica',
             action: Xonomy.newElementChild,
-            actionParameter: '<ulica></ulica>',
+            actionParameter: '<Ulica></Ulica>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("ulica");
+              return jsElement.hasChildElement("Ulica");
             }
           },
           {
             caption: 'Dodaj broj',
             action: Xonomy.newElementChild,
-            actionParameter: '<broj></broj>',
+            actionParameter: '<Broj></Broj>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("broj");
+              return jsElement.hasChildElement("Broj");
             }
           },
           {
             caption: 'Dodaj postanski_broj',
             action: Xonomy.newElementChild,
-            actionParameter: '<postanski_broj></postanski_broj>',
+            actionParameter: '<Postanski_broj></Postanski_broj>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("postanski_broj");
+              return jsElement.hasChildElement("Postanski_broj");
             }
           },
           {
             caption: 'Dodaj drzava',
             action: Xonomy.newElementChild,
-            actionParameter: '<drzava></drzava>',
+            actionParameter: '<Drzava></Drzava>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("drzava");
+              return jsElement.hasChildElement("Drzava");
             }
           },
         ]
       },
-      kontakt:{
-        mustBeBefore:["Ime", "Prezime","Poslovno_ime"],
+      Kontakt:{
+        mustBeBefore:["Ime", "Prezime","Drzavljanstvo"],
         menu:[
           {
             caption: 'Dodaj email',
             action: Xonomy.newElementChild,
-            actionParameter: '<email></email>',
+            actionParameter: '<E_posta></E_posta>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("email");
+              return jsElement.hasChildElement("E_posta");
             }
           },
           {
             caption: 'Dodaj telefon',
             action: Xonomy.newElementChild,
-            actionParameter: '<telefon></telefon>',
+            actionParameter: '<Telefon></Telefon>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("telefon");
+              return jsElement.hasChildElement("Telefon");
             }
           },
           {
-            caption: 'Dodaj fax',
+            caption: 'Dodaj faks',
             action: Xonomy.newElementChild,
-            actionParameter: '<fax></fax>',
+            actionParameter: '<Faks></Faks>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("fax");
+              return jsElement.hasChildElement("Faks");
             }
           },
         ]
       },
       Ime:{
-        mustBeBefore:["Prezime", "Poslovno_ime"],
+        mustBeBefore:["Prezime","Drzavljanstvo"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
@@ -140,7 +140,7 @@ export class XonomyService {
         }
       },
       Prezime:{
-        mustBeBefore:["Poslovno_ime"],
+        mustBeBefore:["Drzavljanstvo"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
@@ -148,25 +148,25 @@ export class XonomyService {
           return jsElement.hasAttribute("Prezime");
         }
       },
-      Poslovno_ime:{
+      Drzavljanstvo:{
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
         hideIf: function (jsElement:any) {
-          return jsElement.hasAttribute("Poslovno_ime");
+          return jsElement.hasAttribute("Drzavljanstvo");
         }
       },
-      grad:{
-        mustBeBefore:["ulica","broj", "postanski_broj", "drzava"],
+      Grad:{
+        mustBeBefore:["Ulica","Broj", "Postanski_broj", "Drzava"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
         hideIf: function (jsElement:any) {
-          return jsElement.hasAttribute("grad");
+          return jsElement.hasAttribute("Grad");
         }
       },
-      ulica:{
-        mustBeBefore:["broj", "postanski_broj", "drzava"],
+      Ulica:{
+        mustBeBefore:["Broj", "Postanski_broj", "Drzava"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
@@ -174,73 +174,66 @@ export class XonomyService {
           return jsElement.hasAttribute("ulica");
         }
       },
-      broj:{
-        mustBeBefore:["postanski_broj", "drzava"],
+      Broj:{
+        mustBeBefore:["Postanski_broj", "Drzava"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
         hideIf: function (jsElement:any) {
-          return jsElement.hasAttribute("broj");
+          return jsElement.hasAttribute("Broj");
         }
       },
-      postanski_broj:{
-        mustBeBefore:["drzava"],
+      Postanski_broj:{
+        mustBeBefore:["Drzava"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
         hideIf: function (jsElement:any) {
-          return jsElement.hasAttribute("postanski_broj");
+          return jsElement.hasAttribute("Postanski_broj");
         }
       },
-      drzava:{
+      Drzava:{
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
         hideIf: function (jsElement:any) {
-          return jsElement.hasAttribute("drzava");
+          return jsElement.hasAttribute("Drzava");
+        }
+      },
+      E_posta:{
+        mustBeBefore:["Telefon", "Faks"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("E_posta");
+        }
+      },
+      Telefon:{
+        mustBeBefore:["Faks"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Telefon");
+        }
+      },
+      Faks:{
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Faks");
         }
       },
     }
   }
 
-  public pronalazac = {
+  public PpodnosilacXonomy = {
     elements: {
-      Zahtev_za_patent: {
+      Podnosilac_prijave: {
         expanded: true,
         collapsed: true,
-        menu: [
-          {
-            caption: 'Dodaj <Podnosilac_prijave>',
-            action: Xonomy.newElementChild,
-            actionParameter: '<Podnosilac_prijave></Podnosilac_prijave>',
-            hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("podnosilac")
-            }
-          },
-          {
-            caption: 'Dodaj <Pronalazac>',
-            action: Xonomy.newElementChild,
-            actionParameter: '<Pronalazac></Pronalazac>',
-            hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("Pronalazac")
-            }
-          },
-
-          {
-            caption: 'Dodaj <Ranija_prijava>',
-            action: Xonomy.newElementChild,
-            actionParameter: '<Ranija_prijava></Ranija_prijava>',
-            hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("Ranija_prijava")
-            }
-          },
-
-        ],
-
-      },
-
-      Podnosilac_prijave:{
-        mustBeBefore:['Pronalazac', 'Ranija_prijava' ],
         menu:[
           {
             caption: 'Dodaj <Adresa>',
@@ -259,22 +252,6 @@ export class XonomyService {
             }
           },
           {
-            caption: 'Dodaj <Ime>',
-            action: Xonomy.newElementChild,
-            actionParameter: '<Ime></Ime>',
-            hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Ime")
-            }
-          },
-          {
-            caption: 'Dodaj <Prezime>',
-            action: Xonomy.newElementChild,
-            actionParameter: '<Prezime></Prezime>',
-            hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Prezime")
-            }
-          },
-          {
             caption: 'Dodaj <Poslovno_ime>',
             action: Xonomy.newElementChild,
             actionParameter: '<Poslovno_ime></Poslovno_ime>',
@@ -285,81 +262,98 @@ export class XonomyService {
         ],
       },
       Adresa:{
-        mustBeBefore:["Kontakt","Ime", "Prezime", "Poslovno_ime"],
+        mustBeBefore:["Kontakt","Poslovno_ime"],
         menu:[
           {
             caption: 'Dodaj grad',
             action: Xonomy.newElementChild,
-            actionParameter: '<grad></grad>',
+            actionParameter: '<Grad></Grad>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("grad");
+              return jsElement.hasChildElement("Grad");
             }
           },
           {
             caption: 'Dodaj ulica',
             action: Xonomy.newElementChild,
-            actionParameter: '<ulica></ulica>',
+            actionParameter: '<Ulica></Ulica>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("ulica");
+              return jsElement.hasChildElement("Ulica");
             }
           },
           {
             caption: 'Dodaj broj',
             action: Xonomy.newElementChild,
-            actionParameter: '<broj></broj>',
+            actionParameter: '<Broj></Broj>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("broj");
+              return jsElement.hasChildElement("Broj");
             }
           },
           {
             caption: 'Dodaj postanski_broj',
             action: Xonomy.newElementChild,
-            actionParameter: '<postanski_broj></postanski_broj>',
+            actionParameter: '<Postanski_broj></Postanski_broj>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("postanski_broj");
+              return jsElement.hasChildElement("Postanski_broj");
             }
           },
           {
             caption: 'Dodaj drzava',
             action: Xonomy.newElementChild,
-            actionParameter: '<drzava></drzava>',
+            actionParameter: '<Drzava></Drzava>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("drzava");
+              return jsElement.hasChildElement("Drzava");
             }
           },
         ]
       },
-      kontakt:{
-        mustBeBefore:["Ime", "Prezime","Poslovno_ime"],
+      Kontakt:{
+        mustBeBefore:["Poslovno_ime"],
         menu:[
           {
             caption: 'Dodaj email',
             action: Xonomy.newElementChild,
-            actionParameter: '<email></email>',
+            actionParameter: '<E_posta></E_posta>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("email");
+              return jsElement.hasChildElement("E_posta");
             }
           },
           {
             caption: 'Dodaj telefon',
             action: Xonomy.newElementChild,
-            actionParameter: '<telefon></telefon>',
+            actionParameter: '<Telefon></Telefon>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("telefon");
+              return jsElement.hasChildElement("Telefon");
             }
           },
           {
-            caption: 'Dodaj fax',
+            caption: 'Dodaj faks',
             action: Xonomy.newElementChild,
-            actionParameter: '<fax></fax>',
+            actionParameter: '<Faks></Faks>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasChildElement("fax");
+              return jsElement.hasChildElement("Faks");
             }
           },
         ]
       },
-      ulica:{
-        mustBeBefore:["broj", "postanski_broj", "drzava"],
+      Poslovno_ime:{
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Poslovno_ime");
+        }
+      },
+      Grad:{
+        mustBeBefore:["Ulica","Broj", "Postanski_broj", "Drzava"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Grad");
+        }
+      },
+      Ulica:{
+        mustBeBefore:["Broj", "Postanski_broj", "Drzava"],
         hasText: true,
         oneliner: true,
         asker: Xonomy.askString,
@@ -367,7 +361,58 @@ export class XonomyService {
           return jsElement.hasAttribute("ulica");
         }
       },
-
+      Broj:{
+        mustBeBefore:["Postanski_broj", "Drzava"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Broj");
+        }
+      },
+      Postanski_broj:{
+        mustBeBefore:["Drzava"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Postanski_broj");
+        }
+      },
+      Drzava:{
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Drzava");
+        }
+      },
+      E_posta:{
+        mustBeBefore:["Telefon", "Faks"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("E_posta");
+        }
+      },
+      Telefon:{
+        mustBeBefore:["Faks"],
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Telefon");
+        }
+      },
+      Faks:{
+        hasText: true,
+        oneliner: true,
+        asker: Xonomy.askString,
+        hideIf: function (jsElement:any) {
+          return jsElement.hasAttribute("Faks");
+        }
+      },
     }
   }
 

@@ -72,7 +72,7 @@ public class DatabaseUtilities {
 
     }
 
-    private static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
+    public static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
         return getOrCreateCollection(collectionUri, 0);
     }
 

@@ -15,7 +15,7 @@ import java.util.List;
 public class PatentRepository {
 
     private final String collectionId = "db/patenti";
-    private final String collectionIdResenja = "db/resenja";
+    private final String collectionIdResenja = "db/P-resenja";
 
 
     public PatentRepository() throws XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -23,19 +23,19 @@ public class PatentRepository {
     }
 
     public void save(OutputStream os,String id) throws XMLDBException {
-        String documentId = "p" + id;
         DatabaseUtilities.storeResource(collectionId, id, os);
     }
 
-    public void saveResenje(OutputStream os,String id,String brojPrijave) throws XMLDBException {
+    public void saveResenje(OutputStream os,String id) throws XMLDBException {
         String documentId = "resenje-" + id;
         DatabaseUtilities.storeResource(collectionIdResenja, documentId, os);
-        //DatabaseUtilities.updatePatent("p"+id,collectionId,brojPrijave);
     }
 
     public List<ZahtevZaPatent> getAll(){ return  DatabaseUtilities.getAllPatent(collectionId); }
 
-    public List<Resenje> getAllResenja(){ return  DatabaseUtilities.getAllResenja(collectionIdResenja); }
+    public List<Resenje> getAllResenja() throws XMLDBException {
+        //DatabaseUtilities.getOrCreateCollection(collectionIdResenja);
+        return  DatabaseUtilities.getAllResenja(collectionIdResenja); }
 
     public ZahtevZaPatent getPatentById(String id){
         return DatabaseUtilities.getPatent(id, collectionId);

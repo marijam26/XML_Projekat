@@ -47,7 +47,7 @@ public class PatentService {
     public void save(Resenje resenje) throws JAXBException, XMLDBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(resenje);
-        patentRepository.saveResenje(os,resenje.getReferenca(),resenje.getSifraZahteva());
+        patentRepository.saveResenje(os,resenje.getReferenca());
     }
 
     public ZahtevZaPatent getPatent(String id){
@@ -58,7 +58,7 @@ public class PatentService {
         return patentRepository.getAll();
     }
 
-    public List<ZahtevZaPatent> getAllZahtevePatents(){
+    public List<ZahtevZaPatent> getAllZahtevePatents() throws XMLDBException {
         List<ZahtevZaPatent> sviZahtevi = patentRepository.getAll();
         List<ZahtevZaPatent> zahtevi = new ArrayList<>();
         List<Resenje> svaResenja = patentRepository.getAllResenja();
@@ -72,14 +72,14 @@ public class PatentService {
         return zahtevi;
     }
 
-    public List<ZahtevZaPatent> getAllOdobrenePatents(){
+    public List<ZahtevZaPatent> getAllOdobrenePatents() throws XMLDBException {
         List<ZahtevZaPatent> sviZahtevi = patentRepository.getAll();
         List<ZahtevZaPatent> zahtevi = new ArrayList<>();
         List<Resenje> svaResenja = patentRepository.getAllResenja();
         for (Resenje resenje:svaResenja){
             if(resenje.getOdobren()){
                 for(ZahtevZaPatent z:sviZahtevi){
-                    if(z.getId().toString().equals(resenje.getReferenca())){
+                    if(z.getId().equals(resenje.getReferenca())){
                         zahtevi.add(z);
                     }
                 }

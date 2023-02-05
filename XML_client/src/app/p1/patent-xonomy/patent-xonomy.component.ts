@@ -13,10 +13,16 @@ export class PatentXonomyComponent implements OnInit,AfterViewInit{
   }
 
 
-
   send(){
     let text = Xonomy.harvest();
     console.log(text)
+    let t = text.replaceAll("xml:space='preserve'","");
+    console.log(t)
+
+    var convert = require('xml-js');
+    var result1 = convert.xml2json(t, {compact: true,spaces:4,trim:true});
+    var res = JSON.parse(result1);
+    console.log(res)
   }
 
   ngOnInit(): void {
@@ -25,7 +31,7 @@ export class PatentXonomyComponent implements OnInit,AfterViewInit{
 
   ngAfterViewInit(): void {
     let element = document.getElementById("editor");
-    let specification = this.xonomyService.patentXonomy;
+    let specification = this.xonomyService.FpodnosilacXonomy;
     let xmlString = '<Podnosilac_prijave></Podnosilac_prijave>';
     Xonomy.render(xmlString, element, specification);
   }

@@ -77,11 +77,12 @@ public class PatentController {
     }
 
     @GetMapping(value = "/save1")
-    public ResponseEntity<List<ZahtevZaPatent>> save() throws JAXBException, XMLDBException {
+    public ResponseEntity<List<ZahtevZaPatent>> save() throws JAXBException, XMLDBException, DocumentException, IOException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         ZahtevZaPatent z = marshallingUtils.unmarshall("src/main/resources/data/patent1.xml");
         System.out.println(z);
         patentService.save(z);
+        patentService.getDocumentPdf(z.getId());
         return null;
     }
 
