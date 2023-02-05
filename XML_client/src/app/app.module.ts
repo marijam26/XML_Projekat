@@ -18,6 +18,7 @@ import { ViewApplicationsComponent } from './components/view-applications/view-a
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SearchApplicationsComponent } from './components/search-applications/search-applications.component';
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
+import { PatentXonomyComponent } from './p1/patent-xonomy/patent-xonomy.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { AdvancedSearchComponent } from './components/advanced-search/advanced-s
     NavbarComponent,
     SearchApplicationsComponent,
     AdvancedSearchComponent,
+    PatentXonomyComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,14 +5,15 @@ import {ResenjeDTO} from "../../shared-models/resenjeDTO";
 import {ToastrService} from "ngx-toastr";
 import {A1Service} from "../../a1/services/a1.service";
 import {ZahtevZaAutorskaDelaDTO} from "../../a1/model/zahtev-za-autorska-dela-d-t-o";
+import {Korisnik} from "../../shared-models/korisnik";
 
 @Component({
   selector: 'app-view-applications',
   templateUrl: './view-applications.component.html',
   styleUrls: ['./view-applications.component.css']
 })
-export class ViewApplicationsComponent implements OnInit{
-  showDropDown:string = '';
+export class ViewApplicationsComponent implements OnInit {
+  showDropDown: string = '';
   showModal = false;
   obradjeniZahtevi:any = [];
   obradjeni:boolean = false;
@@ -21,51 +22,41 @@ export class ViewApplicationsComponent implements OnInit{
   zahevZaReference:any;
   obrazlozenje:string = '';
   showModalReference: boolean = false;
+  ulogovani:Korisnik |null = new Korisnik();
 
-  constructor(private patentService:P1Service,private toast:ToastrService,private autorskoService:A1Service) {
+  constructor(private patentService: P1Service, private toast: ToastrService, private autorskoService: A1Service) {
   }
 
   ngOnInit(): void {
-    // this.patentService.getAllPatent().subscribe(
-    //   (data)=> {
-    //     var convert = require('xml-js');
-    //     var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
-    //     var res = JSON.parse(result1);
-    //     console.log(res.zahtevi.zahtev)
-    //     for(let zahev of res.zahtevi.zahtev){
-    //       let z = this.patentService.mapXmlToPatent(zahev);
-    //       if(z.brojPrijave == undefined){
-    //         this.neobradjeniZahtavi.push(z);
-    //
-    //       }else {
-    //         this.neobradjeniZahtavi.push(z);
-    //
-    //         this.obradjeniZahtevi.push(z);
-    //       }
-    //
-    //     }
-    //     console.log(this.neobradjeniZahtavi)
-    //   }
-    // )
+    let a = sessionStorage.getItem('logged');
+    if(typeof a!='undefined' && a){
+      this.ulogovani = JSON.parse(a);
+      console.log(this.ulogovani)
+    }
 
-    // this.patentService.getAllZahetvPatent().subscribe(
-    //   (data)=> {
+    this.getPatents()
+    // this.autorskoService.getAllZahtevi().subscribe(
+    //   (data) => {
     //     var convert = require('xml-js');
-    //     var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
+    //     var result1 = convert.xml2json(data, {compact: true, spaces: 4, trim: true});
     //     var res = JSON.parse(result1);
     //     console.log(res.zahtevi.zahtev)
-    //     if(Array.isArray(res.zahtevi.zahtev)){
-    //       for(let zahev of res.zahtevi.zahtev){
-    //         let z = this.patentService.mapXmlToPatent(zahev);
+    //     if (Array.isArray(res.zahtevi.zahtev)) {
+    //       for (let zahev of res.zahtevi.zahtev) {
+    //         let z = this.autorskoService.mapXmlToDelo(zahev);
     //         this.neobradjeniZahtavi.push(z);
     //       }
-    //     }else{
-    //       let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
+    //     } else {
+    //       let z = this.autorskoService.mapXmlToDelo(res.zahtevi.zahtev);
     //       this.neobradjeniZahtavi.push(z);
     //     }
     //   }
     // )
-    this.autorskoService.getAllZahtevi().subscribe(
+
+  }
+
+  getPatents(){
+    this.patentService.getAllZahetvPatent().subscribe(
       (data)=> {
         var convert = require('xml-js');
         var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
@@ -73,136 +64,136 @@ export class ViewApplicationsComponent implements OnInit{
         console.log(res.zahtevi.zahtev)
         if(Array.isArray(res.zahtevi.zahtev)){
           for(let zahev of res.zahtevi.zahtev){
-            let z = this.autorskoService.mapXmlToDelo(zahev);
+            let z = this.patentService.mapXmlToPatent(zahev);
             this.neobradjeniZahtavi.push(z);
           }
         }else{
-          let z = this.autorskoService.mapXmlToDelo(res.zahtevi.zahtev);
+          let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
           this.neobradjeniZahtavi.push(z);
         }
       }
     )
 
-    // this.patentService.getAllOdobrenePatent().subscribe(
-    //   (data)=> {
-    //     var convert = require('xml-js');
-    //     var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
-    //     var res = JSON.parse(result1);
-    //     if(Array.isArray(res.zahtevi.zahtev)){
-    //       for(let zahev of res.zahtevi.zahtev){
-    //         let z = this.patentService.mapXmlToPatent(zahev);
-    //         this.obradjeniZahtevi.push(z);
-    //       }
-    //     }else{
-    //       let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
-    //       this.obradjeniZahtevi.push(z);
-    //     }
-    //   }
-    // )
+    this.patentService.getAllOdobrenePatent().subscribe(
+      (data)=> {
+        var convert = require('xml-js');
+        var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
+        var res = JSON.parse(result1);
+        if(Array.isArray(res.zahtevi.zahtev)){
+          for(let zahev of res.zahtevi.zahtev){
+            let z = this.patentService.mapXmlToPatent(zahev);
+            this.obradjeniZahtevi.push(z);
+          }
+        }else{
+          let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
+          this.obradjeniZahtevi.push(z);
+        }
+      }
+    )
   }
 
-  clickShow(zahtev:string){
-    if(this.showDropDown === zahtev){
+  clickShow(zahtev: string) {
+    if (this.showDropDown === zahtev) {
       this.showDropDown = '';
-    }else{
+    } else {
       this.showDropDown = zahtev;
     }
   }
 
-  changeObradjeni(){
-    this.obradjeni?this.obradjeni=false:this.obradjeni=true;
+  changeObradjeni() {
+    this.obradjeni ? this.obradjeni = false : this.obradjeni = true;
   }
 
-  getPDF(id:string){
+  getPDF(id: string) {
 
-  if (id.includes('A')){
-    window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/"+id+".pdf");
-  }else if(id.includes('P')){
-    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".pdf");
-  }
-  }
-
-  getHTML(id:string){
     if (id.includes('A')) {
-      window.open("http://localhost:9002/api/autorskoPravo/downloadHTML/"+id+".html");
-    }else if(id.includes('P')) {
-    window.open("http://localhost:9001/api/patent/downloadHTML/"+id+".html");
-  }}
-
-  getRDF(id:string){
-    if (id.includes('A')) {
-      window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/"+id+".rdf");
-    }else{
-    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".rdf");
+      window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/" + id + ".pdf");
+    } else if (id.includes('P')) {
+      window.open("http://localhost:9001/api/patent/downloadPDF/" + id + ".pdf");
     }
   }
 
-  getJSON(id:string){
+  getHTML(id: string) {
     if (id.includes('A')) {
-      window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/"+id+".rdf");
-    }else{
-    window.open("http://localhost:9001/api/patent/downloadPDF/"+id+".rdf");
-    }}
+      window.open("http://localhost:9002/api/autorskoPravo/downloadHTML/" + id + ".html");
+    } else if (id.includes('P')) {
+      window.open("http://localhost:9001/api/patent/downloadHTML/" + id + ".html");
+    }
+  }
+
+  getRDF(id: string) {
+    if (id.includes('A')) {
+      window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/" + id + ".rdf");
+    } else {
+      window.open("http://localhost:9001/api/patent/downloadPDF/" + id + ".rdf");
+    }
+  }
+
+  getJSON(id: string) {
+    if (id.includes('A')) {
+      window.open("http://localhost:9002/api/autorskoPravo/downloadPDF/" + id + ".rdf");
+    } else {
+      window.open("http://localhost:9001/api/patent/downloadPDF/" + id + ".rdf");
+    }
+  }
 
 
-  clickOdbij(zahtev:ZahtevZaPatentDTO|ZahtevZaAutorskaDelaDTO){
-    this.showModal=true
+  clickOdbij(zahtev: ZahtevZaPatentDTO | ZahtevZaAutorskaDelaDTO) {
+    this.showModal = true
     this.zahevZaOdbijanje = zahtev;
   }
 
-  prihvatiZahtev(zahtev:ZahtevZaPatentDTO | ZahtevZaAutorskaDelaDTO){
-    let resenje = new ResenjeDTO('Pera','Peric',zahtev.id.toString(),true,'');
-    if (zahtev instanceof ZahtevZaAutorskaDelaDTO){
+  prihvatiZahtev(zahtev: ZahtevZaPatentDTO | ZahtevZaAutorskaDelaDTO) {
+    let resenje = new ResenjeDTO(this.ulogovani?.ime, this.ulogovani?.prezime, zahtev.id.toString(), true, '');
+    if (zahtev instanceof ZahtevZaAutorskaDelaDTO) {
       this.autorskoService.saveResenje(resenje).subscribe(
-        ()=> {
+        () => {
           this.toast.success('Uspesno prihvacen zahtev!')
           let index = this.neobradjeniZahtavi.indexOf(zahtev);
-          this.neobradjeniZahtavi.splice(index,1);
+          this.neobradjeniZahtavi.splice(index, 1);
           this.obradjeniZahtevi.push(zahtev);
         },
-        (err)=>this.toast.error('Greska u slanju!')
-
+        (err) => this.toast.error('Greska u slanju!')
       )
-    }else{
-    this.patentService.saveResenje(resenje).subscribe(
-      ()=> {
-        this.toast.success('Uspesno prihvacen zahtev!')
-        let index = this.neobradjeniZahtavi.indexOf(zahtev);
-        this.neobradjeniZahtavi.splice(index,1);
-        this.obradjeniZahtevi.push(zahtev);
-      },
-      (err)=>this.toast.error('Greska u slanju!')
-
-    )
+    } else {
+      this.patentService.saveResenje(resenje).subscribe(
+        () => {
+          this.toast.success('Uspesno prihvacen zahtev!')
+          let index = this.neobradjeniZahtavi.indexOf(zahtev);
+          this.neobradjeniZahtavi.splice(index, 1);
+          this.obradjeniZahtevi.push(zahtev);
+        },
+        (err) => this.toast.error('Greska u slanju!')
+      )
     }
   }
 
-  odbijZahtev(){
-    let resenje = new ResenjeDTO('Pera','Peric',this.zahevZaOdbijanje.id.toString(),false,this.obrazlozenje);
+  odbijZahtev() {
+    let resenje = new ResenjeDTO(this.ulogovani?.ime, this.ulogovani?.prezime, this.zahevZaOdbijanje.id.toString(), false, this.obrazlozenje);
     if (this.zahevZaOdbijanje instanceof ZahtevZaAutorskaDelaDTO) {
       this.autorskoService.saveResenje(resenje).subscribe(
-        ()=>{
+        () => {
           this.toast.success('Uspesno odbijen zahtev!')
-          this.showModal= false;
+          this.showModal = false;
           let index = this.neobradjeniZahtavi.indexOf(this.zahevZaOdbijanje);
-          this.neobradjeniZahtavi.splice(index,1);
+          this.neobradjeniZahtavi.splice(index, 1);
         },
-        (err)=>this.toast.error('Greska u slanju!')
+        (err) => this.toast.error('Greska u slanju!')
       )
-    }else{
+    } else {
       this.patentService.saveResenje(resenje).subscribe(
-      ()=>{
-        this.toast.success('Uspesno odbijen zahtev!')
-        this.showModal= false;
-        let index = this.neobradjeniZahtavi.indexOf(this.zahevZaOdbijanje);
-        this.neobradjeniZahtavi.splice(index,1);
-      },
-      (err)=>this.toast.error('Greska u slanju!')
-    )
+        () => {
+          this.toast.success('Uspesno odbijen zahtev!')
+          this.showModal = false;
+          let index = this.neobradjeniZahtavi.indexOf(this.zahevZaOdbijanje);
+          this.neobradjeniZahtavi.splice(index, 1);
+        },
+        (err) => this.toast.error('Greska u slanju!')
+      )
     }
   }
 
-  naprednaPretraga(){
+  naprednaPretraga() {
     window.location.href = '/advancedSearch';
   }
 
@@ -216,7 +207,6 @@ export class ViewApplicationsComponent implements OnInit{
     if (id.includes('A')){
       window.open("http://localhost:9002/api/autorskoPravo/downloadPrimer/"+filePath);
     }
-
   }
 
   getOpisFile(id:any, putanja: any) {
@@ -224,6 +214,6 @@ export class ViewApplicationsComponent implements OnInit{
     if (id.includes('A')){
       window.open("http://localhost:9002/api/autorskoPravo/downloadOpis/"+filePath);
     }
-
   }
+
 }

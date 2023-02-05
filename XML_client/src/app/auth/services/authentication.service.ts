@@ -10,7 +10,7 @@ export class AuthenticationService {
 
   constructor(private _http: HttpClient) { }
 
-  url = 'http://localhost:9001/api/user';
+  url = 'http://localhost:9004/api/user';
 
 
   registerUser(korisnik: Korisnik) {

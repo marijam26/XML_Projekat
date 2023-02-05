@@ -24,7 +24,7 @@ export class LoginRegistrationComponent {
       this.authenticationService.loginUser(this.loginInfo).subscribe(
         (data)=> {
           console.log(data)
-          sessionStorage.setItem('logged',data);
+          sessionStorage.setItem('logged',JSON.stringify(data));
           this.toastr.success('Successfully logged in!');
           if (data.uloga === 'Gradjanin'){
             setTimeout(window.location.href='/home',3000);
