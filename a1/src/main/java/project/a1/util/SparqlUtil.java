@@ -10,6 +10,9 @@ public class SparqlUtil {
 
     private static final String UPDATE_TEMPLATE_NAMED_GRAPH = "INSERT DATA { GRAPH <%1$s> { %2$s } }";
 
+    public static final String SIMPLE_METADATA = "SELECT * FROM <%s> WHERE { " +
+            "	?z <http://ftn.uns.ac.rs/z/pred/%s> %s .}";   // Id ubaci
+
 
     private static final String SELECT_NAMED_GRAPH_TEMPLATE = "SELECT * FROM <%1$s> WHERE { %2$s }";
 

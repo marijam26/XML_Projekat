@@ -1,6 +1,7 @@
 package project.a1.service;
 
 import com.itextpdf.text.DocumentException;
+import org.apache.jena.rdf.model.RDFNode;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class AutorskoDeloService {
     @Autowired
     private ModelMapper modelMapper;
 
+    private MetadataRepository metadataRepository;
+
+
     public void save(ZahtevZaAutorskaDela zahtevZaAutorskaDela) throws XMLDBException, JAXBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaAutorskaDela);
@@ -52,6 +56,9 @@ public class AutorskoDeloService {
         autorskoDeloRepository.saveResenje(os,resenje.getReferenca(),resenje.getSifraZahteva());
     }
 
+    public ZahtevZaAutorskaDela getById(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        return DatabaseUtilities.getZahtevById(id);
+    }
 
 
     public ZahtevZaAutorskaDela getOne(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -230,10 +237,10 @@ public class AutorskoDeloService {
         return xmlDate;
     }
 
-    public void getDocumentPdf(String id) throws DocumentException, IOException {
+    public void getDocumentPdf(String id,String docId) throws DocumentException, IOException {
         PDFTransformer pdfTransformer = new PDFTransformer();
-        String fileNamePDF = "a" + id + ".pdf";
-        String fileNameHTML = "a" + id + ".html";
+        String fileNamePDF = docId + ".pdf";
+        String fileNameHTML = docId + ".html";
 
         Node patentNode = autorskoDeloRepository.getAutorskoPravoNode(id);
 
@@ -286,4 +293,25 @@ public class AutorskoDeloService {
         MetadataRepository repo = new MetadataRepository();
         repo.extractMetadata(zahtevZaPatent);
     }
+
+    public List<ZahtevZaAutorskaDela> searchMetadata(String pred, String value) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        String query = metadataRepository.getMetadataSimpleQuery(pred, value);
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaAutorskaDela> searchMetadataAdvanced(MetadataSearchDTO data) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        String query = metadataRepository.getMetadataAdvancedQuery(data.getPreds(), data.getValues(), data.getOperators());
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaAutorskaDela> getByQuery(String query) throws IOException, JAXBException, XMLDBException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        List<RDFNode> files =  metadataRepository.searchMetadata(query);
+        List<ZahtevZaAutorskaDela> zahtevi = new ArrayList<>();
+        for(RDFNode f: files){
+            zahtevi.add(autorskoDeloRepository.getOne(f.toString()));
+        }
+        return zahtevi;
+    }
+
+
 }

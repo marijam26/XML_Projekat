@@ -39,11 +39,11 @@
                     <xsl:value-of select="//sema:Podnosilac_prijave/sema:Kontakt/sema:E_posta"/>
                 </pred:Podnosilac_eposta>
 
-                <pred:Naslov>
+                <pred:Naslov_autorskog_dela>
                     <xsl:value-of select="//a1:Autorsko_delo/a1:Naslov"/>
-                </pred:Naslov>
+                </pred:Naslov_autorskog_dela>
                 
-                <pred:Vrsta>
+                <pred:Vrsta_autorskog_dela>
                     <xsl:variable name="vrsta" select="a1:Zahtev_za_autorska_dela/a1:Autorsko_delo/a1:Vrsta"/>
                     <xsl:variable name="newtext" select="translate($vrsta,'_',' ')"/>
                     <xsl:choose>
@@ -54,7 +54,7 @@
                             <xsl:value-of select="$newtext"/>
                         </xsl:otherwise>
                     </xsl:choose>
-                </pred:Vrsta>
+                </pred:Vrsta_autorskog_dela>
 
                 <pred:Format>
                     <xsl:variable name="format" select="a1:Zahtev_za_autorska_dela/a1:Autorsko_delo/a1:Format_zapisa"/>

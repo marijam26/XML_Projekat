@@ -162,4 +162,9 @@ export class A1Service {
     tr.append('prilog', image.data);
     return this._http.post<any>(newUrl, image,this.HTTPOptionsForBlob1);
   }
+
+  savePdf(id:any) {
+    const newUrl = this.a1Url + '/getPdf/'+id;
+    return this._http.get<any>(newUrl);
+  }
 }

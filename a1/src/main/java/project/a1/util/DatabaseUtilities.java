@@ -320,4 +320,42 @@ public class DatabaseUtilities {
         }
     }
 
+    public static ZahtevZaAutorskaDela getDelo(String documentId, String collectionId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + collectionId, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+
+            res = (XMLResource)col.getResource(documentId);
+
+            if(res == null) {
+                return null;
+            } else {
+
+                return MarshallingUtils.unmarshallFromDOM(res.getContentAsDOM());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

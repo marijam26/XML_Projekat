@@ -116,4 +116,8 @@ public class AutorskoDeloRepository {
         String documentId = "resenje-a" + id;
         DatabaseUtilities.storeResource(collectionIdResenja, documentId, os);
     }
+
+    public ZahtevZaAutorskaDela getById(String id) {
+        return DatabaseUtilities.getDelo(id, collectionId);
+    }
 }

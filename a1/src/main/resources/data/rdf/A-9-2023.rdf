@@ -3,10 +3,10 @@
   <rdf:Description rdf:about="A-">
     <pred:Broj/>
     <pred:Datum_podnosenja>2023-02-05+01:00</pred:Datum_podnosenja>
-    <pred:Podnosilac_ime>ah</pred:Podnosilac_ime>
-    <pred:Podnosilac_prezime>ah</pred:Podnosilac_prezime>
-    <pred:Podnosilac_eposta>ah@gmail.com</pred:Podnosilac_eposta>
-    <pred:Naslov_autorskog_dela>ah</pred:Naslov_autorskog_dela>
+    <pred:Podnosilac_ime>qq</pred:Podnosilac_ime>
+    <pred:Podnosilac_prezime>qq</pred:Podnosilac_prezime>
+    <pred:Podnosilac_eposta>q@gmail.com</pred:Podnosilac_eposta>
+    <pred:Naslov_autorskog_dela>q</pred:Naslov_autorskog_dela>
     <pred:Vrsta_autorskog_dela>knjizevno delo</pred:Vrsta_autorskog_dela>
     <pred:Format>opticki disk</pred:Format>
     <pred:Autor_ime/>

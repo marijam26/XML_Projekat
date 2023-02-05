@@ -1,11 +1,9 @@
 package project.a1.repository;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
@@ -24,13 +22,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
 public class MetadataRepository {
 
     private static final String XSL_FILE = "src/main/resources/data/xslt/metadata.xsl";
-    private static final String RDF_FILE = "src/main/resources/data/rdf/a1.rdf";
+    private static final String RDF_FILE = "src/main/resources/data/rdf/";
     private static final String SPARQL_NAMED_GRAPH_URI = "metadata";
     private final TransformerFactory transformerFactory;
 
@@ -42,10 +42,10 @@ public class MetadataRepository {
         AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
         ByteArrayOutputStream outputStream = (ByteArrayOutputStream) new MarshallingUtils().marshall(zahtevZaAutorskaDela);
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        extractMetadata(inputStream, new FileOutputStream(RDF_FILE));
+        extractMetadata(inputStream, new FileOutputStream(RDF_FILE+zahtevZaAutorskaDela.getId()+".rdf"));
 
         Model model = ModelFactory.createDefaultModel();
-        model.read(RDF_FILE);
+        model.read(RDF_FILE+zahtevZaAutorskaDela.getId()+".rdf");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
@@ -82,5 +82,67 @@ public class MetadataRepository {
         MetadataRepository repo = new MetadataRepository();
         repo.extractMetadata(ZahtevZaAutorskaDela);
     }
+    public String getMetadataSimpleQuery(String pred, String value) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+        return String.format(SparqlUtil.SIMPLE_METADATA,  conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, pred, value);
+    }
+
+    public static List<RDFNode> searchMetadata(String sparqlQuery) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+
+        QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
+        ResultSet results = query.execSelect();
+
+        String varName = "Id";
+        List<RDFNode> nodes = new ArrayList<>();
+
+        while (results.hasNext()) {
+            QuerySolution querySolution = results.next();
+            nodes.add(querySolution.get(varName));
+        }
+
+        query.close();
+        return nodes;
+    }
+
+    public static String getMetadataAdvancedQuery(List<String> preds, List<String> values, List<String> operators) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+
+        StringBuilder query = new StringBuilder();
+        StringBuilder filter = new StringBuilder();
+        query.append(String.format("SELECT * FROM <%s> WHERE { ", conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI));
+        filter.append("\nFILTER(");
+
+        String equals = "=";
+        if(operators.get(0).equals("!")){
+            equals = "!=";
+        }
+        String nextEquals;
+        for(int i = 0; i < preds.size(); i++){
+
+            if(i != preds.size() - 1 && operators.get(i+1).contains("!")){
+                nextEquals = "!=";
+                operators.set(i+1, operators.get(i+1).substring(0, 2));
+            }
+            else{
+                nextEquals = "=";
+            }
+
+            query.append(String.format("\n\t ?z <http://ftn.uns.ac.rs/z/pred/%s> ?%s .", preds.get(i), preds.get(i)));
+            if(i != preds.size() - 1) {
+                filter.append(String.format("?%s %s \"%s\" %s ", preds.get(i), equals, values.get(i), operators.get(i+1)));
+            }
+            else{
+                filter.append(String.format("?%s %s \"%s\")\n}", preds.get(i), equals, values.get(i)));
+                query.append(filter);
+            }
+
+            equals = nextEquals;
+        }
+
+        return query.toString();
+    }
+
+
 
 }

@@ -46,23 +46,7 @@ export class ViewApplicationsComponent implements OnInit {
 
     this.getPatents();
     this.getZigovi();
-    // this.autorskoService.getAllZahtevi().subscribe(
-    //   (data) => {
-    //     var convert = require('xml-js');
-    //     var result1 = convert.xml2json(data, {compact: true, spaces: 4, trim: true});
-    //     var res = JSON.parse(result1);
-    //     console.log(res.zahtevi.zahtev)
-    //     if (Array.isArray(res.zahtevi.zahtev)) {
-    //       for (let zahev of res.zahtevi.zahtev) {
-    //         let z = this.autorskoService.mapXmlToDelo(zahev);
-    //         this.neobradjeniZahtavi.push(z);
-    //       }
-    //     } else {
-    //       let z = this.autorskoService.mapXmlToDelo(res.zahtevi.zahtev);
-    //       this.neobradjeniZahtavi.push(z);
-    //     }
-    //   }
-    // )
+    this.getAutorskaDela();
   }
 
   getZigovi() {
@@ -93,45 +77,78 @@ export class ViewApplicationsComponent implements OnInit {
     });
   }
 
-  getPatents() {
-    this.patentService.getAllZahetvPatent().subscribe((data) => {
-      var convert = require('xml-js');
-      var result1 = convert.xml2json(data, {
-        compact: true,
-        spaces: 4,
-        trim: true,
-      });
-      var res = JSON.parse(result1);
-      console.log(res.zahtevi.zahtev);
-      if (Array.isArray(res.zahtevi.zahtev)) {
-        for (let zahev of res.zahtevi.zahtev) {
-          let z = this.patentService.mapXmlToPatent(zahev);
+  getAutorskaDela(){
+    this.autorskoService.getAllZahtevi().subscribe(
+      (data) => {
+        var convert = require('xml-js');
+        var result1 = convert.xml2json(data, {compact: true, spaces: 4, trim: true});
+        var res = JSON.parse(result1);
+        console.log(res.zahtevi.zahtev)
+        if (Array.isArray(res.zahtevi.zahtev)) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.autorskoService.mapXmlToDelo(zahev);
+            this.neobradjeniZahtavi.push(z);
+          }
+        } else {
+          let z = this.autorskoService.mapXmlToDelo(res.zahtevi.zahtev);
           this.neobradjeniZahtavi.push(z);
         }
-      } else {
-        let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
-        this.neobradjeniZahtavi.push(z);
       }
-    });
+    )
 
-    this.patentService.getAllOdobrenePatent().subscribe((data) => {
-      var convert = require('xml-js');
-      var result1 = convert.xml2json(data, {
-        compact: true,
-        spaces: 4,
-        trim: true,
-      });
-      var res = JSON.parse(result1);
-      if (Array.isArray(res.zahtevi.zahtev)) {
-        for (let zahev of res.zahtevi.zahtev) {
-          let z = this.patentService.mapXmlToPatent(zahev);
+    this.autorskoService.getAllApproved().subscribe(
+      (data)=> {
+        var convert = require('xml-js');
+        var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
+        var res = JSON.parse(result1);
+        if(Array.isArray(res.zahtevi.zahtev)){
+          for(let zahev of res.zahtevi.zahtev){
+            let z = this.autorskoService.mapXmlToDelo(zahev);
+            this.obradjeniZahtevi.push(z);
+          }
+        }else{
+          let z = this.autorskoService.mapXmlToDelo(res.zahtevi.zahtev);
           this.obradjeniZahtevi.push(z);
         }
-      } else {
-        let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
-        this.obradjeniZahtevi.push(z);
+      })
+  }
+
+
+  getPatents(){
+    this.patentService.getAllZahetvPatent().subscribe(
+      (data)=> {
+        var convert = require('xml-js');
+        var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
+        var res = JSON.parse(result1);
+        console.log(res.zahtevi.zahtev)
+        if(Array.isArray(res.zahtevi.zahtev)){
+          for(let zahev of res.zahtevi.zahtev){
+            let z = this.patentService.mapXmlToPatent(zahev);
+            this.neobradjeniZahtavi.push(z);
+          }
+        }else{
+          let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
+          this.neobradjeniZahtavi.push(z);
+        }
       }
-    });
+    )
+
+    this.patentService.getAllOdobrenePatent().subscribe(
+      (data)=> {
+        var convert = require('xml-js');
+        var result1 = convert.xml2json(data, {compact: true,spaces:4,trim:true});
+        var res = JSON.parse(result1);
+        if(Array.isArray(res.zahtevi.zahtev)){
+          for(let zahev of res.zahtevi.zahtev){
+            let z = this.patentService.mapXmlToPatent(zahev);
+            this.obradjeniZahtevi.push(z);
+          }
+        }else{
+          let z = this.patentService.mapXmlToPatent(res.zahtevi.zahtev);
+          this.obradjeniZahtevi.push(z);
+        }
+      }
+    )
   }
 
   async parseXml(xmlString: string) {
@@ -196,6 +213,7 @@ export class ViewApplicationsComponent implements OnInit {
       );
     } else if (id.includes('Z')) {
       window.open('http://localhost:9001/api/zig/downloadPDF/' + id + '.rdf');
+
     }
   }
 

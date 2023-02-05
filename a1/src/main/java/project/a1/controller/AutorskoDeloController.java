@@ -13,11 +13,13 @@ import org.xmldb.api.base.XMLDBException;
 import project.a1.dto.a1.ListaZahtevaZaAutorskoDeloDTO;
 import project.a1.dto.a1.ZahtevZaAutorskaDelaDTO;
 import project.a1.dto.main_schema.ImageDTO;
+import project.a1.dto.main_schema.MetadataSearchDTO;
 import project.a1.dto.main_schema.ResenjeDTO;
 import project.a1.model.a1.Prilozi;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
 import project.a1.model.main_schema.TPrilog;
 import project.a1.model.resenje.Resenje;
+import project.a1.repository.MetadataRepository;
 import project.a1.service.AutorskoDeloService;
 import project.a1.util.MarshallingUtils;
 
@@ -82,6 +84,9 @@ public class AutorskoDeloController {
         try {
             ZahtevZaAutorskaDela zahtevZaAutorskaDela = autorskoDeloService.map(dto);
             autorskoDeloService.save(zahtevZaAutorskaDela);
+            MetadataRepository repo = new MetadataRepository();
+            repo.extractMetadata(zahtevZaAutorskaDela);
+            autorskoDeloService.getDocumentPdf(zahtevZaAutorskaDela.getId().split("-")[1],zahtevZaAutorskaDela.getId());
             return zahtevZaAutorskaDela;
         } catch (Exception e) {
             System.out.print(e.getMessage());
@@ -89,11 +94,11 @@ public class AutorskoDeloController {
         return null;
     }
 
-    @GetMapping("/getPdf/{id}")
-    public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
-        autorskoDeloService.getDocumentPdf(id);
-        return new ResponseEntity<>("Uspesno", HttpStatus.OK);
-    }
+//    @GetMapping("/getPdf/{id}")
+//    public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
+//        autorskoDeloService.getDocumentPdf(id);
+//        return new ResponseEntity<>("Uspesno", HttpStatus.OK);
+//    }
 
     @GetMapping(value = "/search/{data}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<List<ZahtevZaAutorskaDela>> search(@PathVariable String data) throws Exception {
@@ -175,6 +180,33 @@ public class AutorskoDeloController {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         }
+    }
+
+    @RequestMapping("/downloadRDF/{fileName}")
+    public void downloadRDFResource(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/rdf/" + fileName;
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/octet-stream";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @PostMapping(value = "/searchMetadata/advanced", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaAutorskaDela>> searchMetadataAdvanced(@RequestBody MetadataSearchDTO data) throws Exception {
+        List<ZahtevZaAutorskaDela> zahtevi = autorskoDeloService.searchMetadataAdvanced(data);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+
+    @GetMapping(value = "/searchMetadata/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaAutorskaDela>> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
+        List<ZahtevZaAutorskaDela> zahtevi = autorskoDeloService.searchMetadata(pred, value);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
 
     @RequestMapping("/downloadHTML/{fileName}")
