@@ -4,6 +4,7 @@ import { ZahtevZaPatentDTO } from '../model/zahtev-za-patent';
 import * as JsonToXML from 'js2xmlparser';
 import { RanijaPrijavaDTO } from '../model/ranija-prijava';
 import { ResenjeDTO } from '../../shared-models/resenjeDTO';
+import {IzvestajDTO} from "../../shared-models/izvestajDTO";
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,20 @@ export class P1Service {
     });
   }
 
-  saveResenje(resenje: ResenjeDTO) {
+
+  generateReport(izvestaj: IzvestajDTO) {
+    const xmlZahtev = JsonToXML.parse('izvestajDTO', izvestaj);
+    const newUrl = this.p1Url + '/report';
+    return this._http.post<any>(newUrl, xmlZahtev, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/xml',
+        'Access-Control-Allow-Origin': '*',
+        responseType: 'text',
+      }),
+    });
+  }
+
+  saveResenje(resenje:ResenjeDTO){
     const resenjeXML = JsonToXML.parse('resenjeDTO', resenje);
     const newUrl = this.p1Url + '/saveResenje';
     return this._http.post<any>(newUrl, resenjeXML, {

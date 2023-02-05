@@ -10,6 +10,7 @@ import {ViewApplicationsComponent} from "./components/view-applications/view-app
 import {SearchApplicationsComponent} from "./components/search-applications/search-applications.component";
 import {AdvancedSearchComponent} from "./components/advanced-search/advanced-search.component";
 import {PatentXonomyComponent} from "./p1/patent-xonomy/patent-xonomy.component";
+import {ReportComponent} from "./components/report/report.component";
 
 const routes: Routes = [
   { path: 'p1', component: PatentFormComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'search', component: SearchApplicationsComponent},
   { path: 'advancedSearch', component: AdvancedSearchComponent},
   { path: 'ph', component: PatentXonomyComponent},
+  { path: 'report', component: ReportComponent},
 
 ];
 

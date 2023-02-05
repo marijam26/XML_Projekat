@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+<section class="p-3 vh-100" style="background: whitesmoke">
+  <div class="row pt-5 pb-4 justify-content-center" style="padding-left: 100px">
+    <div class="form-check col-3">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" [checked]="vrsta === 'Autorsko delo'" (change)="changeVrsta('Autorsko_delo')">
+      <label class="form-check-label" for="flexRadioDefault1">
+        Autorsko delo
+      </label>
+    </div>
+    <div class="form-check col-3">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked (change)="changeVrsta('Patent')">
+      <label class="form-check-label" for="flexRadioDefault2">
+        Patent
+      </label>
+    </div>
+    <div class="form-check col-3">
+      <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" (change)="changeVrsta('Zig')">
+      <label class="form-check-label" for="flexRadioDefault3">
+        Zig
+      </label>
+    </div>
+  </div>
+  <div class="row pt-3 justify-content-center">
+    <div class="row pt-2 pb-3 justify-content-center">
+      <div class="col-2">
+        <label class="text-dark" for="start" style="font-weight: normal;font-size: 17px">Start date: </label>
+        <input [(ngModel)]="startDate" [max]="today" class="form-control" id="start" type="date">
+      </div>
+      <div class="col-2">
+        <label class="text-dark" for="end" style="font-weight: normal;font-size: 17px">End date: </label>
+        <input [(ngModel)]="endDate" [max]="today" class="form-control" id="end" type="date">
+      </div>
+      <div class="col-2 pt-4">
+        <button
+          (click)="getreport()"
+          class="btn btn-rounded btn-sm btn-success"
+          style="font-size: 14px;"
+          type="button"
+        >
+          Get report
+        </button>
+      </div>
+    </div>
+  </div>
+
+</section>

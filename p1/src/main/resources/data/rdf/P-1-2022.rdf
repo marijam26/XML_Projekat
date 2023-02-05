@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sema="http://ftn.uns.ac.rs/sema" xmlns:pred="http://ftn.uns.ac.rs/p/pred/" xmlns:p1="http://ftn.uns.ac.rs/p">
+  <rdf:Description rdf:about="P-5">
+    <pred:Broj>5</pred:Broj>
+    <pred:Id>P-5-2023</pred:Id>
+    <pred:Datum_podnosenja>2023-02-05+01:00</pred:Datum_podnosenja>
+    <pred:Datum_prijema>2023-02-05+01:00</pred:Datum_prijema>
+    <pred:Podnosilac_ime>ana</pred:Podnosilac_ime>
+    <pred:Podnosilac_prezime>anic</pred:Podnosilac_prezime>
+    <pred:Punomocnik_ime>Marija</pred:Punomocnik_ime>
+    <pred:Punomocnik_prezime>Milosevic</pred:Punomocnik_prezime>
+    <pred:Podnosilac_eposta>gdfgfd</pred:Podnosilac_eposta>
+    <pred:Pronalazac_ime/>
+    <pred:Pronalazac_prezime/>
+    <pred:Pronalazak_naziv_na_engleskom>vba</pred:Pronalazak_naziv_na_engleskom>
+    <pred:Pronalazak_naziv_na_srpskom>bla</pred:Pronalazak_naziv_na_srpskom>
+  </rdf:Description>
+</rdf:RDF>

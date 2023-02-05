@@ -44,10 +44,9 @@ export class ViewApplicationsComponent implements OnInit {
       console.log(this.ulogovani);
     }
 
-    // this.getPatents();
-    // this.getZigovi();
-    this.getAutorskaDela();
-
+     this.getPatents();
+    //this.getZigovi();
+    //this.getAutorskaDela();
   }
 
   getZigovi() {
@@ -231,7 +230,7 @@ export class ViewApplicationsComponent implements OnInit {
       );
     } else if (id.includes('P')) {
       window.open(
-        'http://localhost:9001/api/patent/downloadPDF/' + id + '.rdf'
+        'http://localhost:9001/api/patent/downloadRDF/' + id + '.rdf'
       );
     } else if (id.includes('Z')) {
       window.open('http://localhost:9003/api/zig/downloadPDF/' + id + '.rdf');

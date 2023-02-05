@@ -35,7 +35,7 @@ export class XonomyService {
             action: Xonomy.newElementChild,
             actionParameter: '<Ime></Ime>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Ime")
+              return jsElement.hasChildElement("Ime")
             }
           },
           {
@@ -43,7 +43,7 @@ export class XonomyService {
             action: Xonomy.newElementChild,
             actionParameter: '<Prezime></Prezime>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Prezime")
+              return jsElement.hasChildElement("Prezime")
             }
           },
           {
@@ -51,7 +51,7 @@ export class XonomyService {
             action: Xonomy.newElementChild,
             actionParameter: '<Drzavljanstvo></Drzavljanstvo>',
             hideIf: function (jsElement:any) {
-              return jsElement.hasAttribute("Drzavljanstvo")
+              return jsElement.hasChildElement("Drzavljanstvo")
             }
           },
         ],

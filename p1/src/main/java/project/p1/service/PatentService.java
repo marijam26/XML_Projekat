@@ -1,6 +1,7 @@
 package project.p1.service;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfDocument;
 import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,19 +19,25 @@ import project.p1.repository.PatentRepository;
 import project.p1.util.DatabaseUtilities;
 import project.p1.util.MarshallingUtils;
 import project.p1.util.PDFTransformer;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.TransformerException;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PatentService {
@@ -38,7 +45,6 @@ public class PatentService {
     @Autowired
     private PatentRepository patentRepository;
 
-    private MetadataRepository metadataRepository;
 
 
     public void save(ZahtevZaPatent zahtevZaPatent) throws JAXBException, XMLDBException {
@@ -92,8 +98,8 @@ public class PatentService {
         return zahtevi;
     }
 
-    public void saveMetadataForZahtev(String id) throws JAXBException, IOException, TransformerException {
-        ZahtevZaPatent zahtevZaPatent = getPatent(id);
+    public void saveMetadataForZahtev(ZahtevZaPatent zahtevZaPatent) throws JAXBException, IOException, TransformerException {
+        MetadataRepository metadataRepository = new MetadataRepository();
         metadataRepository.extractMetadata(zahtevZaPatent);
     }
 
@@ -103,16 +109,19 @@ public class PatentService {
     }
 
     public List<ZahtevZaPatent> searchMetadata(String pred, String value) throws IOException {
+        MetadataRepository metadataRepository = new MetadataRepository();
         String query = metadataRepository.getMetadataSimpleQuery(pred, value);
         return getByQuery(query);
     }
 
     public List<ZahtevZaPatent> searchMetadataAdvanced(MetadataSearchDTO data) throws IOException {
+        MetadataRepository metadataRepository = new MetadataRepository();
         String query = metadataRepository.getMetadataAdvancedQuery(data.getPreds(), data.getValues(), data.getOperators());
         return getByQuery(query);
     }
 
     public List<ZahtevZaPatent> getByQuery(String query) throws IOException {
+        MetadataRepository metadataRepository = new MetadataRepository();
         List<RDFNode> files =  metadataRepository.searchMetadata(query);
         List<ZahtevZaPatent> zahtevi = new ArrayList<>();
         for(RDFNode f: files){
@@ -149,7 +158,7 @@ public class PatentService {
     public ZahtevZaPatent map(ZahtevZaPatentDTO zahtevZaPatent) {
         ZahtevZaPatent zahtev = new ZahtevZaPatent();
         zahtev.setBrojPrijave(BigInteger.valueOf(DatabaseUtilities.getCollectionSize("db/patenti") + 1));
-        zahtev.setId("P-"+ zahtev.getBrojPrijave()+"-"+formatDateToXML(zahtevZaPatent.datumPodnosenja).getYear());
+        zahtev.setId("P-"+ zahtev.getBrojPrijave()+"-"+ getDateXML(new Date()).getYear());
         zahtev.setDatumPrijema(getDateXML(new Date()));
         zahtev.setDatumPodnosenja(getDateXML(new Date()));
         zahtev.setVrstaPunomocnika(TVrstaPunomocnika.fromValue(zahtevZaPatent.vrstaPunomocnika));
@@ -195,7 +204,7 @@ public class PatentService {
 
     public XMLGregorianCalendar formatDateToXML(String datum){
         String[] datum_delovi = datum.split("-");
-        GregorianCalendar gc = new GregorianCalendar(Integer.parseInt(datum_delovi[0]), Integer.parseInt(datum_delovi[1]),Integer.parseInt(datum_delovi[2]));
+        GregorianCalendar gc = new GregorianCalendar(Integer.parseInt(datum_delovi[0]), Integer.parseInt(datum_delovi[1]) - 1,Integer.parseInt(datum_delovi[2]));
         return getDateXML(gc.getTime());
     }
 
@@ -251,5 +260,69 @@ public class PatentService {
         a.setUlica(dto.ulica);
         a.setPostanskiBroj(dto.postanskiBroj);
         return a;
+    }
+
+    public void kreirajIzvestaj(IzvestajDTO izvestajDTO) throws FileNotFoundException, DocumentException, XMLDBException {
+        XMLGregorianCalendar pocetniDatum = formatDateToXML(izvestajDTO.pocetniDatum);
+        XMLGregorianCalendar krajnjiDatum = formatDateToXML(izvestajDTO.krajnjiDatum);
+        System.out.println(pocetniDatum);
+
+        int zahtevi = 0;
+        int prihvaceni = 0;
+        int odbijeni = 0;
+
+        List<Resenje> resenja = patentRepository.getAllResenja();
+        List<ZahtevZaPatent> zahteviZaPatent = patentRepository.getAll();
+        for (Resenje r: resenja) {
+            if (pocetniDatum.compare(r.getDatumRazresenjaZahteva()) <= 0 && krajnjiDatum.compare(r.getDatumRazresenjaZahteva()) >= 0) {
+                if(r.getOdobren()){
+                    prihvaceni++;
+                }else{
+                    odbijeni++;
+                }
+            }
+        }
+
+        for (ZahtevZaPatent zahtevZaPatent:zahteviZaPatent){
+            if(pocetniDatum.compare(zahtevZaPatent.getDatumPodnosenja()) <= 0 && krajnjiDatum.compare(zahtevZaPatent.getDatumPodnosenja()) >= 0){
+                zahtevi++;
+            }
+        }
+
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("src/main/resources/data/gen/izvestaj.pdf"));
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 20, BaseColor.BLACK);
+        Chunk chunk = new Chunk("IZVESTAJ U PERIODU OD " + convertDateToStr(pocetniDatum) + " DO " + convertDateToStr(krajnjiDatum), font);
+        document.add(chunk);
+        document.add(new Paragraph("\n\n"));
+
+        PdfPTable table = new PdfPTable(3);
+        addTableHeader(table);
+        table.addCell(String.valueOf(zahtevi));
+        table.addCell(String.valueOf(prihvaceni));
+        table.addCell(String.valueOf(odbijeni));
+        document.add(table);
+        document.close();
+
+    }
+
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("Podneti zahtevi", "Prihvaceni zahtevi", "Odbijeni zahtevi")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.YELLOW);
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
+    }
+
+    private String convertDateToStr(XMLGregorianCalendar calendar) {
+        Date date = calendar.toGregorianCalendar().getTime();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy.");
+        return df.format(date);
     }
 }

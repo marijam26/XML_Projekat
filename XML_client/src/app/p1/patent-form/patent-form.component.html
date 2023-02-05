@@ -35,77 +35,81 @@
       <div id="editor"></div>
 
       <hr>
+      <div *ngIf="!podnosilacJePronalazac">
+        <div class="row pt-4">
+          <h4>Pronalazac</h4>
+        </div>
+
+        <div class="form-check my-2">
+          <input class="form-check-input" type="checkbox" value="" id="pronalazac_anoniman" [checked]="anonimanPronalazac" (change)="changeAnoniman()">
+          <label class="form-check-label" for="pronalazac_anoniman">
+            Pronalazac ne zeli da bude naveden u prijavi
+          </label>
+        </div>
+
+        <div *ngIf="!anonimanPronalazac">
+          <div class="row pb-2">
+            <div class="form-group col-3">
+              <label for="ime_pronalazaca">Ime:</label>
+              <input type="text" class="form-control" id="ime_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.ime">
+            </div>
+            <div class="form-group col-3">
+              <label for="prezime_pronalazaca">Prezime:</label>
+              <input type="text" class="form-control" id="prezime_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.prezime">
+            </div>
+            <div class="form-group col-3">
+              <label for="drzavljanstvo_pronalazaca">Drzavljanstvo:</label>
+              <input type="text" class="form-control" id="drzavljanstvo_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.drzavljanstvo">
+            </div>
+          </div>
+
+          <h5 class="my-3">Adresa</h5>
+          <div class="row">
+            <div class="form-group col-3">
+              <label for="ulica_pronalazaca">Ulica:</label>
+              <input type="text" class="form-control" id="ulica_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.ulica">
+            </div>
+            <div class="form-group col-1">
+              <label for="broj_pronalazaca">Broj:</label>
+              <input type="number" class="form-control" id="broj_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.broj">
+            </div>
+          </div>
+          <div class="row py-3">
+            <div class="form-group col-2">
+              <label for="grad_pronalazaca">Grad:</label>
+              <input type="text" class="form-control" id="grad_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.grad">
+            </div>
+            <div class="form-group col-2">
+              <label for="pos_br_pronalazaca">Postanski broj:</label>
+              <input type="number" class="form-control" id="pos_br_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.postanskiBroj">
+            </div>
+            <div class="form-group col-2">
+              <label for="drzava_pronalazaca">Drzava:</label>
+              <input type="text" class="form-control" id="drzava_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.drzava">
+            </div>
+          </div>
+          <h5 class="my-3">Kontakt</h5>
+          <div class="row pb-3">
+            <div class="form-group col-2">
+              <label for="telefon_pronalazaca">Telefon:</label>
+              <input type="text" class="form-control" id="telefon_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.telefon">
+            </div>
+            <div class="form-group col-2">
+              <label for="faks_pronalazaca">Faks:</label>
+              <input type="text" class="form-control" id="faks_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.faks">
+            </div>
+            <div class="form-group col-3">
+              <label for="eposta_pronalazaca">E-posta:</label>
+              <input type="email" class="form-control" id="eposta_pronalazaca" placeholder="example@gmail.com" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.eposta">
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
 
       <div class="row pt-4">
-        <h4>Pronalazac</h4>
+        <h4>Punomocnik</h4>
       </div>
-
-      <div class="form-check my-2">
-        <input class="form-check-input" type="checkbox" value="" id="pronalazac_anoniman" [checked]="anonimanPronalazac" (change)="changeAnoniman()">
-        <label class="form-check-label" for="pronalazac_anoniman">
-          Pronalazac ne zeli da bude naveden u prijavi
-        </label>
-      </div>
-
-      <div *ngIf="!anonimanPronalazac">
-        <div class="row pb-2">
-          <div class="form-group col-3">
-            <label for="ime_pronalazaca">Ime:</label>
-            <input type="text" class="form-control" id="ime_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.ime">
-          </div>
-          <div class="form-group col-3">
-            <label for="prezime_pronalazaca">Prezime:</label>
-            <input type="text" class="form-control" id="prezime_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.prezime">
-          </div>
-          <div class="form-group col-3">
-            <label for="drzavljanstvo_pronalazaca">Drzavljanstvo:</label>
-            <input type="text" class="form-control" id="drzavljanstvo_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.drzavljanstvo">
-          </div>
-        </div>
-
-        <h5 class="my-3">Adresa</h5>
-        <div class="row">
-          <div class="form-group col-3">
-            <label for="ulica_pronalazaca">Ulica:</label>
-            <input type="text" class="form-control" id="ulica_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.ulica">
-          </div>
-          <div class="form-group col-1">
-            <label for="broj_pronalazaca">Broj:</label>
-            <input type="number" class="form-control" id="broj_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.broj">
-          </div>
-        </div>
-        <div class="row py-3">
-          <div class="form-group col-2">
-            <label for="grad_pronalazaca">Grad:</label>
-            <input type="text" class="form-control" id="grad_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.grad">
-          </div>
-          <div class="form-group col-2">
-            <label for="pos_br_pronalazaca">Postanski broj:</label>
-            <input type="number" class="form-control" id="pos_br_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.postanskiBroj">
-          </div>
-          <div class="form-group col-2">
-            <label for="drzava_pronalazaca">Drzava:</label>
-            <input type="text" class="form-control" id="drzava_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.adresa.drzava">
-          </div>
-        </div>
-        <h5 class="my-3">Kontakt</h5>
-        <div class="row pb-3">
-          <div class="form-group col-2">
-            <label for="telefon_pronalazaca">Telefon:</label>
-            <input type="text" class="form-control" id="telefon_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.telefon">
-          </div>
-          <div class="form-group col-2">
-            <label for="faks_pronalazaca">Faks:</label>
-            <input type="text" class="form-control" id="faks_pronalazaca" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.faks">
-          </div>
-          <div class="form-group col-3">
-            <label for="eposta_pronalazaca">E-posta:</label>
-            <input type="email" class="form-control" id="eposta_pronalazaca" placeholder="example@gmail.com" [(ngModel)]="zatevZaPatent.pronalazac.kontakt.eposta">
-          </div>
-        </div>
-      </div>
-
-      <hr>
 
       <div class="row pt-3 px-3">
         <div class="form-check col-3">

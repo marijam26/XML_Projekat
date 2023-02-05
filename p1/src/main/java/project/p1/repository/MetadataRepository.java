@@ -31,7 +31,7 @@ import java.util.List;
 public class MetadataRepository {
 
     private static final String XSL_FILE = "src/main/resources/data/xslt/metadata.xsl";
-    private static final String RDF_FILE = "src/main/resources/data/rdf/p1.rdf";
+    private static final String RDF_FILE = "src/main/resources/data/rdf/";
     private static final String SPARQL_NAMED_GRAPH_URI = "metadata";
     private final TransformerFactory transformerFactory;
 
@@ -43,10 +43,10 @@ public class MetadataRepository {
         AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
         ByteArrayOutputStream outputStream = (ByteArrayOutputStream) new MarshallingUtils().marshall(zahtevZaPatent);
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        extractMetadata(inputStream, new FileOutputStream(RDF_FILE));
+        extractMetadata(inputStream, new FileOutputStream(RDF_FILE + zahtevZaPatent.getId() + ".rdf"));
 
         Model model = ModelFactory.createDefaultModel();
-        model.read(RDF_FILE);
+        model.read(RDF_FILE + zahtevZaPatent.getId() + ".rdf");
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 

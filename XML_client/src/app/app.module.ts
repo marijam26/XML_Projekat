@@ -20,6 +20,7 @@ import { SearchApplicationsComponent } from './components/search-applications/se
 import { AdvancedSearchComponent } from './components/advanced-search/advanced-search.component';
 import { PatentXonomyComponent } from './p1/patent-xonomy/patent-xonomy.component';
 import 'xml2js';
+import { ReportComponent } from './components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import 'xml2js';
     SearchApplicationsComponent,
     AdvancedSearchComponent,
     PatentXonomyComponent,
+    ReportComponent,
   ],
   imports: [
     BrowserModule,

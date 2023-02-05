@@ -9,10 +9,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
-import project.p1.dto.ListaZahtevaZaPatentDTO;
-import project.p1.dto.MetadataSearchDTO;
-import project.p1.dto.ResenjeDTO;
-import project.p1.dto.ZahtevZaPatentDTO;
+import project.p1.dto.*;
 import project.p1.model.p1.ZahtevZaPatent;
 import project.p1.model.resenje.Resenje;
 import project.p1.service.PatentService;
@@ -23,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -93,7 +91,7 @@ public class PatentController {
         try {
             ZahtevZaPatent zahtev = patentService.map(zahtevZaPatentDTO);
             patentService.save(zahtev);
-            patentService.saveMetadataForZahtev(zahtev.getId());
+            patentService.saveMetadataForZahtev(zahtev);
             patentService.getDocumentPdf(zahtev.getId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -140,7 +138,7 @@ public class PatentController {
 
     @GetMapping("/metadata/{id}")
     public ResponseEntity<String> saveMetadata(@PathVariable String id) throws JAXBException, IOException, TransformerException {
-        patentService.saveMetadataForZahtev(id);
+        //patentService.saveMetadataForZahtev(id);
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
@@ -170,6 +168,26 @@ public class PatentController {
             InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(inputStream, response.getOutputStream());
         }
+    }
+
+    @RequestMapping("/downloadRDF/{fileName}")
+    public void downloadRDFResource(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/rdf/" + fileName;
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/xml";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @PostMapping(value = "/report",consumes = "application/xml")
+    public ResponseEntity<String> getIzvestaj(@RequestBody IzvestajDTO izvestajDTO) throws DocumentException, FileNotFoundException, XMLDBException {
+        patentService.kreirajIzvestaj(izvestajDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
