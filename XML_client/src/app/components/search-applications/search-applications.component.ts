@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Z1Service } from '../../z1/services/z1.service';
-import * as xml2js from 'xml2js';
 
 @Component({
   selector: 'app-search-applications',
@@ -25,30 +24,27 @@ export class SearchApplicationsComponent {
   searchZig() {
     this.zigService.search(this.searchField).subscribe({
       next: async (value) => {
-        this.zahtevi = [];
-        let result: any = await this.parseXml(value);
-        if (result.List === '') {
-          return;
-        }
-        for (let z of result.List.item) {
-          let zahtev = this.zigService.mapXmlToZahtev(
-            JSON.parse(JSON.stringify(z))
-          );
-          this.zahtevi.push(zahtev);
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(value, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.zahtevi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.zahtevi.push(z);
         }
       },
     });
-  }
-
-  async parseXml(xmlString: string) {
-    return await new Promise((resolve, reject) =>
-      xml2js.parseString(xmlString, (err, jsonData) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(jsonData);
-      })
-    );
   }
 
   clickShow(zahtev: string) {

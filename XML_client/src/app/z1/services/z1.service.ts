@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ZahtevZaZigDTO } from '../model/zahtev-za-zig';
 import * as JsonToXML from 'js2xmlparser';
 import { ResenjeDTO } from '../../shared-models/resenjeDTO';
-import { TLiceDTO } from '../../shared-models/t-lice-d-t-o';
-import { MetadataSearchDto } from '../../shared-models/metadataSearchDto';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +13,7 @@ export class Z1Service {
 
   save(zahtev: ZahtevZaZigDTO) {
     const xml = JsonToXML.parse('zahtevZaZigDTO', zahtev);
-    const saveUrl = this.url + 'save';
+    const saveUrl = this.url + '/save';
     return this._http.post<any>(saveUrl, xml, {
       headers: new HttpHeaders({
         'Content-Type': 'application/xml',
@@ -26,7 +24,7 @@ export class Z1Service {
   }
 
   get() {
-    const newUrl = this.url + 2; //document id
+    const newUrl = this.url + '/' + 2; //document id
     return this._http.get<any>(newUrl, {
       headers: new HttpHeaders({
         'Content-Type': 'text/xml',
@@ -85,115 +83,150 @@ export class Z1Service {
     });
   }
 
-  mapXmlToZahtev(value: any) {
+  mapXmlToZahtev(data: any) {
     let zahtev: ZahtevZaZigDTO = new ZahtevZaZigDTO();
-    zahtev.id = value.id[0];
-    zahtev.brojPrijave = value.brojPrijave[0];
-    zahtev.datumPodnosenja = value.datumPodnosenja[0];
-    zahtev.zig.opis = value.zig[0].opis[0];
-    if (value.zig[0].ostalo !== undefined) {
-      zahtev.zig.ostalo = value.zig[0].ostalo[0];
+    zahtev.id = data['_attributes']['Id'];
+    zahtev.brojPrijave = data['_attributes']['Broj_prijave'];
+    zahtev.datumPodnosenja = data['_attributes']['Datum_podnosenja'];
+    zahtev.zig.opis = data['ns2:Zig']['ns2:Opis'];
+    if (data['ns2:Zig']['ns2:Ostalo'] !== undefined) {
+      zahtev.zig.ostalo = data['ns2:Zig']['ns3:Ostalo'];
     }
-    zahtev.zig.prevod = value.zig[0].prevod[0];
-    zahtev.zig.transliteracija = value.zig[0].transliteracija[0];
+    zahtev.zig.prevod = data['ns2:Zig']['ns3:Prevod'];
+    zahtev.zig.transliteracija = data['ns2:Zig']['ns3:Transliteracija'];
 
-    for (let b of value.zig[0].boja[0].boja) {
-      console.log(b);
-      zahtev.zig.boje.push(b);
+    if (Array.isArray(data['ns2:Zig']['ns2:Boja'])) {
+      for (let b of data['ns2:Zig']['ns2:Boja']) {
+        console.log(b);
+        zahtev.zig.boje.push(b);
+      }
+    } else {
+      zahtev.zig.boje.push(data['ns2:Zig']['ns2:Boja']._text);
     }
 
-    for (let k of value.zig[0].klasaRobe[0].klasaRobe) {
-      console.log(k);
-      zahtev.zig.klase.push(k);
+    if (Array.isArray(data['ns2:Zig']['ns3:Klasa_robe'])) {
+      for (let k of data['ns2:Zig']['ns3:Klasa_robe']) {
+        console.log(k);
+        zahtev.zig.klase.push(k);
+      }
+    } else {
+      zahtev.zig.klase.push(data['ns2:Zig']['ns2:Klasa_robe']._text);
     }
 
-    zahtev.takse.osnovnaTaksa = value.takse[0].osnovnaTaksa[0];
-    zahtev.takse.ukupno = value.takse[0].ukupno[0];
-    zahtev.takse.grafickoResenje = value.takse[0].grafickoResenje[0];
-    zahtev.takse.klase = value.takse[0].klase[0];
-    zahtev.takse.brojKlasa = value.takse[0].brojKlasa[0];
+    zahtev.takse.osnovnaTaksa = data['ns2:Takse']['ns2:Osnovna_taksa'];
+    zahtev.takse.ukupno = data['ns2:Takse']['ns2:Ukupno'];
+    zahtev.takse.grafickoResenje = data['ns2:Takse']['ns2:Graficko_resenje'];
+    zahtev.takse.klase = data['ns2:Takse']['ns2:Klase'];
+    zahtev.takse.brojKlasa = data['ns2:Takse']['ns2:Broj_klasa'];
 
-    if (value.podnosilacPrijave[0].ime !== undefined) {
-      zahtev.podnosilacPrijave.ime = value.podnosilacPrijave[0].ime[0];
-      zahtev.podnosilacPrijave.prezime = value.podnosilacPrijave[0].prezime[0];
+    if (
+      data['ns3:Podnosilac_prijave']['_attributes']['xsi:type'] ===
+      'ns3:TFizicko_lice'
+    ) {
+      zahtev.podnosilacPrijave.ime =
+        data['ns3:Podnosilac_prijave']['ns3:Ime']._text;
+      zahtev.podnosilacPrijave.prezime =
+        data['ns3:Podnosilac_prijave']['ns3:Prezime']._text;
     } else {
       zahtev.podnosilacPrijave.poslovnoIme =
-        value.podnosilacPrijave[0].poslovnoIme[0];
+        data['ns3:Podnosilac_prijave']['ns3:Poslovno_ime']._text;
     }
-
     zahtev.podnosilacPrijave.kontakt.eposta =
-      value.podnosilacPrijave[0].kontakt[0].eposta[0];
+      data['ns3:Podnosilac_prijave']['ns3:Kontakt']['ns3:E_posta']._text;
     zahtev.podnosilacPrijave.kontakt.faks =
-      value.podnosilacPrijave[0].kontakt[0].faks[0];
+      data['ns3:Podnosilac_prijave']['ns3:Kontakt']['ns3:Faks']._text;
     zahtev.podnosilacPrijave.kontakt.telefon =
-      value.podnosilacPrijave[0].kontakt[0].telefon[0];
+      data['ns3:Podnosilac_prijave']['ns3:Kontakt']['ns3:Telefon']._text;
 
     zahtev.podnosilacPrijave.adresa.ulica =
-      value.podnosilacPrijave[0].adresa[0].ulica[0];
+      data['ns3:Podnosilac_prijave']['ns3:Adresa']['ns3:Ulica']._text;
     zahtev.podnosilacPrijave.adresa.broj =
-      value.podnosilacPrijave[0].adresa[0].broj[0];
+      data['ns3:Podnosilac_prijave']['ns3:Adresa']['ns3:Broj']._text;
     zahtev.podnosilacPrijave.adresa.postanskiBroj =
-      value.podnosilacPrijave[0].adresa[0].postanskiBroj[0];
+      data['ns3:Podnosilac_prijave']['ns3:Adresa']['ns3:Postanski_broj']._text;
     zahtev.podnosilacPrijave.adresa.grad =
-      value.podnosilacPrijave[0].adresa[0].grad[0];
-    zahtev.podnosilacPrijave.drzavljanstvo =
-      value.podnosilacPrijave[0].drzavljanstvo[0];
+      data['ns3:Podnosilac_prijave']['ns3:Adresa']['ns3:Grad']._text;
 
-    if (value.punomocnik[0].ime !== undefined) {
-      zahtev.punomocnik.ime = value.punomocnik[0].ime[0];
-      zahtev.punomocnik.prezime = value.punomocnik[0].prezime[0];
+    if (
+      data['ns3:Punomocnik']['_attributes']['xsi:type'] === 'ns3:TFizicko_lice'
+    ) {
+      zahtev.punomocnik.ime = data['ns3:Punomocnik']['ns3:Ime']._text;
+      zahtev.punomocnik.prezime = data['ns3:Punomocnik']['ns3:Prezime']._text;
     } else {
-      zahtev.punomocnik.poslovnoIme = value.punomocnik[0].poslovnoIme[0];
+      zahtev.punomocnik.poslovnoIme =
+        data['ns3:Punomocnik']['ns3:Poslovno_ime']._text;
     }
-
-    zahtev.punomocnik.kontakt.eposta = value.punomocnik[0].kontakt[0].eposta[0];
-    zahtev.punomocnik.kontakt.faks = value.punomocnik[0].kontakt[0].faks[0];
+    zahtev.punomocnik.drzavljanstvo =
+      data['ns3:Punomocnik']['ns3:Drzavljanstvo']._text;
+    zahtev.punomocnik.kontakt.eposta =
+      data['ns3:Punomocnik']['ns3:Kontakt']['ns3:E_posta']._text;
+    zahtev.punomocnik.kontakt.faks =
+      data['ns3:Punomocnik']['ns3:Kontakt']['ns3:Faks']._text;
     zahtev.punomocnik.kontakt.telefon =
-      value.punomocnik[0].kontakt[0].telefon[0];
+      data['ns3:Punomocnik']['ns3:Kontakt']['ns3:Telefon']._text;
 
-    zahtev.punomocnik.adresa.ulica = value.punomocnik[0].adresa[0].ulica[0];
-    zahtev.punomocnik.adresa.broj = value.punomocnik[0].adresa[0].broj[0];
+    zahtev.punomocnik.adresa.ulica =
+      data['ns3:Punomocnik']['ns3:Adresa']['ns3:Ulica']._text;
+    zahtev.punomocnik.adresa.broj =
+      data['ns3:Punomocnik']['ns3:Adresa']['ns3:Broj']._text;
     zahtev.punomocnik.adresa.postanskiBroj =
-      value.punomocnik[0].adresa[0].postanskiBroj[0];
-    zahtev.punomocnik.adresa.grad = value.punomocnik[0].adresa[0].grad[0];
+      data['ns3:Punomocnik']['ns3:Adresa']['ns3:Postanski_broj']._text;
+    zahtev.punomocnik.adresa.grad =
+      data['ns3:Punomocnik']['ns3:Adresa']['ns3:Grad']._text;
 
-    zahtev.prilozi.dokazOPravuPrvenstva.putanja =
-      value.prilozi[0].dokazOPravuPrvenstva[0].putanja[0];
-    zahtev.prilozi.dokazOPravuPrvenstva.value =
-      value.prilozi[0].dokazOPravuPrvenstva[0].value[0] !== 'false';
+    if (data['ns2:Prilozi'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Opis_dela'] != undefined) {
+        zahtev.prilozi.dokazOPravuPrvenstva.putanja =
+          data['ns2:Prilozi']['ns2:Dokaz_o_pravu_prvenstva']['_attributes'][
+            'Putanja'
+          ];
+        zahtev.prilozi.dokazOPravuPrvenstva.value =
+          zahtev.prilozi.dokazOPravuPrvenstva.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.dokazOUplati.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.dokazOUplati.value =
+          zahtev.prilozi.dokazOUplati.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.opstiAkt.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.opstiAkt.value =
+          zahtev.prilozi.opstiAkt.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.punomoc.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.punomoc.value =
+          zahtev.prilozi.punomoc.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.primerakZnaka.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.primerakZnaka.value =
+          zahtev.prilozi.primerakZnaka.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.naknadnaPunomoc.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.naknadnaPunomoc.value =
+          zahtev.prilozi.naknadnaPunomoc.putanja !== 'False';
+      }
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.ranijaPunomoc.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.ranijaPunomoc.value =
+          zahtev.prilozi.ranijaPunomoc.putanja !== 'False';
+      }
 
-    zahtev.prilozi.dokazOUplati.putanja =
-      value.prilozi[0].dokazOUplati[0].putanja[0];
-    zahtev.prilozi.dokazOUplati.value =
-      value.prilozi[0].dokazOUplati[0].value[0] !== 'false';
-
-    zahtev.prilozi.opstiAkt.putanja = value.prilozi[0].opstiAkt[0].putanja[0];
-    zahtev.prilozi.opstiAkt.value =
-      value.prilozi[0].opstiAkt[0].value[0] !== 'false';
-
-    zahtev.prilozi.punomoc.putanja = value.prilozi[0].punomoc[0].putanja[0];
-    zahtev.prilozi.punomoc.value =
-      value.prilozi[0].punomoc[0].value[0] !== 'false';
-
-    zahtev.prilozi.primerakZnaka.putanja =
-      value.prilozi[0].primerakZnaka[0].putanja[0];
-    zahtev.prilozi.primerakZnaka.value =
-      value.prilozi[0].primerakZnaka[0].value[0] !== 'false';
-
-    zahtev.prilozi.spisakRobe.putanja =
-      value.prilozi[0].spisakRobe[0].putanja[0];
-    zahtev.prilozi.spisakRobe.value =
-      value.prilozi[0].spisakRobe[0].value[0] !== 'false';
-
-    zahtev.prilozi.naknadnaPunomoc.putanja =
-      value.prilozi[0].naknadnaPunomoc[0].putanja[0];
-    zahtev.prilozi.naknadnaPunomoc.value =
-      value.prilozi[0].naknadnaPunomoc[0].value[0] !== 'false';
-
-    zahtev.prilozi.ranijaPunomoc.putanja =
-      value.prilozi[0].ranijaPunomoc[0].putanja[0];
-    zahtev.prilozi.ranijaPunomoc.value =
-      value.prilozi[0].spisakRobe[0].value[0] !== 'false';
+      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+        zahtev.prilozi.spisakRobe.putanja =
+          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
+        zahtev.prilozi.spisakRobe.value =
+          zahtev.prilozi.spisakRobe.putanja !== 'False';
+      }
+    }
 
     console.log(zahtev);
     return zahtev;

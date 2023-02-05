@@ -8,7 +8,6 @@ import { ZahtevZaAutorskaDelaDTO } from '../../a1/model/zahtev-za-autorska-dela-
 import { Korisnik } from '../../shared-models/korisnik';
 import { Z1Service } from '../../z1/services/z1.service';
 import { ZahtevZaZigDTO } from '../../z1/model/zahtev-za-zig';
-import * as xml2js from 'xml2js';
 
 @Component({
   selector: 'app-view-applications',
@@ -47,37 +46,56 @@ export class ViewApplicationsComponent implements OnInit {
 
     // this.getPatents();
     this.getZigovi();
-    this.getAutorskaDela();
+    // this.getAutorskaDela();
   }
 
   getZigovi() {
     this.zigService.getZahtevi().subscribe({
-      next: async (value) => {
-        let result: any = await this.parseXml(value);
-        if (result.List === '') {
-          return;
-        }
-        for (let z of result.List.item) {
-          let zahtev = this.zigService.mapXmlToZahtev(
-            JSON.parse(JSON.stringify(z))
-          );
-          this.neobradjeniZahtavi.push(zahtev);
+      next: async (data) => {
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(data, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        console.log(res.zahtevi.zahtev);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.neobradjeniZahtavi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.neobradjeniZahtavi.push(z);
         }
       },
     });
 
     this.zigService.getOdobreni().subscribe({
       next: async (value) => {
-        console.log(value);
-        let result: any = await this.parseXml(value);
-        if (result.List === '') {
-          return;
-        }
-        for (let z of result.List.item) {
-          let zahtev = this.zigService.mapXmlToZahtev(
-            JSON.parse(JSON.stringify(z))
-          );
-          this.obradjeniZahtevi.push(zahtev);
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(value, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        console.log(res.zahtevi.zahtev);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.obradjeniZahtevi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.obradjeniZahtevi.push(z);
         }
       },
     });
@@ -163,17 +181,6 @@ export class ViewApplicationsComponent implements OnInit {
         this.obradjeniZahtevi.push(z);
       }
     });
-  }
-
-  async parseXml(xmlString: string) {
-    return await new Promise((resolve, reject) =>
-      xml2js.parseString(xmlString, (err, jsonData) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(jsonData);
-      })
-    );
   }
 
   clickShow(zahtev: string) {
