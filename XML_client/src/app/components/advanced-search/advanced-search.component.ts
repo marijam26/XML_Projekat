@@ -4,7 +4,6 @@ import { Z1Service } from '../../z1/services/z1.service';
 import * as xml2js from 'xml2js';
 import {A1Service} from "../../a1/services/a1.service";
 import {P1Service} from "../../p1/services/p1.service";
-import convert from "xml-js";
 
 @Component({
   selector: 'app-advanced-search',
