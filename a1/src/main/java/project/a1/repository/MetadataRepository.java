@@ -43,6 +43,7 @@ public class MetadataRepository {
         ByteArrayOutputStream outputStream = (ByteArrayOutputStream) new MarshallingUtils().marshall(zahtevZaAutorskaDela);
         InputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
         extractMetadata(inputStream, new FileOutputStream(RDF_FILE+zahtevZaAutorskaDela.getId()+".rdf"));
+        extractMetadata(inputStream, new FileOutputStream(RDF_FILE+zahtevZaAutorskaDela.getId()+".json"));
 
         Model model = ModelFactory.createDefaultModel();
         model.read(RDF_FILE+zahtevZaAutorskaDela.getId()+".rdf");

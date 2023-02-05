@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MetadataSearchDto } from '../../shared-models/metadataSearchDto';
 import { Z1Service } from '../../z1/services/z1.service';
 import * as xml2js from 'xml2js';
+import {A1Service} from "../../a1/services/a1.service";
 
 @Component({
   selector: 'app-advanced-search',
@@ -18,7 +19,7 @@ export class AdvancedSearchComponent {
 
   showDropDown: string = '';
 
-  constructor(private toast: ToastrService, private zigService: Z1Service) {}
+  constructor(private toast: ToastrService, private zigService: Z1Service,private autorksoDelo:A1Service) {}
 
   dodajMetapodatak() {
     if (this.metapodaci.at(-1) !== '' && this.vredosti.at(-1) !== '') {
@@ -67,7 +68,8 @@ export class AdvancedSearchComponent {
     }
     data = data.slice(0, -1);
 
-    this.getZigZahtevi(data);
+    //this.getZigZahtevi(data);
+    this.getAutorskoZahtevi(data)
   }
 
   getZigZahtevi(data: String) {
@@ -80,6 +82,24 @@ export class AdvancedSearchComponent {
         }
         for (let z of result.List.item) {
           let zahtev = this.zigService.mapXmlToZahtev(
+            JSON.parse(JSON.stringify(z))
+          );
+          this.zahtevi.push(zahtev);
+        }
+      },
+    });
+  }
+
+  getAutorskoZahtevi(data: string) {
+    this.autorksoDelo.searchMetadata(data).subscribe({
+      next: async (value) => {
+        this.zahtevi = [];
+        let result: any = await this.parseXml(value);
+        if (result.List === '') {
+          return;
+        }
+        for (let z of result.List.item) {
+          let zahtev = this.autorksoDelo.mapXmlToDelo(
             JSON.parse(JSON.stringify(z))
           );
           this.zahtevi.push(zahtev);

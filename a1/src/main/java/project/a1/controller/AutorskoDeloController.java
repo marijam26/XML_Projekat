@@ -1,6 +1,5 @@
 package project.a1.controller;
 
-import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.InputStreamResource;
@@ -86,7 +85,7 @@ public class AutorskoDeloController {
             autorskoDeloService.save(zahtevZaAutorskaDela);
             MetadataRepository repo = new MetadataRepository();
             repo.extractMetadata(zahtevZaAutorskaDela);
-            autorskoDeloService.getDocumentPdf(zahtevZaAutorskaDela.getId().split("-")[1],zahtevZaAutorskaDela.getId());
+            autorskoDeloService.getDocumentPdf(zahtevZaAutorskaDela.getId());//zahtevZaAutorskaDela.getId().split("-")[1],zahtevZaAutorskaDela.getId());
             return zahtevZaAutorskaDela;
         } catch (Exception e) {
             System.out.print(e.getMessage());
@@ -159,6 +158,15 @@ public class AutorskoDeloController {
         }
     }
 
+    @GetMapping(value = "/test")
+    public void testt(){
+        try {
+            autorskoDeloService.testSaveResenje();
+        } catch (Exception e) {
+            // vrati bad request
+            System.out.println(e.getMessage());
+        }
+    }
 
 
 
@@ -251,6 +259,20 @@ public class AutorskoDeloController {
     @RequestMapping("/downloadPrimer/{fileName}")
     public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
         String path = "src/main/resources/data/files/" + fileName.split(":")[0]+"/"+fileName.split(":")[1];
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/pdf";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @RequestMapping("/downloadResenje/{fileName}")
+    public void downloadResenje(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/resenje/" + fileName.split(":")[0]+"/"+fileName.split(":")[1];
         File file = new File(path);
         if (file.exists()) {
             String mimeType = "application/pdf";

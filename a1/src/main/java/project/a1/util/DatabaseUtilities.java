@@ -21,6 +21,7 @@ import java.util.List;
 public class DatabaseUtilities {
 
     public static final String COLLECTION_ID = "db/autorskaDela";
+    public static final String COLLECTION_RESENJE_ID = "db/AResenja";
     private static AuthenticationUtilities.ConnectionProperties conn;
 
 
@@ -358,4 +359,38 @@ public class DatabaseUtilities {
         }
     }
 
+    public static Node getResenjeResource(String documentId) {
+        Collection col = null;
+        XMLResource res = null;
+        try {
+            col = DatabaseManager.getCollection(conn.uri + COLLECTION_RESENJE_ID, conn.user, conn.password);
+            col.setProperty(OutputKeys.INDENT, "yes");
+
+            res = (XMLResource)col.getResource("resenje-aA-2-2023");
+            return res.getContentAsDOM();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if(res != null) {
+                try {
+                    ((EXistResource)res).freeResources();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+            if(col != null) {
+                try {
+                    col.close();
+                } catch (XMLDBException xe) {
+                    xe.printStackTrace();
+                }
+            }
+
+    }
+
+
+    }
 }

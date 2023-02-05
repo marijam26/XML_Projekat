@@ -31,8 +31,8 @@ public class AutorskoDeloRepository {
         DatabaseUtilities.init();
     }
 
-    public void save(OutputStream os) throws XMLDBException {
-        DatabaseUtilities.storeResource(String.valueOf(DatabaseUtilities.getCollectionSize(collectionId)+1), os);
+    public void save(OutputStream os,String id) throws XMLDBException {
+        DatabaseUtilities.storeResource(id, os);
     }
 
     public ZahtevZaAutorskaDela getOne(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -41,6 +41,10 @@ public class AutorskoDeloRepository {
 
     public Node getAutorskoPravoNode(String id) {
         return DatabaseUtilities.getPravoResource(id);
+    }
+
+    public Node getResenjeNode(String id){
+        return DatabaseUtilities.getResenjeResource(id);
     }
 
     public List<ZahtevZaAutorskaDela> search(String data) throws Exception {
@@ -120,4 +124,6 @@ public class AutorskoDeloRepository {
     public ZahtevZaAutorskaDela getById(String id) {
         return DatabaseUtilities.getDelo(id, collectionId);
     }
+
+
 }

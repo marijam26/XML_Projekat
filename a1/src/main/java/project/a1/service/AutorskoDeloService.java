@@ -4,6 +4,11 @@ import com.itextpdf.text.DocumentException;
 import org.apache.jena.rdf.model.RDFNode;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.xmldb.api.base.XMLDBException;
@@ -18,18 +23,18 @@ import project.a1.util.DatabaseUtilities;
 import project.a1.util.MarshallingUtils;
 import project.a1.util.PDFTransformer;
 
+import javax.mail.MessagingException;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.TransformerException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,17 +48,59 @@ public class AutorskoDeloService {
 
     private MetadataRepository metadataRepository;
 
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public JavaMailSenderImpl mailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("rentalappteam6@gmail.com");
+        mailSender.setPassword("qxoizxexuemjfgow");
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", "true");
+        mailSender.setJavaMailProperties(props);
+        return mailSender;
+    }
+
+    JavaMailSenderImpl javaMailSender = mailSender();
+
 
     public void save(ZahtevZaAutorskaDela zahtevZaAutorskaDela) throws XMLDBException, JAXBException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(zahtevZaAutorskaDela);
-        autorskoDeloRepository.save(os);
+        autorskoDeloRepository.save(os,zahtevZaAutorskaDela.getId());
     }
 
-    public void save(Resenje resenje) throws JAXBException, XMLDBException {
+    public void save(Resenje resenje) throws JAXBException, XMLDBException, DocumentException, IOException, MessagingException {
         MarshallingUtils marshallingUtils = new MarshallingUtils();
         OutputStream os = marshallingUtils.marshall(resenje);
         autorskoDeloRepository.saveResenje(os,resenje.getReferenca(),resenje.getSifraZahteva());
+        sendToPodnosilac(resenje);
+    }
+
+    public void testSaveResenje() throws DocumentException, IOException {
+        Resenje resenje = new Resenje();
+        resenje.setObrazlozenje("obr");
+        resenje.setOdobren(true);
+        resenje.setImeSluzbenika("Pera");
+        resenje.setPrezimeSluzbenika("Pera");
+        PDFTransformer pdfTransformer = new PDFTransformer();
+        Node node = autorskoDeloRepository.getResenjeNode("A-10-2023");
+        pdfTransformer.generatePdfResenje(resenje,node);
+    }
+
+    public void generatePdfTask(Resenje resenje) throws DocumentException, IOException {
+        PDFTransformer pdfTransformer = new PDFTransformer();
+        Node node = autorskoDeloRepository.getResenjeNode(resenje.getReferenca());
+        pdfTransformer.generatePdfResenje(resenje,node);
+    }
+
+
+    private void sendToPodnosilac(Resenje resenje) throws DocumentException, IOException, MessagingException {
+        generatePdfTask(resenje);
+        sendMail(resenje.getReferenca() );
     }
 
     public ZahtevZaAutorskaDela getById(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -237,10 +284,10 @@ public class AutorskoDeloService {
         return xmlDate;
     }
 
-    public void getDocumentPdf(String id,String docId) throws DocumentException, IOException {
+    public void getDocumentPdf(String id) throws DocumentException, IOException {
         PDFTransformer pdfTransformer = new PDFTransformer();
-        String fileNamePDF = docId + ".pdf";
-        String fileNameHTML = docId + ".html";
+        String fileNamePDF = id + ".pdf";
+        String fileNameHTML = id + ".html";
 
         Node patentNode = autorskoDeloRepository.getAutorskoPravoNode(id);
 
@@ -313,5 +360,39 @@ public class AutorskoDeloService {
         return zahtevi;
     }
 
+    public void sendMail(String docId) throws MessagingException {
+            System.out.print("salje");
+            MimeMessageHelper mail = new MimeMessageHelper(javaMailSender.createMimeMessage(), true, "UTF-8");
+            mail.setTo("ikasikovic@yahoo.com");
+            mail.setFrom(Objects.requireNonNull(env.getProperty("spring.mail.username")));
+            mail.setSubject("Uber account password forgotten");
+
+            String link = "http://localhost:4200/downloadResenje/" + docId;
+            mail.setText("<html>\n" +
+                    "    <body>\n" +
+                    "        <div style=\"margin: 50px;\">\n" +
+                    "            <div style=\"background-color: rgb(99, 216, 99);height: 55px;\">\n" +
+                    "                    <h1 style=\"margin-left:15px; color: white;\">Change your password</h1>\n" +
+                    "            </div>\n" +
+                    "            <div style=\"margin-top: 10px;\">\n" +
+                    "                <div style=\"margin: 25px;\">\n" +
+                    "                Postovani ,\n" +
+                    "                <br/>\n" +
+                    "                Kliknite da preuzmete vase resenje: \n" +
+                    "                <br/>\n" +
+                    "                "+ link + " \n" +
+                    "                <br/>\n" +
+                    "                Pozdrav,\n" +
+                    "                <br/>\n" +
+                    "                <span >Zavod</span>\n" +
+                    "            </div>\n" +
+                    "            </div>\n" +
+                    "        </div>\n" +
+                    "\n" +
+                    "    </body>\n" +
+                    "</html>",true);
+            javaMailSender.send(mail.getMimeMessage());
+
+    }
 
 }

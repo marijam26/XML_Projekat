@@ -164,7 +164,15 @@ export class A1Service {
   }
 
   savePdf(id:any) {
-    const newUrl = this.a1Url + '/getPdf/'+id;
+    const newUrl = this.a1Url + 'getPdf/'+id;
     return this._http.get<any>(newUrl);
   }
+
+  searchMetadata(value: String) {
+    return this._http.get(this.a1Url + 'searchMetadata/' + value, {
+      headers: new HttpHeaders().set('Content-Type', 'application/xml'),
+      responseType: 'text',
+    });
+  }
+
 }

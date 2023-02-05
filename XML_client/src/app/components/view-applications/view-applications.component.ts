@@ -45,8 +45,9 @@ export class ViewApplicationsComponent implements OnInit {
     }
 
     // this.getPatents();
-    this.getZigovi();
-    // this.getAutorskaDela();
+    // this.getZigovi();
+    this.getAutorskaDela();
+
   }
 
   getZigovi() {

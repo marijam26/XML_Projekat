@@ -53,8 +53,8 @@ public class MarshallingUtils {
     }
 
     public Resenje unmarshallFromNodeResenje(Node contentAsDOM) throws JAXBException {
-        JAXBContext context = JAXBContext.newInstance("project.a1.model.resenje");
-        Unmarshaller unmarshaller = context.createUnmarshaller();
+        JAXBContext context1 = JAXBContext.newInstance("project.a1.model.resenje");
+        Unmarshaller unmarshaller = context1.createUnmarshaller();
         return (Resenje) unmarshaller.unmarshal(contentAsDOM);
     }
 }
