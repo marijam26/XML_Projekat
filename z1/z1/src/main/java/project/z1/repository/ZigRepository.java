@@ -105,7 +105,7 @@ public class ZigRepository {
         return DatabaseUtilities.getAll(collectionId);
     }
 
-    public List<Resenje> getAllResenja() {
+    public List<Resenje> getAllResenja() throws XMLDBException {
         return DatabaseUtilities.getAllResenja(collectionIdResenja);
     }
 

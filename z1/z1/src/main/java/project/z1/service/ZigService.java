@@ -247,7 +247,7 @@ public class ZigService {
         return zigRepository.getAll();
     }
 
-    public List<ZahtevZaZig> getAllZahteve() {
+    public List<ZahtevZaZig> getAllZahteve() throws XMLDBException {
         List<ZahtevZaZig> sviZahtevi = zigRepository.getAll();
         List<ZahtevZaZig> zahtevi = new ArrayList<>();
         List<Resenje> svaResenja = zigRepository.getAllResenja();
@@ -261,7 +261,7 @@ public class ZigService {
         return zahtevi;
     }
 
-    public List<ZahtevZaZig> getAllOdobrene() {
+    public List<ZahtevZaZig> getAllOdobrene() throws XMLDBException {
         List<ZahtevZaZig> sviZahtevi = zigRepository.getAll();
         List<ZahtevZaZig> zahtevi = new ArrayList<>();
         List<Resenje> svaResenja = zigRepository.getAllResenja();

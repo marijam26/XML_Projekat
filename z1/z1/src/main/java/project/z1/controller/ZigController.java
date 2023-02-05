@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
+import org.xmldb.api.base.XMLDBException;
 import project.z1.dto.MetadataSearchDTO;
 import project.z1.dto.ResenjeDTO;
 import project.z1.dto.ZahtevZaZigDTO;
@@ -33,13 +34,13 @@ public class ZigController {
     }
 
     @GetMapping(value = "/zahtevi", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> getAllZahteve(){
+    public ResponseEntity<List<ZahtevZaZig>> getAllZahteve() throws XMLDBException {
         List<ZahtevZaZig> zahtevi = zigService.getAllZahteve();
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
 
     @GetMapping(value = "/odobreni", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<List<ZahtevZaZig>> getAllOdobrene(){
+    public ResponseEntity<List<ZahtevZaZig>> getAllOdobrene() throws XMLDBException {
         List<ZahtevZaZig> zahtevi = zigService.getAllOdobrene();
         return new ResponseEntity<>(zahtevi, HttpStatus.OK);
     }
@@ -117,6 +118,20 @@ public class ZigController {
         File file = new File(path);
         if (file.exists()) {
             String mimeType = "application/html";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @RequestMapping("/download/{fileName}")
+    public void get(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/files/" + fileName.split(":")[0] + "/"+ fileName.split(":")[1];
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/octet-stream";
             response.setContentType(mimeType);
             response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
             response.setContentLength((int) file.length());

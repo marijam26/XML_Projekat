@@ -70,7 +70,7 @@ public class DatabaseUtilities {
 
     }
 
-    private static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
+    public static Collection getOrCreateCollection(String collectionUri) throws XMLDBException {
         return getOrCreateCollection(collectionUri, 0);
     }
 
@@ -245,7 +245,7 @@ public class DatabaseUtilities {
         }
     }
 
-    public static List<Resenje> getAllResenja(String collectionId) {
+    public static List<Resenje> getAllResenja(String collectionId) throws XMLDBException {
         Collection col = null;
         XMLResource res = null;
         try {

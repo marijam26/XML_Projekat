@@ -10,7 +10,7 @@ import { TLiceDTO } from '../../shared-models/t-lice-d-t-o';
 })
 export class Z1Service {
   constructor(private _http: HttpClient) {}
-  url = 'http://localhost:9002/api/zig/';
+  url = 'http://localhost:9003/api/zig';
 
   save(zahtev: ZahtevZaZigDTO) {
     const xml = JsonToXML.parse('zahtevZaZigDTO', zahtev);
@@ -36,7 +36,7 @@ export class Z1Service {
   }
 
   getAll() {
-    return this._http.get(this.url, {
+    return this._http.get(this.url + '/', {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/xml')
         .set('Accept', 'application/xml'),
@@ -96,6 +96,7 @@ export class Z1Service {
     zahtev.takse.ukupno = value.takse[0].ukupno[0];
     zahtev.takse.grafickoResenje = value.takse[0].grafickoResenje[0];
     zahtev.takse.klase = value.takse[0].klase[0];
+    zahtev.takse.brojKlasa = value.takse[0].brojKlasa[0];
 
     if (value.podnosilacPrijave[0].ime !== undefined) {
       zahtev.podnosilacPrijave.ime = value.podnosilacPrijave[0].ime[0];
@@ -142,39 +143,40 @@ export class Z1Service {
     zahtev.punomocnik.adresa.grad = value.punomocnik[0].adresa[0].grad[0];
 
     zahtev.prilozi.dokazOPravuPrvenstva.putanja =
-      value.prilozi[0].dokazOPravuPrvenstva[0].putanja;
+      value.prilozi[0].dokazOPravuPrvenstva[0].putanja[0];
     zahtev.prilozi.dokazOPravuPrvenstva.value =
       value.prilozi[0].dokazOPravuPrvenstva[0].value[0] !== 'false';
 
     zahtev.prilozi.dokazOUplati.putanja =
-      value.prilozi[0].dokazOUplati[0].putanja;
+      value.prilozi[0].dokazOUplati[0].putanja[0];
     zahtev.prilozi.dokazOUplati.value =
       value.prilozi[0].dokazOUplati[0].value[0] !== 'false';
 
-    zahtev.prilozi.opstiAkt.putanja = value.prilozi[0].opstiAkt[0].putanja;
+    zahtev.prilozi.opstiAkt.putanja = value.prilozi[0].opstiAkt[0].putanja[0];
     zahtev.prilozi.opstiAkt.value =
       value.prilozi[0].opstiAkt[0].value[0] !== 'false';
 
-    zahtev.prilozi.punomoc.putanja = value.prilozi[0].punomoc[0].putanja;
+    zahtev.prilozi.punomoc.putanja = value.prilozi[0].punomoc[0].putanja[0];
     zahtev.prilozi.punomoc.value =
       value.prilozi[0].punomoc[0].value[0] !== 'false';
 
     zahtev.prilozi.primerakZnaka.putanja =
-      value.prilozi[0].primerakZnaka[0].putanja;
+      value.prilozi[0].primerakZnaka[0].putanja[0];
     zahtev.prilozi.primerakZnaka.value =
       value.prilozi[0].primerakZnaka[0].value[0] !== 'false';
 
-    zahtev.prilozi.spisakRobe.putanja = value.prilozi[0].spisakRobe[0].putanja;
+    zahtev.prilozi.spisakRobe.putanja =
+      value.prilozi[0].spisakRobe[0].putanja[0];
     zahtev.prilozi.spisakRobe.value =
       value.prilozi[0].spisakRobe[0].value[0] !== 'false';
 
     zahtev.prilozi.naknadnaPunomoc.putanja =
-      value.prilozi[0].naknadnaPunomoc[0].putanja;
+      value.prilozi[0].naknadnaPunomoc[0].putanja[0];
     zahtev.prilozi.naknadnaPunomoc.value =
       value.prilozi[0].naknadnaPunomoc[0].value[0] !== 'false';
 
     zahtev.prilozi.ranijaPunomoc.putanja =
-      value.prilozi[0].ranijaPunomoc[0].putanja;
+      value.prilozi[0].ranijaPunomoc[0].putanja[0];
     zahtev.prilozi.ranijaPunomoc.value =
       value.prilozi[0].spisakRobe[0].value[0] !== 'false';
 

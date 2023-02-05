@@ -110,7 +110,7 @@
 
 
     </section>
-    <section *ngIf="showModalReference">
+    <section *ngIf="showModalReference && !zahevZaReference.id.includes('A')">
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-dialog rounded-2" role="document" style="width: 400px;">
@@ -121,12 +121,40 @@
                   <span (click)="showModalReference=false" aria-hidden="true" class="text-white">&times;</span>
                 </button>
               </div>
-              <div class="modal-body px-3 pt-4 pb-3">
+              <div *ngIf="zahevZaReference.id.includes('P')" class="modal-body px-3 pt-4 pb-3">
                 <div>
                   {{zahevZaReference.prilozi.opisDela.putanja}}  <a style="margin-left: 10px" (click)="getPrimerFile(zahevZaReference.id,zahevZaReference.prilozi.opisDela.putanja)" > Click to view</a>
                 </div>
                 <div>
                   {{zahevZaReference.prilozi.primerDela.putanja}}  <a style="margin-left: 10px" (click)="getOpisFile(zahevZaReference.id,zahevZaReference.prilozi.primerDela.putanja)"> Click to view</a>
+                </div>
+
+              </div>
+
+              <div *ngIf="zahevZaReference.id.includes('Z')" class="modal-body px-3 pt-4 pb-3">
+                <div *ngIf="zahevZaReference.prilozi.primerakZnaka.value === true" class="row" style="display: inline; width: 100%">
+                  {{zahevZaReference.prilozi.primerakZnaka.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.primerakZnaka.putanja)" > Click to view</a>
+                </div>
+                <div style="display: inline; width: 100%" *ngIf="zahevZaReference.prilozi.spisakRobe.value === 'true'" class="row">
+                  {{zahevZaReference.prilozi.spisakRobe.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.spisakRobe.putanja)"> Click to view</a>
+                </div>
+                <div style="display: inline; width: 100%" *ngIf="zahevZaReference.prilozi.punomoc.value === 'true'" class="row">
+                  {{zahevZaReference.prilozi.punomoc.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.punomoc.putanja)" )> Click to view</a>
+                </div>
+                <div style="display: inline; width: 100%" *ngIf="zahevZaReference.prilozi.opstiAkt.value === 'true'" class="row">
+                  {{zahevZaReference.prilozi.opstiAkt.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.opstiAkt.putanja)"> Click to view</a>
+                </div>
+                <div style="display: inline; width: 100%" *ngIf="zahevZaReference.prilozi.dokazOPravuPrvenstva.value === 'true'" class="row">
+                  {{zahevZaReference.prilozi.dokazOPravuPrvenstva.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.dokazOPravuPrvenstva.putanja)"> Click to view</a>
+                </div>
+                <div style="display: inline; width: 100%" *ngIf="zahevZaReference.prilozi.dokazOUplati.value === 'true'" class="row">
+                  {{zahevZaReference.prilozi.dokazOUplati.putanja}}
+                  <a class="ms-auto" (click)="getPrimerakFajla(zahevZaReference.id,zahevZaReference.prilozi.dokazOUplati.putanja)"> Click to view</a>
                 </div>
 
               </div>
