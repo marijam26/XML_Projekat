@@ -5,6 +5,7 @@ import { TVrsta } from '../../model/t-vrsta';
 import { TFormatZapisa } from '../../model/t-format-zapisa';
 import { AdresaDTO } from '../../../shared-models/adresaDTO';
 import {Toast, ToastrService} from "ngx-toastr";
+import {ImageDTO} from "../../../shared-models/data.model";
 
 @Component({
   selector: 'app-autorsko-pravo-form',
@@ -33,18 +34,20 @@ export class AutorskoPravoFormComponent {
   opcija: string = 'fizicko';
   vrsta: string = 'KNJIZEVNO_DELO';
   format: string = 'OPTICKI_DISK';
+  dataOpis:ImageDTO = new ImageDTO();
+  dataPrimer:ImageDTO = new ImageDTO();
 
   constructor(private a1: A1Service,private toast:ToastrService) {
-    let con = this;
-    if (this.upotreba === 'read') {
-      this.a1.getAutorskoPravo().subscribe((data) => {
-        con.zahtev = data;
-        console.log(data);
-        con.setValues();
-      });
-    } else {
-      con.setValues();
-    }
+    // let con = this;
+    // if (this.upotreba === 'read') {
+    //   this.a1.getAutorskoPravo().subscribe((data) => {
+    //     con.zahtev = data;
+    //     console.log(data);
+    //     con.setValues();
+    //   });
+    // } else {
+    //   con.setValues();
+    // }
   }
 
   private setValues() {
@@ -215,8 +218,19 @@ export class AutorskoPravoFormComponent {
   }
 
   onFileSelectedOpis(event: any) {
-    let selectedFile = event.target.files[0];
-    this.zahtev.prilozi.opisDela = { putanja: selectedFile.name, value: true };
+    let fileRead = event.target.files[0];
+    this.zahtev.prilozi.opisDela = { putanja: fileRead.name, value: true };
+    this.dataOpis = new ImageDTO();
+    this.dataOpis.path = fileRead.name;
+    const picturePath = new FileReader();
+    picturePath.readAsDataURL(fileRead);
+    picturePath.onload = (e) => {
+      if (e.target != null) {
+        this.dataOpis = new ImageDTO();
+        this.dataOpis.path = fileRead.name;
+        this.dataOpis.data = e.target.result as string;
+        }
+    };
   }
 
   removeOpis() {
@@ -227,9 +241,19 @@ export class AutorskoPravoFormComponent {
   }
 
   onFileSelectedPrimer(event: any) {
-    let selectedFile = event.target.files[0];
+    let fileRead = event.target.files[0];
+    this.zahtev.prilozi.primerDela = { putanja: fileRead.name, value: true };
+    const picturePath = new FileReader();
+    picturePath.readAsDataURL(fileRead);
+    picturePath.onload = (e) => {
+      if (e.target != null) {
+        this.dataPrimer = new ImageDTO();
+        this.dataPrimer.path = fileRead.name;
+        this.dataPrimer.data = e.target.result as string;
+      }
+    };
     this.zahtev.prilozi.primerDela = {
-      putanja: selectedFile.name,
+      putanja: fileRead.name,
       value: true,
     };
     console.log(this.zahtev);
@@ -243,10 +267,17 @@ export class AutorskoPravoFormComponent {
   }
 
   sendRequest() {
-    console.log(this.zahtev);
     if (this.zahtev != undefined){
-      this.a1.saveAutorskoPravo(this.zahtev).subscribe();
-      this.toast.success("Successful!","Congradulations!");
+      this.a1.saveAutorskoPravo(this.zahtev).subscribe({
+        next:(data)=>{
+          this.dataPrimer.id = data.id;
+          this.dataOpis.id = data.id;
+          this.a1.saveData(this.dataPrimer).subscribe();
+          this.a1.saveData(this.dataOpis).subscribe();
+          this.toast.success("Successful!","Congradulations!");
+        }
+      });
+
     }
   }
 }

@@ -32,7 +32,7 @@ public class AutorskoDeloRepository {
     }
 
     public void save(OutputStream os) throws XMLDBException {
-        DatabaseUtilities.storeResource("2", os);
+        DatabaseUtilities.storeResource(String.valueOf(DatabaseUtilities.getCollectionSize(collectionId)+1), os);
     }
 
     public ZahtevZaAutorskaDela getOne(String id) throws JAXBException, XMLDBException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {

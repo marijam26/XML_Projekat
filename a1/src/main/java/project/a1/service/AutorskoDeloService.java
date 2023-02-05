@@ -24,6 +24,7 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -87,7 +88,7 @@ public class AutorskoDeloService {
 
     public ZahtevZaAutorskaDela map(ZahtevZaAutorskaDelaDTO dto) {
         ZahtevZaAutorskaDela delo = new ZahtevZaAutorskaDela();
-        delo.setId("A-"+ (DatabaseUtilities.getCollectionSize("db/autorskaDela")+1)+"-"+ dto.datumPodnosenja.getYear());
+        delo.setId("A-"+ (DatabaseUtilities.getCollectionSize("db/autorskaDela")+1)+"-"+ LocalDateTime.now().getYear());
         delo.setpodnosilacJeAutor(dto.podnosilacJeAutor);
         delo.setPodnosilacPrijave(mapTLice(dto.podnosilacPrijave));
         delo.setAutorskoDelo(mapDelo(dto.autorskoDelo));

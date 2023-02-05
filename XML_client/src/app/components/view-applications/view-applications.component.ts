@@ -18,7 +18,9 @@ export class ViewApplicationsComponent implements OnInit{
   obradjeni:boolean = false;
   neobradjeniZahtavi:any = [];
   zahevZaOdbijanje:ZahtevZaPatentDTO | ZahtevZaAutorskaDelaDTO = new ZahtevZaPatentDTO();
+  zahevZaReference:any;
   obrazlozenje:string = '';
+  showModalReference: boolean = false;
 
   constructor(private patentService:P1Service,private toast:ToastrService,private autorskoService:A1Service) {
   }
@@ -204,4 +206,24 @@ export class ViewApplicationsComponent implements OnInit{
     window.location.href = '/advancedSearch';
   }
 
+  viewReferences(zahtev: any) {
+    this.zahevZaReference = zahtev;
+    this.showModalReference = true;
+  }
+
+  getPrimerFile(id:any, putanja: any) {
+    let filePath = id+':'+putanja
+    if (id.includes('A')){
+      window.open("http://localhost:9002/api/autorskoPravo/downloadPrimer/"+filePath);
+    }
+
+  }
+
+  getOpisFile(id:any, putanja: any) {
+    let filePath = id+':'+putanja
+    if (id.includes('A')){
+      window.open("http://localhost:9002/api/autorskoPravo/downloadOpis/"+filePath);
+    }
+
+  }
 }

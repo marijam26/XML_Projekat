@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ZahtevZaAutorskaDelaDTO} from "../model/zahtev-za-autorska-dela-d-t-o";
 import * as JsonToXML from "js2xmlparser";
 import {ResenjeDTO} from "../../shared-models/resenjeDTO";
+import {ImageDTO} from "../../shared-models/data.model";
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,7 @@ export class A1Service {
   }
 
   mapXmlToDelo(data: any) {
+    console.log("mapiraa")
     let zahtev = new ZahtevZaAutorskaDelaDTO();
     zahtev.id = data['_attributes']['Id'];
     zahtev.broj = data['_attributes']['Broj'];
@@ -116,11 +118,11 @@ export class A1Service {
 
     if(data['ns2:Prilozi'] != undefined){
       if(data['ns2:Prilozi']['ns2:Opis_dela'] != undefined){
-        zahtev.prilozi.opisDela.putanja = data['ns2:Prilozi']['ns2:Opis_dela']._text
+        zahtev.prilozi.opisDela.putanja = data['ns2:Prilozi']['ns2:Opis_dela']['_attributes']['Putanja']
         zahtev.prilozi.opisDela.value = zahtev.prilozi.opisDela.putanja !== "False";
       }
       if(data['ns2:Prilozi']['ns2:Primer_dela'] != undefined){
-        zahtev.prilozi.primerDela.putanja = data['ns2:Prilozi']['ns2:Primer_dela']._text
+        zahtev.prilozi.primerDela.putanja = data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja']
         zahtev.prilozi.primerDela.value = zahtev.prilozi.primerDela.putanja !== "False";
       }
 
@@ -141,5 +143,23 @@ export class A1Service {
         responseType: 'text',
       }),
     });
+  }
+  HTTPOptionsForBlob: Object = {
+    headers: new HttpHeaders({
+      'Content-Type': 'multipart/form-data;boundary=abv',
+    }),
+  };
+  HTTPOptionsForBlob1: Object = {
+    responseType: 'blob',
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
+
+  saveData(image:ImageDTO) {
+    let tr = new FormData()
+    const newUrl = this.a1Url + 'addImage';
+    tr.append('prilog', image.data);
+    return this._http.post<any>(newUrl, image,this.HTTPOptionsForBlob1);
   }
 }

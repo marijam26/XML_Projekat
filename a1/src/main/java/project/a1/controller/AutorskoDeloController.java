@@ -2,6 +2,8 @@ package project.a1.controller;
 
 import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import project.a1.dto.a1.ListaZahtevaZaAutorskoDeloDTO;
 import project.a1.dto.a1.ZahtevZaAutorskaDelaDTO;
+import project.a1.dto.main_schema.ImageDTO;
 import project.a1.dto.main_schema.ResenjeDTO;
 import project.a1.model.a1.Prilozi;
 import project.a1.model.a1.ZahtevZaAutorskaDela;
@@ -23,6 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.TransformerException;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -71,13 +78,15 @@ public class AutorskoDeloController {
 
 
     @PostMapping(value = "/", consumes = "application/xml")
-    public void add(@RequestBody ZahtevZaAutorskaDelaDTO dto){
+    public ZahtevZaAutorskaDela add(@RequestBody ZahtevZaAutorskaDelaDTO dto){
         try {
             ZahtevZaAutorskaDela zahtevZaAutorskaDela = autorskoDeloService.map(dto);
             autorskoDeloService.save(zahtevZaAutorskaDela);
+            return zahtevZaAutorskaDela;
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
+        return null;
     }
 
     @GetMapping("/getPdf/{id}")
@@ -182,6 +191,58 @@ public class AutorskoDeloController {
         }
     }
 
+    @PostMapping(value="/addImage")
+    public ResponseEntity<InputStreamResource> addImage(@RequestBody ImageDTO imageDTO) throws IOException {
+        byte[] data;
+        try {
+            data = Base64.getDecoder().decode(imageDTO.getData().split(",")[1]);
+        } catch(Exception e) {
+            return null;
+        }
+        Path path = Paths.get("src/main/resources/data/files/"+imageDTO.getId());
+        Files.createDirectories(path);
+
+        String imageName = imageDTO.getPath();
+        String picturePath = "src\\main\\resources\\data\\files\\"+imageDTO.getId()+"\\"+imageName;
+        try (OutputStream stream = new FileOutputStream(new File(picturePath).getCanonicalFile())) {
+            stream.write(data);
+            FileSystemResource imgFile = new FileSystemResource("src/main/resources/data/files/"+imageDTO.getId()+"/" + imageName);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(imgFile.getInputStream()));
+        }
+
+
+
+    }
+
+    @RequestMapping("/downloadPrimer/{fileName}")
+    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/files/" + fileName.split(":")[0]+"/"+fileName.split(":")[1];
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/pdf";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @RequestMapping("/downloadOpis/{fileName}")
+    public void downloadOpis(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/files/" + fileName.split(":")[0]+"/"+fileName.split(":")[1];
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/octet-stream";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
 
 
 }
