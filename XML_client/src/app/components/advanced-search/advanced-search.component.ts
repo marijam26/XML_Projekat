@@ -69,8 +69,8 @@ export class AdvancedSearchComponent {
     }
     data = data.slice(0, -1);
 
-    //this.getZigZahtevi(data);
-    this.getAutorskoZahtevi(data);
+    this.getZigZahtevi(data);
+    //this.getAutorskoZahtevi(data);
   }
 
   getZigZahtevi(data: String) {

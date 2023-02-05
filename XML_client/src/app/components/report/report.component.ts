@@ -42,9 +42,7 @@ export class ReportComponent {
       this.zigService.generateReport(izvestajDTO).subscribe(
         (data) => {
           this.toast.success('Uspesno generisan izvestaj!');
-          window.open(
-            'http://localhost:9001/api/patent/downloadPDF/izvestaj.pdf'
-          );
+          window.open('http://localhost:9003/api/zig/downloadPDF/izvestaj.pdf');
         },
         (err) => console.log(err)
       );
