@@ -1,6 +1,9 @@
 package project.z1.service;
 
-import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -19,11 +22,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.TransformerException;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ZigService {
@@ -291,5 +300,68 @@ public class ZigService {
         String[] preds = tokens[1].split(",");
         String[] operators = tokens[2].split(",");
         return new MetadataSearchDTO(Arrays.asList(preds), Arrays.asList(values), Arrays.asList(operators));
+    }
+
+    public void kreirajIzvestaj(IzvestajDTO izvestajDTO) throws FileNotFoundException, DocumentException, XMLDBException {
+        XMLGregorianCalendar pocetniDatum = formatDateToXML(izvestajDTO.pocetniDatum);
+        XMLGregorianCalendar krajnjiDatum = formatDateToXML(izvestajDTO.krajnjiDatum);
+        System.out.println(pocetniDatum);
+
+        int zahtevi = 0;
+        int prihvaceni = 0;
+        int odbijeni = 0;
+
+        List<Resenje> resenja = zigRepository.getAllResenja();
+        List<ZahtevZaZig> zahteviZaZig = zigRepository.getAll();
+        for (Resenje r: resenja) {
+            if (pocetniDatum.compare(r.getDatumRazresenjaZahteva()) <= 0 && krajnjiDatum.compare(r.getDatumRazresenjaZahteva()) >= 0) {
+                if(r.getOdobren()){
+                    prihvaceni++;
+                }else{
+                    odbijeni++;
+                }
+            }
+        }
+
+        for (ZahtevZaZig zahtevZaZig:zahteviZaZig){
+            if(pocetniDatum.compare(zahtevZaZig.getDatumPodnosenja()) <= 0 && krajnjiDatum.compare(zahtevZaZig.getDatumPodnosenja()) >= 0){
+                zahtevi++;
+            }
+        }
+
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("src/main/resources/data/gen/izvestaj.pdf"));
+        document.open();
+        Font font = FontFactory.getFont(FontFactory.TIMES_BOLD, 20, BaseColor.BLACK);
+        Chunk chunk = new Chunk("IZVESTAJ U PERIODU OD " + convertDateToStr(pocetniDatum) + " DO " + convertDateToStr(krajnjiDatum), font);
+        document.add(chunk);
+        document.add(new Paragraph("\n\n"));
+
+        PdfPTable table = new PdfPTable(3);
+        addTableHeader(table);
+        table.addCell(String.valueOf(zahtevi));
+        table.addCell(String.valueOf(prihvaceni));
+        table.addCell(String.valueOf(odbijeni));
+        document.add(table);
+        document.close();
+
+    }
+
+    private void addTableHeader(PdfPTable table) {
+        Stream.of("Podneti zahtevi", "Prihvaceni zahtevi", "Odbijeni zahtevi")
+                .forEach(columnTitle -> {
+                    PdfPCell header = new PdfPCell();
+                    header.setBackgroundColor(BaseColor.YELLOW);
+                    header.setBorderWidth(1);
+                    header.setPhrase(new Phrase(columnTitle));
+                    table.addCell(header);
+                });
+    }
+
+    private String convertDateToStr(XMLGregorianCalendar calendar) {
+        Date date = calendar.toGregorianCalendar().getTime();
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy.");
+        return df.format(date);
     }
 }
