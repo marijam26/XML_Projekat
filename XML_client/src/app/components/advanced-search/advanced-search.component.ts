@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Z1Service } from '../../z1/services/z1.service';
-import { A1Service } from '../../a1/services/a1.service';
+import * as xml2js from 'xml2js';
+import {A1Service} from "../../a1/services/a1.service";
+import {P1Service} from "../../p1/services/p1.service";
+
 @Component({
   selector: 'app-advanced-search',
   templateUrl: './advanced-search.component.html',
@@ -16,11 +19,7 @@ export class AdvancedSearchComponent {
 
   showDropDown: string = '';
 
-  constructor(
-    private toast: ToastrService,
-    private zigService: Z1Service,
-    private autorksoDelo: A1Service
-  ) {}
+  constructor(private toast: ToastrService, private zigService: Z1Service,private autorksoDelo:A1Service,private patentService:P1Service) {}
 
   dodajMetapodatak() {
     if (this.metapodaci.at(-1) !== '' && this.vredosti.at(-1) !== '') {
@@ -71,6 +70,7 @@ export class AdvancedSearchComponent {
 
     //this.getZigZahtevi(data);
     this.getAutorskoZahtevi(data);
+    //this.getPatentZahtevi(data);
   }
 
   getZigZahtevi(data: String) {
@@ -100,21 +100,58 @@ export class AdvancedSearchComponent {
   }
 
   getAutorskoZahtevi(data: string) {
-    // this.autorksoDelo.searchMetadata(data).subscribe({
-    //   next: async (value) => {
-    //     this.zahtevi = [];
-    //     let result: any = await this.parseXml(value);
-    //     if (result.List === '') {
-    //       return;
-    //     }
-    //     for (let z of result.List.item) {
-    //       let zahtev = this.autorksoDelo.mapXmlToDelo(
-    //         JSON.parse(JSON.stringify(z))
-    //       );
-    //       this.zahtevi.push(zahtev);
-    //     }
-    //   },
-    // });
+    this.autorksoDelo.searchMetadata(data).subscribe({
+      next: async (value) => {
+        this.zahtevi = [];
+        let result: any = await this.parseXml(value);
+        if (result.List === '') {
+          return;
+        }
+        for (let z of result.List.item) {
+          let zahtev = this.autorksoDelo.mapXmlToDelo(
+            JSON.parse(JSON.stringify(z))
+          );
+          this.zahtevi.push(zahtev);
+        }
+      },
+    });
+  }
+
+  getPatentZahtevi(data:string) {
+    this.patentService.searchMetadata(data).subscribe({
+      next: (value) => {
+        let convert = require('xml-js');
+        let result1 = convert.xml2json(value, {
+          compact: true,
+          spaces: 4,
+          trim: true,
+        });
+        let res = JSON.parse(result1);
+        if (
+          Array.isArray(res.zahtevi.zahtev) &&
+          res.zahtevi.zahtev != undefined
+        ) {
+          for (let zahev of res.zahtevi.zahtev) {
+            let z = this.zigService.mapXmlToZahtev(zahev);
+            this.zahtevi.push(z);
+          }
+        } else if (res.zahtevi.zahtev != undefined) {
+          let z = this.zigService.mapXmlToZahtev(res.zahtevi.zahtev);
+          this.zahtevi.push(z);
+        }
+      },
+    });
+  }
+
+  async parseXml(xmlString: string) {
+    return await new Promise((resolve, reject) =>
+      xml2js.parseString(xmlString, (err, jsonData) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(jsonData);
+      })
+    );
   }
 
   clickShow(zahtev: string) {
