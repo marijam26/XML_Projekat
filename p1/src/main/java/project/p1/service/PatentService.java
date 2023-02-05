@@ -1,6 +1,7 @@
 package project.p1.service;
 
 import com.itextpdf.text.DocumentException;
+import org.apache.jena.rdf.model.RDFNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -36,6 +37,8 @@ public class PatentService {
 
     @Autowired
     private PatentRepository patentRepository;
+
+    private MetadataRepository metadataRepository;
 
 
     public void save(ZahtevZaPatent zahtevZaPatent) throws JAXBException, XMLDBException {
@@ -89,10 +92,35 @@ public class PatentService {
         return zahtevi;
     }
 
-    public void saveMetadataForZahetv(String id) throws JAXBException, IOException, TransformerException {
+    public void saveMetadataForZahtev(String id) throws JAXBException, IOException, TransformerException {
         ZahtevZaPatent zahtevZaPatent = getPatent(id);
-        repo.extractMetadata(zahtevZaPatent);
+        metadataRepository.extractMetadata(zahtevZaPatent);
     }
+
+
+    public List<ZahtevZaPatent> search(String data) throws Exception {
+        return patentRepository.search(data);
+    }
+
+    public List<ZahtevZaPatent> searchMetadata(String pred, String value) throws IOException {
+        String query = metadataRepository.getMetadataSimpleQuery(pred, value);
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaPatent> searchMetadataAdvanced(MetadataSearchDTO data) throws IOException {
+        String query = metadataRepository.getMetadataAdvancedQuery(data.getPreds(), data.getValues(), data.getOperators());
+        return getByQuery(query);
+    }
+
+    public List<ZahtevZaPatent> getByQuery(String query) throws IOException {
+        List<RDFNode> files =  metadataRepository.searchMetadata(query);
+        List<ZahtevZaPatent> zahtevi = new ArrayList<>();
+        for(RDFNode f: files){
+            zahtevi.add(patentRepository.getPatentById(f.toString()));
+        }
+        return zahtevi;
+    }
+
 
     public void getDocumentPdf(String id) throws DocumentException, IOException {
         PDFTransformer pdfTransformer = new PDFTransformer();

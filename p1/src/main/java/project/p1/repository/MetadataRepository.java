@@ -1,16 +1,15 @@
 package project.p1.repository;
 
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.ResultSet;
-import org.apache.jena.query.ResultSetFormatter;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 import org.springframework.stereotype.Repository;
+import org.xmldb.api.modules.XMLResource;
 import project.p1.model.p1.ZahtevZaPatent;
 import project.p1.util.AuthenticationUtilities;
 import project.p1.util.MarshallingUtils;
@@ -24,6 +23,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -75,6 +76,68 @@ public class MetadataRepository {
         StreamResult result = new StreamResult(out);
 
         grddlTransformer.transform(source, result);
+    }
+
+    public String getMetadataSimpleQuery(String pred, String value) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+        return String.format(SparqlUtil.SIMPLE_METADATA,  conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI, pred, value);
+    }
+
+    public static List<RDFNode> searchMetadata(String sparqlQuery) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+
+        QueryExecution query = QueryExecutionFactory.sparqlService(conn.queryEndpoint, sparqlQuery);
+        ResultSet results = query.execSelect();
+
+        String varName = "Id";
+        List<RDFNode> nodes = new ArrayList<>();
+
+        while (results.hasNext()) {
+            QuerySolution querySolution = results.next();
+            nodes.add(querySolution.get(varName));
+        }
+
+        query.close();
+        return nodes;
+    }
+
+
+    public static String getMetadataAdvancedQuery(List<String> preds, List<String> values, List<String> operators) throws IOException {
+        AuthenticationUtilities.RDFConnectionProperties conn = AuthenticationUtilities.loadRdfProperties();
+
+        StringBuilder query = new StringBuilder();
+        StringBuilder filter = new StringBuilder();
+        query.append(String.format("SELECT * FROM <%s> WHERE { ", conn.dataEndpoint + SPARQL_NAMED_GRAPH_URI));
+        filter.append("\nFILTER(");
+
+        String equals = "=";
+        if(operators.get(0).equals("!")){
+            equals = "!=";
+        }
+        String nextEquals;
+        for(int i = 0; i < preds.size(); i++){
+
+            if(i != preds.size() - 1 && operators.get(i+1).contains("!")){
+                nextEquals = "!=";
+                operators.set(i+1, operators.get(i+1).substring(0, 2));
+            }
+            else{
+                nextEquals = "=";
+            }
+
+            query.append(String.format("\n\t ?z <http://ftn.uns.ac.rs/z/pred/%s> ?%s .", preds.get(i), preds.get(i)));
+            if(i != preds.size() - 1) {
+                filter.append(String.format("?%s %s \"%s\" %s ", preds.get(i), equals, values.get(i), operators.get(i+1)));
+            }
+            else{
+                filter.append(String.format("?%s %s \"%s\")\n}", preds.get(i), equals, values.get(i)));
+                query.append(filter);
+            }
+
+            equals = nextEquals;
+        }
+
+        return query.toString();
     }
 
     public static void main(String[] args) throws JAXBException, IOException, TransformerException{

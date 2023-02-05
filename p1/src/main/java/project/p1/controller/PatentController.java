@@ -10,6 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.xmldb.api.base.XMLDBException;
 import project.p1.dto.ListaZahtevaZaPatentDTO;
+import project.p1.dto.MetadataSearchDTO;
 import project.p1.dto.ResenjeDTO;
 import project.p1.dto.ZahtevZaPatentDTO;
 import project.p1.model.p1.ZahtevZaPatent;
@@ -92,8 +93,9 @@ public class PatentController {
         try {
             ZahtevZaPatent zahtev = patentService.map(zahtevZaPatentDTO);
             patentService.save(zahtev);
+            patentService.saveMetadataForZahtev(zahtev.getId());
+            patentService.getDocumentPdf(zahtev.getId());
         } catch (Exception e) {
-            // vrati bad request
             System.out.println(e.getMessage());
         }
     }
@@ -110,6 +112,26 @@ public class PatentController {
         }
     }
 
+    @GetMapping(value = "/search/{data}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaPatent>> search(@PathVariable String data) throws Exception {
+        List<ZahtevZaPatent> zahtevi = patentService.search(data);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/searchMetadata/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaPatent>> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
+        List<ZahtevZaPatent> zahtevi = patentService.searchMetadata(pred, value);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+
+    @PostMapping(value = "/searchMetadata/advanced", produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<List<ZahtevZaPatent>> searchMetadataAdvanced(@RequestBody MetadataSearchDTO data) throws Exception {
+        List<ZahtevZaPatent> zahtevi = patentService.searchMetadataAdvanced(data);
+        return new ResponseEntity<>(zahtevi, HttpStatus.OK);
+    }
+
+
     @GetMapping("/getPdf/{id}")
     public ResponseEntity<String> getPdf(@PathVariable String id) throws DocumentException, IOException {
         patentService.getDocumentPdf(id);
@@ -118,7 +140,7 @@ public class PatentController {
 
     @GetMapping("/metadata/{id}")
     public ResponseEntity<String> saveMetadata(@PathVariable String id) throws JAXBException, IOException, TransformerException {
-        patentService.saveMetadataForZahetv(id);
+        patentService.saveMetadataForZahtev(id);
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
