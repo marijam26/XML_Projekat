@@ -4,6 +4,7 @@ import {ZahtevZaAutorskaDelaDTO} from "../model/zahtev-za-autorska-dela-d-t-o";
 import * as JsonToXML from "js2xmlparser";
 import {ResenjeDTO} from "../../shared-models/resenjeDTO";
 import {ImageDTO} from "../../shared-models/data.model";
+import {IzvestajDTO} from "../../shared-models/izvestajDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -175,4 +176,17 @@ export class A1Service {
     });
   }
 
+
+  generateReport(izvestaj: IzvestajDTO) {
+    const xmlZahtev = JsonToXML.parse('izvestajDTO', izvestaj);
+    const newUrl = this.a1Url + '/report';
+    return this._http.post<any>(newUrl, xmlZahtev, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/xml',
+        'Access-Control-Allow-Origin': '*',
+        responseType: 'text',
+      }),
+    });
+
+  }
 }

@@ -3,6 +3,7 @@ import { IzvestajDTO } from '../../shared-models/izvestajDTO';
 import { P1Service } from '../../p1/services/p1.service';
 import { ToastrService } from 'ngx-toastr';
 import { Z1Service } from '../../z1/services/z1.service';
+import {A1Service} from "../../a1/services/a1.service";
 
 @Component({
   selector: 'app-report',
@@ -18,7 +19,8 @@ export class ReportComponent {
   constructor(
     private patentService: P1Service,
     private toast: ToastrService,
-    private zigService: Z1Service
+    private zigService: Z1Service,
+    private autorsko: A1Service
   ) {}
 
   getreport() {
@@ -44,6 +46,16 @@ export class ReportComponent {
           this.toast.success('Uspesno generisan izvestaj!');
           window.open(
             'http://localhost:9001/api/patent/downloadPDF/izvestaj.pdf'
+          );
+        },
+        (err) => console.log(err)
+      );
+    } else  {
+      this.autorsko.generateReport(izvestajDTO).subscribe(
+        (data) => {
+          this.toast.success('Uspesno generisan izvestaj!');
+          window.open(
+            'http://localhost:9001/api/autorskoPravo/downloadPDF/izvestaj.pdf'
           );
         },
         (err) => console.log(err)
