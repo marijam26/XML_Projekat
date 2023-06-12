@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sema="http://ftn.uns.ac.rs/sema" xmlns:pred="http://ftn.uns.ac.rs/a/pred/" xmlns:a1="http://ftn.uns.ac.rs/a">
+  <rdf:Description rdf:about="A-">
+    <pred:Broj/>
+    <pred:Datum_podnosenja>2023-02-07+01:00</pred:Datum_podnosenja>
+    <pred:Podnosilac_ime>Ime</pred:Podnosilac_ime>
+    <pred:Podnosilac_prezime>Prezime</pred:Podnosilac_prezime>
+    <pred:Podnosilac_eposta>mail@gmail.com</pred:Podnosilac_eposta>
+    <pred:Naslov_autorskog_dela>naslov</pred:Naslov_autorskog_dela>
+    <pred:Vrsta_autorskog_dela>knjizevno delo</pred:Vrsta_autorskog_dela>
+    <pred:Format>opticki disk</pred:Format>
+    <pred:Autor_ime>Ime</pred:Autor_ime>
+    <pred:Autor_prezime>Prezime</pred:Autor_prezime>
+  </rdf:Description>
+</rdf:RDF>

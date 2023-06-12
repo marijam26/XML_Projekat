@@ -175,7 +175,7 @@ public class PatentController {
         String path = "src/main/resources/data/rdf/" + fileName;
         File file = new File(path);
         if (file.exists()) {
-            String mimeType = "application/xml";
+            String mimeType = "application/octet-stream";
             response.setContentType(mimeType);
             response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
             response.setContentLength((int) file.length());

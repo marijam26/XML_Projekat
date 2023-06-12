@@ -188,7 +188,7 @@ export class Z1Service {
       data['ns3:Punomocnik']['ns3:Adresa']['ns3:Grad']._text;
 
     if (data['ns2:Prilozi'] != undefined) {
-      if (data['ns2:Prilozi']['ns2:Opis_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Dokaz_o_pravu_prvenstva']._text != 'false') {
         zahtev.prilozi.dokazOPravuPrvenstva.putanja =
           data['ns2:Prilozi']['ns2:Dokaz_o_pravu_prvenstva']['_attributes'][
             'Putanja'
@@ -196,48 +196,41 @@ export class Z1Service {
         zahtev.prilozi.dokazOPravuPrvenstva.value =
           zahtev.prilozi.dokazOPravuPrvenstva.putanja !== 'False';
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Dokaz_o_uplati']._text != 'false') {
         zahtev.prilozi.dokazOUplati.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.dokazOUplati.value =
-          zahtev.prilozi.dokazOUplati.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Dokaz_o_uplati']['_attributes']['Putanja'];
+        zahtev.prilozi.dokazOUplati.value = true;
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Opsti_akt']._text != 'false') {
         zahtev.prilozi.opstiAkt.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.opstiAkt.value =
-          zahtev.prilozi.opstiAkt.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Opsti_akt']['_attributes']['Putanja'];
+        zahtev.prilozi.opstiAkt.value = true;
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Punomoc']._text != 'false') {
         zahtev.prilozi.punomoc.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.punomoc.value =
-          zahtev.prilozi.punomoc.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Punomoc']['_attributes']['Putanja'];
+        zahtev.prilozi.punomoc.value = true;
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Primerak_znaka']._text != 'false') {
         zahtev.prilozi.primerakZnaka.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.primerakZnaka.value =
-          zahtev.prilozi.primerakZnaka.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Primerak_znaka']['_attributes']['Putanja'];
+        zahtev.prilozi.primerakZnaka.value = true;
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Naknadna_punomoc']._text != 'false') {
         zahtev.prilozi.naknadnaPunomoc.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.naknadnaPunomoc.value =
-          zahtev.prilozi.naknadnaPunomoc.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Naknadna_punomoc']['_attributes']['Putanja'];
+        zahtev.prilozi.naknadnaPunomoc.value = true;
       }
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Ranija_punomoc']._text != 'false') {
         zahtev.prilozi.ranijaPunomoc.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.ranijaPunomoc.value =
-          zahtev.prilozi.ranijaPunomoc.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Ranija_punomoc']['_attributes']['Putanja'];
+        zahtev.prilozi.ranijaPunomoc.value = true;
       }
 
-      if (data['ns2:Prilozi']['ns2:Primer_dela'] != undefined) {
+      if (data['ns2:Prilozi']['ns2:Spisak_robe']._text != 'false') {
         zahtev.prilozi.spisakRobe.putanja =
-          data['ns2:Prilozi']['ns2:Primer_dela']['_attributes']['Putanja'];
-        zahtev.prilozi.spisakRobe.value =
-          zahtev.prilozi.spisakRobe.putanja !== 'False';
+          data['ns2:Prilozi']['ns2:Spisak_robe']['_attributes']['Putanja'];
+        zahtev.prilozi.spisakRobe.value = true;
       }
     }
 

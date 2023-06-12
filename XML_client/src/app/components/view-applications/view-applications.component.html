@@ -110,7 +110,7 @@
 
 
     </section>
-    <section *ngIf="showModalReference && !zahevZaReference.id.includes('A')">
+    <section *ngIf="showModalReference && !zahevZaReference.id.includes('P')">
       <div class="modal-mask">
         <div class="modal-wrapper">
           <div class="modal-dialog rounded-2" role="document" style="width: 400px;">
@@ -121,7 +121,7 @@
                   <span (click)="showModalReference=false" aria-hidden="true" class="text-white">&times;</span>
                 </button>
               </div>
-              <div *ngIf="zahevZaReference.id.includes('P')" class="modal-body px-3 pt-4 pb-3">
+              <div *ngIf="zahevZaReference.id.includes('A')" class="modal-body px-3 pt-4 pb-3">
                 <div>
                   {{zahevZaReference.prilozi.opisDela.putanja}}  <a style="margin-left: 10px" (click)="getPrimerFile(zahevZaReference.id,zahevZaReference.prilozi.opisDela.putanja)" > Click to view</a>
                 </div>

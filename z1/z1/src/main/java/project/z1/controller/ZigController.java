@@ -94,14 +94,6 @@ public class ZigController {
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/search/{pred}/{value}", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<ListaZahteva> searchMetadata(@PathVariable String pred, @PathVariable String value) throws Exception {
-        List<ZahtevZaZig> zahtevi = zigService.searchMetadata(pred, value);
-        ListaZahteva lista = new ListaZahteva(zahtevi);
-        return new ResponseEntity<>(lista, HttpStatus.OK);
-    }
-
-
     @GetMapping(value = "/searchMetadata/{value}", produces = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<ListaZahteva> searchMetadataAdvanced(@PathVariable("value") String value) throws Exception {
         System.out.println(value);
@@ -118,6 +110,20 @@ public class ZigController {
         File file = new File(path);
         if (file.exists()) {
             String mimeType = "application/pdf";
+            response.setContentType(mimeType);
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+            response.setContentLength((int) file.length());
+            InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+        }
+    }
+
+    @RequestMapping("/downloadRDF/{fileName}")
+    public void downloadRDFResource(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileName") String fileName) throws IOException {
+        String path = "src/main/resources/data/rdf/" + fileName;
+        File file = new File(path);
+        if (file.exists()) {
+            String mimeType = "application/octet-stream";
             response.setContentType(mimeType);
             response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
             response.setContentLength((int) file.length());

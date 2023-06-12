@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:p1="http://ftn.uns.ac.rs/p"
+         xmlns:pred="http://ftn.uns.ac.rs/p/pred/"
+         xmlns:sema="http://ftn.uns.ac.rs/sema">
+   <rdf:Description rdf:about="P-3">
+      <pred:Broj>3</pred:Broj>
+      <pred:Id>P-3-2023</pred:Id>
+      <pred:Datum_podnosenja>2023-02-06+01:00</pred:Datum_podnosenja>
+      <pred:Datum_prijema>2023-02-06+01:00</pred:Datum_prijema>
+      <pred:Podnosilac_ime>Marija</pred:Podnosilac_ime>
+      <pred:Podnosilac_prezime>p</pred:Podnosilac_prezime>
+      <pred:Punomocnik_ime>Ime</pred:Punomocnik_ime>
+      <pred:Punomocnik_prezime>Prezime</pred:Punomocnik_prezime>
+      <pred:Podnosilac_eposta>e</pred:Podnosilac_eposta>
+      <pred:Pronalazac_ime>Marija</pred:Pronalazac_ime>
+      <pred:Pronalazac_prezime>p</pred:Pronalazac_prezime>
+      <pred:Pronalazak_naziv_na_engleskom>a</pred:Pronalazak_naziv_na_engleskom>
+      <pred:Pronalazak_naziv_na_srpskom>a</pred:Pronalazak_naziv_na_srpskom>
+   </rdf:Description>
+</rdf:RDF>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Z1Service } from '../../z1/services/z1.service';
-import {P1Service} from "../../p1/services/p1.service";
+import { P1Service } from '../../p1/services/p1.service';
 
 @Component({
   selector: 'app-search-applications',
@@ -12,13 +12,17 @@ export class SearchApplicationsComponent {
   searchField: string = '';
   showDropDown: string = '';
 
-  constructor(private zigService: Z1Service,private patentService: P1Service) {}
+  constructor(
+    private zigService: Z1Service,
+    private patentService: P1Service
+  ) {}
 
   advancedSearch() {
     window.location.href = '/advancedSearch';
   }
 
   search() {
+    this.zahtevi = [];
     this.searchZig();
     //this.searchPatent();
   }

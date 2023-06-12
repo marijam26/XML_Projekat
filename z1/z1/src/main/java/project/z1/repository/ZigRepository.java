@@ -56,7 +56,7 @@ public class ZigRepository {
 
     public List<XMLResource> getResources(String data) throws Exception{
         AuthenticationUtilities.ConnectionProperties conn = AuthenticationUtilities.loadProperties();
-        String xpathExp = String.format("/*[contains(., '%s')]", data.toLowerCase());
+        String xpathExp = String.format("/*[contains(., '%s')]", data);
         List<XMLResource> resources = new ArrayList<>();
 
         try {

@@ -3,10 +3,10 @@
          xmlns:z1="http://ftn.uns.ac.rs/z"
          xmlns:pred="http://ftn.uns.ac.rs/z/pred/"
          xmlns:sema="http://ftn.uns.ac.rs/sema">
-   <rdf:Description rdf:about="Z-3-2023">
-      <pred:Broj>3</pred:Broj>
+   <rdf:Description rdf:about="Z-2-2023">
+      <pred:Broj>2</pred:Broj>
       <pred:Datum_podnosenja>2023-02-06+01:00</pred:Datum_podnosenja>
-      <pred:Id>Z-3-2023</pred:Id>
+      <pred:Id>Z-2-2023</pred:Id>
       <pred:Podnosilac_ime>Ivana</pred:Podnosilac_ime>
       <pred:Podnosilac_prezime>Jankovic</pred:Podnosilac_prezime>
       <pred:Punomocnik_ime>Ime</pred:Punomocnik_ime>

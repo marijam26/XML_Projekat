@@ -372,7 +372,7 @@ public class AutorskoDeloService {
             mail.setTo("ikasikovic@yahoo.com");
             mail.setSubject("Resenje");
 
-            String link = "http://localhost:9002/downloadResenje/" + docId;
+            String link = "http://localhost:9002/api/autorskoPravo/downloadResenje/" + docId;
             mail.setText("<html>\n" +
                     "    <body>\n" +
                     "        <div style=\"margin: 50px;\">\n" +
